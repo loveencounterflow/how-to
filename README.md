@@ -1,13 +1,13 @@
 
 
 - [Vagrant](#vagrant)
-- [On the host](#on-the-host)
-- [On the guest](#on-the-guest)
+	- [On the host](#on-the-host)
+	- [On the guest](#on-the-guest)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 
-## Vagrant
+# Vagrant
 
 ## On the host
 

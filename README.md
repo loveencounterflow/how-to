@@ -14,7 +14,7 @@
 ```bash
 mkdir drifter
 cg drifter
-vagrant init  ubuntu/trusty64
+vagrant init ubuntu/trusty64
 vagrant up
 vagrant ssh
 ```
@@ -24,6 +24,7 @@ vagrant ssh
 
 ```bash
 sudo apt-get install git
+sudo apt-get install build-essential
 sudo apt-get install make # should already be installed e.g. on Ubuntu server
 git clone https://github.com/visionmedia/n
 

@@ -31,7 +31,7 @@ vagrant ssh
 
 ## On the Guest
 
-Here's the painlessest way i know of to get
+Here's the painlessest way that i'm aware of to get no less than:
 
 * `node` installed, with
 * `n`, a very decent Node Version Manager, and

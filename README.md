@@ -17,7 +17,7 @@
 
 All of the below notes come without any warranty, implied or explicit. YAYOR. The instructions worked for
 OSX 10.8.5 box and may or may not work anywhere else. There may be omissions and typos. This is not a
-manual for anything, just a handy *aide-mémoire*.
+manual for anything, just a handy aide-mémoire, waschzettel, 備忘錄, cheat-sheet, you get the idea.
 
 # Vagrant
 

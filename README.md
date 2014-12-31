@@ -3,6 +3,8 @@
 - [Vagrant](#vagrant)
 	- [On the host](#on-the-host)
 	- [On the guest](#on-the-guest)
+	- [Create port mapping](#create-port-mapping)
+	- [Enabling NFS for synced folder](#enabling-nfs-for-synced-folder)
 - [CoffeeScript with `yield` / generators](#coffeescript-with-yield--generators)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
@@ -38,8 +40,85 @@ n latest
 n stable
 
 # now we have two Node versions and can use `npm`:
-npm install -g supervisor
+npm install -g whatever
 ```
+
+## Create port mapping
+
+If you plan to run a server of whatever kind inside your shiny new Vagrant VM, you probably also want to
+make that server visible from the host. One to accomplish that is to set up a forwarded port. Let's open
+the host's `Vagrantfile` in an editor to do that:
+
+```bash
+cd drifter
+open -t ./Vagrantfile
+```
+
+In the Vagrantfile, look for an outcommented line like the below, uncomment it and choose the appropriate
+settings. In my case, i chose to map the guest's port 3000 to the same port on the host, so i can run
+the same software in the host or in the VM. Keep in mind though that a VM with such a setting running
+in the background will cause host applications trying to offer connectivity on that port to fail (more or
+less) silently.
+
+```ruby
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  config.vm.network "forwarded_port", guest: 3000, host: 3000
+```
+
+## Enabling NFS for synced folder
+
+My use case for setting up a Vagrant VM is that i want to use NodeJS 0.11.x as much as possible, as it
+offers generators when started with the `--harmony` switch. Unfortunately, you can't at this time (December,
+2014) `npm install level` under NodeJS > 0.10.x, so it's going to be difficult if your whole application
+relies on new-fangled stuff like `yield`.
+
+Fortunately, though, setting up VMs has become very fast and straightforward, and networking (think
+bi-directional WebSockets) has evolved a lot, so you can always create a separate environment with bespoke
+dependencies, and this is exactly what i need.
+
+So i got everything up and running: `n 0.10.35` so i can `npm install level`; from a NodeJS script `require
+'level'` works, `db = level '../data/mydb'`, no problem, so lets put a value into the DB:
+`db.put key, value ( error ) -> ...`———sorry guys:
+
+```bash
+OpenError: IO error: ./users.db/MANIFEST-000001: Invalid argument
+```
+
+Turns out the underlying VirtualBox implementation has known issues with `mmap`ped files that LevelDB
+relies on. Fortunately, there's a workaround: use an NFS (Network File System) share.
+
+On the host, try `sudo nfsd status`; you should see an output like
+
+```bash
+nfsd service is enabled
+nfsd is running (pid 2140, 8 threads)
+```
+
+You may have to `sudo nfsd enable`, then `sudo touch /etc/exports` and reboot to get the NFS demon to run.
+
+Then, in the `Vagrantfile`, look for the below settings and edit them; i chose to overwrite the existing
+setting in the first case (so i get an NFS share for the standard shared folder, which is
+the folder the `Vagrantfile` resides in on the host, and `/vagrant` on the guest), and to use the default
+suggestion for the second case.
+
+```ruby
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  config.vm.synced_folder ".", "/vagrant", type: "nfs"
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  config.vm.network "private_network", ip: "192.168.33.10"
+
+```
+
+> Details for this step were gleaned from https://github.com/rvagg/node-levelup/issues/222,
+> http://qiita.com/yashikawa/items/b7a7d1a671106cd1a78a, and
+> http://community.spiceworks.com/how_to/show/61136-how-to-create-an-nfs-share-on-mac-os-x-snow-leopard-and-mount-automatically-during-startup-from-another-mac.
 
 # CoffeeScript with `yield` / generators
 

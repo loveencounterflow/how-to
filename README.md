@@ -118,7 +118,8 @@ nfsd service is enabled
 nfsd is running (pid 2140, 8 threads)
 ```
 
-You may have to `sudo nfsd enable`, then `sudo touch /etc/exports` and reboot to get the NFS demon to run.
+You may have to `sudo nfsd enable`, and/or `sudo touch /etc/exports`, and/or `sudo nfsd start`, and/or
+reboot to get the NFS demon to run.
 
 Then, in the `Vagrantfile`, look for the below settings and edit them; i chose to overwrite the existing
 setting in the first case (so i get an NFS share for the standard shared folder, which is

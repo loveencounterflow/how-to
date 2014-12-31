@@ -97,9 +97,12 @@ Fortunately, though, setting up VMs has become very fast and straightforward, an
 bi-directional WebSockets) has evolved a lot, so you can always create a separate environment with bespoke
 dependencies, and this is exactly what i need.
 
-So i got everything up and running: `n 0.10.35` so i can `npm install level`; from a NodeJS script `require
-'level'` works, `db = level '../data/mydb'`, no problem, so lets put a value into the DB:
-`db.put key, value ( error ) -> ...`———sorry guys:
+At some point when i hoped i had everything up and running:
+
+* `n 0.10.35`; NodeJS correct version? Check!
+* `npm install level`; LevelDB binaries compiled? Check!
+* `require 'level'; db = level '../data/mydb'`; LevelDB instance fine? Check!
+* Let's put a value into the DB with `db.put key, value ( error ) -> ...`. OAWH:
 
 ```bash
 OpenError: IO error: ./users.db/MANIFEST-000001: Invalid argument

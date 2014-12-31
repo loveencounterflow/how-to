@@ -3,6 +3,7 @@
 - [Note](#note)
 - [Vagrant](#vagrant)
 	- [On the Host](#on-the-host)
+		- [Install Vagrant](#install-vagrant)
 	- [On the Guest](#on-the-guest)
 		- [Install `node`, `n`, Own Your Files](#install-node-n-own-your-files)
 	- [Create a Mapped Port](#create-a-mapped-port)
@@ -20,6 +21,8 @@ box and may or may not work anywhere else.
 # Vagrant
 
 ## On the Host
+
+### Install Vagrant
 
 ```bash
 mkdir drifter
@@ -73,8 +76,8 @@ open -t ./Vagrantfile
 In the Vagrantfile, look for an outcommented line like the below, uncomment it and choose the appropriate
 settings. In my case, i chose to map the guest's port 3000 to the same port on the host, so i can run
 the same software in the host or in the VM. Keep in mind though that a VM with such a setting running
-in the background will cause host applications trying to offer connectivity on that port to fail (more or
-less) silently.
+in the background will cause host applications trying to offer connectivity on that very port to fail (more
+or less) silently.
 
 ```ruby
   # Create a forwarded port mapping which allows access to a specific port

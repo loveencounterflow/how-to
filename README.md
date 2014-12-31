@@ -24,6 +24,12 @@ box and may or may not work anywhere else.
 
 ### Install Vagrant
 
+Grab an installer at https://www.vagrantup.com/downloads and run it. Then, create a folder of your
+liking (which i chose to call `drifter`) which will both hold the `Vagrantfile` that captures the
+setup of one specific VM and acts as the synced (shared) folder that allows simple data exchange between
+guest and host. From the terminal, `cd` into that folder, choose a VM name from https://vagrantcloud.com/
+and install everything (which should take a minute or two):
+
 ```bash
 mkdir drifter
 cd drifter

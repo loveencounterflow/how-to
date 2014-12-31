@@ -4,6 +4,7 @@
 - [Vagrant](#vagrant)
 	- [On the Host](#on-the-host)
 	- [On the Guest](#on-the-guest)
+		- [Install `node`, `n`, Own Your Files](#install-node-n-own-your-files)
 	- [Create a Mapped Port](#create-a-mapped-port)
 	- [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
 - [CoffeeScript with `yield` / generators](#coffeescript-with-yield--generators)
@@ -30,6 +31,8 @@ vagrant ssh
 
 
 ## On the Guest
+
+### Install `node`, `n`, Own Your Files
 
 Here's the painlessest way that i'm aware of to get no less than:
 

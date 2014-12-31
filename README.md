@@ -31,6 +31,13 @@ vagrant ssh
 
 ## On the Guest
 
+Here's the painlessest way i know of to get
+
+* `node` installed, with
+* `n`, a very decent Node Version Manager, and
+* all your files are belong to you—you only need `sudo` to install dependencies and set a few
+	filesystem rights; from there on, `npm install -g ...` will work without `sudo`.
+
 ```bash
 sudo apt-get install git
 sudo apt-get install build-essential

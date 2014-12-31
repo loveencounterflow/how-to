@@ -6,9 +6,9 @@
 		- [Install Vagrant](#install-vagrant)
 	- [On the Guest](#on-the-guest)
 		- [Install `node`, `n`, Own Your Files](#install-node-n-own-your-files)
+		- [Install CoffeeScript with Generators and `yield`](#install-coffeescript-with-generators-and-yield)
 	- [Create a Mapped Port](#create-a-mapped-port)
 	- [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
-- [CoffeeScript with `yield` / generators](#coffeescript-with-yield--generators)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
@@ -61,6 +61,25 @@ n stable
 # now we have two Node versions and can use `npm`:
 npm install -g whatever
 ```
+
+
+### Install CoffeeScript with Generators and `yield`
+
+As of this writing, [CoffeeScript](http://coffeescript.org/) is at 1.8.0 and comes without (obvious) support for
+the `yield` keyword (have a look at my outdated patch i dubbed [CoffyScript](https://github.com/loveencounterflow/coffy-script);
+the readme is a quite detailed explanation of generators and what you can do with them to get much nicer
+ways to cope with asynchronicity in JavaScript.)
+
+The great folks over there at CS have managed to get `yield` support into CoffeeScript, but it's still
+hidden behind a not-obvious installation trick; all you have to do is
+
+```bash
+# thx to https://github.com/jashkenas/coffeescript/pull/3078#issuecomment-58415116
+npm install -g jashkenas/coffee-script
+n latest
+coffee -c fuckyeah-generators.coffee && node --harmony fuckyeah-generators.js
+```
+
 
 ## Create a Mapped Port
 
@@ -142,23 +161,6 @@ suggestion for the second case.
 > Details for this step were gleaned from https://github.com/rvagg/node-levelup/issues/222,
 > http://qiita.com/yashikawa/items/b7a7d1a671106cd1a78a, and
 > http://community.spiceworks.com/how_to/show/61136-how-to-create-an-nfs-share-on-mac-os-x-snow-leopard-and-mount-automatically-during-startup-from-another-mac.
-
-# CoffeeScript with `yield` / generators
-
-As of this writing, [CoffeeScript](http://coffeescript.org/) is at 1.8.0 and comes without (obvious) support for
-the `yield` keyword (have a look at my outdated patch i dubbed [CoffyScript](https://github.com/loveencounterflow/coffy-script);
-the readme is a quite detailed explanation of generators and what you can do with them to get much nicer
-ways to cope with asynchronicity in JavaScript.)
-
-The great folks over there at CS have managed to get `yield` support into CoffeeScript, but it's still
-hidden behind a not-obvious installation trick; all you have to do is
-
-```bash
-# thx to https://github.com/jashkenas/coffeescript/pull/3078#issuecomment-58415116
-npm install -g jashkenas/coffee-script
-n latest
-coffee -c fuckyeah-generators.coffee && node --harmony fuckyeah-generators.js
-```
 
 
 

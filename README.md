@@ -1,18 +1,24 @@
 
 
+- [Note](#note)
 - [Vagrant](#vagrant)
-	- [On the host](#on-the-host)
-	- [On the guest](#on-the-guest)
-	- [Create port mapping](#create-port-mapping)
-	- [Enabling NFS for synced folder](#enabling-nfs-for-synced-folder)
+	- [On the Host](#on-the-host)
+	- [On the Guest](#on-the-guest)
+	- [Create a Mapped Port](#create-a-mapped-port)
+	- [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
 - [CoffeeScript with `yield` / generators](#coffeescript-with-yield--generators)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 
+# Note
+
+All of the below notes come without any warranty, implied or explicit. YAYOR. They worked for OSX 10.8.5
+box and may or may not work anywhere else.
+
 # Vagrant
 
-## On the host
+## On the Host
 
 ```bash
 mkdir drifter
@@ -23,7 +29,7 @@ vagrant ssh
 ```
 
 
-## On the guest
+## On the Guest
 
 ```bash
 sudo apt-get install git
@@ -43,7 +49,7 @@ n stable
 npm install -g whatever
 ```
 
-## Create port mapping
+## Create a Mapped Port
 
 If you plan to run a server of whatever kind inside your shiny new Vagrant VM, you probably also want to
 make that server visible from the host. One to accomplish that is to set up a forwarded port. Let's open
@@ -67,7 +73,7 @@ less) silently.
   config.vm.network "forwarded_port", guest: 3000, host: 3000
 ```
 
-## Enabling NFS for synced folder
+## Enabling NFS for Synced (a.k.a. Shared) Folder
 
 My use case for setting up a Vagrant VM is that i want to use NodeJS 0.11.x as much as possible, as it
 offers generators when started with the `--harmony` switch. Unfortunately, you can't at this time (December,
@@ -121,6 +127,14 @@ suggestion for the second case.
 > http://community.spiceworks.com/how_to/show/61136-how-to-create-an-nfs-share-on-mac-os-x-snow-leopard-and-mount-automatically-during-startup-from-another-mac.
 
 # CoffeeScript with `yield` / generators
+
+As of this writing, [CoffeeScript](http://coffeescript.org/) is at 1.8.0 and comes without (obvious) support for
+the `yield` keyword (have a look at my outdated patch i dubbed [CoffyScript](https://github.com/loveencounterflow/coffy-script);
+the readme is a quite detailed explanation of generators and what you can do with them to get much nicer
+ways to cope with asynchronicity in JavaScript.)
+
+The great folks over there at CS have managed to get `yield` support into CoffeeScript, but it's still
+hidden behind a not-obvious installation trick; all you have to do is
 
 ```bash
 # thx to https://github.com/jashkenas/coffeescript/pull/3078#issuecomment-58415116

@@ -15,7 +15,7 @@
 
 # Note
 
-All of the below notes come without any warranty, implied or explicit. YAYOR. The instructions worked for
+All of the below notes come without any warranty, implied or explicit. YAYOR. The instructions worked on my
 OSX 10.8.5 box and may or may not work anywhere else. There may be omissions and typos. This is not a
 manual for anything, just a handy aide-mémoire, waschzettel, 備忘錄, cheat-sheet, you get the idea.
 
@@ -86,6 +86,25 @@ npm install -g jashkenas/coffee-script
 n latest
 coffee -c fuckyeah-generators.coffee && node --harmony fuckyeah-generators.js
 ```
+
+With that version of CS installed, you can now try this:
+
+```coffee
+g = ->
+	yield 42
+	yield 108
+
+f = g()
+log f.next()
+log f.next()
+log f.next()
+```
+
+While this does not look like anything useful on first sight, it opens a whole new world of possibilities
+for some very important classes of problems. Again, head over to the readme mentioned above and don't forget
+it's obsolete and in need of a re-write; you should be able to run everything, but **avoid the star** when
+using CoffeeScript (it's implicit now. **Update** code samples corrected, but it still shows up in the text).
+Also, remeber to run your scripts with `node --harmony ...` (as of NodeJS 0.11.14).
 
 
 ## Create a Mapped Port

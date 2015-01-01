@@ -219,7 +219,7 @@ above a certain `limit`. In principle, your setup could look similar to this:
 ```
 
 The way we have set up things means `output` will contain a list of up to 10 flight IDs and prices, sorted
-with the cheapest flights first. That's fine, but also a little spartanic. Luckily, there's a stream
+with the cheapest flights first. That's fine, but also a little spartanic. Luckily, you've got a stream
 transformer `find_details` that will take a flight ID, send a request to the database or a website to fill
 out the many pertinent details that people want to know before booking. You stick that transformer into
 your pipeline and are (...almost) good to go:

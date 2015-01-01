@@ -234,13 +234,16 @@ your pipeline and are (...almost) good to go:
 ```
 
 Unfortunately, since DB and HTTP requests are inherently asynchronous in NodeJS, this means you just
-destroyed the oerdering of your results. In this case it wouldn't be a big deal, since we only deal with
-a dozen pieces, but in the actual use case that this story is modelled after i had tens of thousands of data
-items, and my workaround was to cache the responses of the details query in a list, and when the stream
+destroyed the ordering of your results. In this case it wouldn't be a big deal, since we'd only have to resort
+a dozen pieces, but in the actual use case that this model use case is based on i had tens of thousands of data
+items. My workaround was to cache the responses of the details query in a list, and when the stream
 signalled it was done, i sorted the list and re-sent each item one by one.
 
-This is not only annoying from the theoretical point of view that ideally streams should manage pieces
-one by one and avoid buffering where possible, it also means more memory consumption and poorer performance.
+This is not only annoying from a theoretical point of view (ideally, streams should manage pieces
+one by one and avoid buffering where possible), it also means more memory consumption and poorer performance.
+And it entails you'll have to look for yet another workaround if the amount of data to be processed should
+ever outgrow available RAM. Can't we make it so that the asynchronous responses somehow keep the order in
+which their respective requests got *sent*, not the order in which they *arrived*?
 
 
 ## The Solution

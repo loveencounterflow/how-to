@@ -256,13 +256,15 @@ queues would be safe. Less buffering, ordering preserved. Yay.
 Turns out this functionality is already available as [highland.js/parallel](http://highlandjs.org/#parallel):
 
 ```coffee
-_ = require 'highland'
+_           = require 'highland'
+concurrency = 5
+
 _ ( db.create_readstream query )
   .pipe     filter ( id, price ) -> return price < limit
   .pipe     sort_by_price_ascending
   .pipe     at_most 10
   .map      find_details
-  .parallel 10
+  .parallel concurrency # send up to 5 requests at the same time
   .pipe     output
 ```
 

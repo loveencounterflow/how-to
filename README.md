@@ -1,7 +1,7 @@
 
 
 - [Note](#note)
-- [Vagrant](#vagrant)
+- [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
 	- [On the Host](#on-the-host)
 		- [Install Vagrant](#install-vagrant)
 	- [On the Guest](#on-the-guest)
@@ -9,6 +9,9 @@
 		- [Install CoffeeScript with Generators and `yield`](#install-coffeescript-with-generators-and-yield)
 	- [Create a Mapped Port](#create-a-mapped-port)
 	- [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
+- [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
+	- [The Problem](#the-problem)
+	- [The Solution](#the-solution)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
@@ -19,7 +22,7 @@ All of the below notes come without any warranty, implied or explicit. YAYOR. Th
 OSX 10.8.5 box and may or may not work anywhere else. There may be omissions and typos. This is not a
 manual for anything, just a handy aide-mémoire, waschzettel, 備忘錄, cheat-sheet, you get the idea.
 
-# Vagrant
+# Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit
 
 ## On the Host
 
@@ -192,12 +195,77 @@ suggestion for the second case.
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   config.vm.network "private_network", ip: "192.168.33.10"
-
 ```
 
 > Details for this step were gleaned from https://github.com/rvagg/node-levelup/issues/222,
 > http://qiita.com/yashikawa/items/b7a7d1a671106cd1a78a, and
 > http://community.spiceworks.com/how_to/show/61136-how-to-create-an-nfs-share-on-mac-os-x-snow-leopard-and-mount-automatically-during-startup-from-another-mac.
+
+
+# How to Keep Order in an Asynchronous World
+
+## The Problem
+
+You use NodeJS streams and pipes to read data from a database; let's assume you have a collection of flight
+connection data and want to sort by price, show up to 10 connections, and exclude all flights the are priced
+above a certain `limit`. In principle, your setup could look similar to this:
+
+```coffee
+( db.create_readstream query )
+  .pipe filter ( id, price ) -> return price < limit
+  .pipe sort_by_price_ascending
+  .pipe at_most 10
+  .pipe output
+```
+
+The way we have set up things means `output` will contain a list of up to 10 flight IDs and prices, sorted
+with the cheapest flights first. That's fine, but also a little spartanic. Luckily, there's a stream
+transformer `find_details` that will take a flight ID, send a request to the database or a website to fill
+out the many pertinent details that people want to know before booking. You stick that transformer into
+your pipeline and are (...almost) good to go:
+
+```coffee
+( db.create_readstream query )
+  .pipe filter ( id, price ) -> return price < limit
+  .pipe sort_by_price_ascending
+  .pipe at_most 10
+  .pipe find_details
+  .pipe output
+```
+
+Unfortunately, since DB and HTTP requests are inherently asynchronous in NodeJS, this means you just
+destroyed the oerdering of your results. In this case it wouldn't be a big deal, since we only deal with
+a dozen pieces, but in the actual use case that this story is modelled after i had tens of thousands of data
+items, and my workaround was to cache the responses of the details query in a list, and when the stream
+signalled it was done, i sorted the list and re-sent each item one by one.
+
+This is not only annoying from the theoretical point of view that ideally streams should manage pieces
+one by one and avoid buffering where possible, it also means more memory consumption and poorer performance.
+
+
+## The Solution
+
+So i thought about building a list structure—a queue—of requests that i would match with asynchronous
+responses; whenever the oldest item in the request queue gets metched with an item in the response queue,
+then sending the response into the stream and deleting request and response from their queues would be safe.
+Less buffering, ordering preserved. Yay.
+
+Turns out this functionality is already available as [highland.js/parallel](http://highlandjs.org/#parallel):
+
+```coffee
+_ = require 'highland'
+_ ( db.create_readstream query )
+  .pipe     filter ( id, price ) -> return price < limit
+  .pipe     sort_by_price_ascending
+  .pipe     at_most 10
+  .map      find_details
+  .parallel 10
+  .pipe     output
+```
+
+The key here is to use Highland's `map` and `parallel` stream methods in tandem.
+
+
 
 
 

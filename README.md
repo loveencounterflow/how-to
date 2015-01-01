@@ -29,7 +29,14 @@ Grab an installer at https://www.vagrantup.com/downloads and run it. Then, creat
 liking (which i chose to call `drifter`) which will both hold the `Vagrantfile` that captures the
 setup of one specific VM and acts as the synced (shared) folder that allows simple data exchange between
 guest and host. From the terminal, `cd` into that folder, choose a VM name from https://vagrantcloud.com/
-and install everything (which should take a minute or two):
+and install everything (which should take a minute or two).
+
+**NOTE** you may want to have a look at sections [Create a Mapped Port](#create-a-mapped-port) and
+[Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder), below, to
+learn how to modify `Vagrantfile` before you do your first `vagrant up` (which will do the installation step;
+`vagrant init` just provides the configuration files). **Remember** that when you get asked for a password,
+that is your password on the *host*—you never need a password on the guest (unless you somehow configure
+Vagrant for that).
 
 ```bash
 mkdir drifter
@@ -104,7 +111,7 @@ While this does not look like anything useful on first sight, it opens a whole n
 for some very important classes of problems. Again, head over to the readme mentioned above and don't forget
 it's obsolete and in need of a re-write; you should be able to run everything, but **avoid the star** when
 using CoffeeScript (it's implicit now. **Update** code samples corrected, but it still shows up in the text).
-Also, remeber to run your scripts with `node --harmony ...` (as of NodeJS 0.11.14).
+Also, remember to run your scripts with `node --harmony ...` (as of NodeJS 0.11.14).
 
 
 ## Create a Mapped Port
@@ -165,6 +172,10 @@ nfsd is running (pid 2140, 8 threads)
 
 You may have to `sudo nfsd enable`, and/or `sudo touch /etc/exports`, and/or `sudo nfsd start`, and/or
 reboot to get the NFS demon to run.
+
+**Note** that Vagrant may try to access `/etc/exports` when starting up; if you started without
+`sudo`, you will be asked to enter your password. That's your user password on the *host*, not the one
+on the *guest* (which you do not know, as all authentication on the guest is done implicitly).
 
 Then, in the `Vagrantfile`, look for the below settings and edit them; i chose to overwrite the existing
 setting in the first case (so i get an NFS share for the standard shared folder, which is

@@ -248,10 +248,10 @@ which their respective requests got *sent*, not the order in which they *arrived
 
 ## The Solution
 
-So i thought about building a list structure—a queue—of requests that i would match with asynchronous
-responses; whenever the oldest item in the request queue gets metched with an item in the response queue,
-then sending the response into the stream and deleting request and response from their queues would be safe.
-Less buffering, ordering preserved. Yay.
+So i thought about building a list structure—a queue—of requests that i would then match with asynchronous
+responses as they come in; whenever the oldest item in the request queue gets matched with an item in the
+response queue, then sending the response into the stream and deleting request and response from their
+queues would be safe. Less buffering, ordering preserved. Yay.
 
 Turns out this functionality is already available as [highland.js/parallel](http://highlandjs.org/#parallel):
 

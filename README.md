@@ -47,9 +47,9 @@ n --io v1.0.1
 
 Please keep in mind that i will not update the repo so you're probably better off using the official `n`
 repo; i'd fully expect the maintainers to implement iojs support within days. Also note that the author
-or PR 214 warns that his fix "makes a weak assumption that nodejs and iojs versions don't collide"; given
-the speed of NodeJS updates during the past year, i believe we can safely assume that we're weeks, moths or
-worse away from any NodeJS 0.12.x release, let alone NodeJS 1.x.x, so PR 214 should be good enough for now.
+of PR 214 warns that his fix "makes a weak assumption that nodejs and iojs versions don't collide"; given
+the speed of NodeJS updates during the past year, i believe we can safely assume that we're weeks or months
+away from any NodeJS 0.12.x release, let alone NodeJS 1.x.x, so PR 214 should be good enough for now.
 
 
 ## For the Cautious: Use a VM to try out io.js

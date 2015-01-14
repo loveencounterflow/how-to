@@ -9,6 +9,7 @@
 		- [Install CoffeeScript with Generators and `yield`](#install-coffeescript-with-generators-and-yield)
 	- [Create a Mapped Port](#create-a-mapped-port)
 	- [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
+- [Get io.js Up and Running](#get-iojs-up-and-running)
 - [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
 	- [The Problem](#the-problem)
 	- [The Solution](#the-solution)
@@ -200,6 +201,47 @@ suggestion for the second case.
 > Details for this step were gleaned from https://github.com/rvagg/node-levelup/issues/222,
 > http://qiita.com/yashikawa/items/b7a7d1a671106cd1a78a, and
 > http://community.spiceworks.com/how_to/show/61136-how-to-create-an-nfs-share-on-mac-os-x-snow-leopard-and-mount-automatically-during-startup-from-another-mac.
+
+# Get io.js Up and Running
+
+You may have heard of [io.js, a forward-thinking port of NodeJS](https://iojs.org/). If you're on OSX then
+downloading and opening the installer `*.pkg` will great you with a message saying that it will not only
+install the `iojs` binary, it will also symlink `node` to `iojs`. Depending on a lot of things you may or
+may not want to take the risk. An unanswered question is how Node version managers will react to the
+situation.
+
+For sure to just try out io.js a virtual machine would be a better option, at least for the time being. And
+it's quite easy to do. Assuming you already have done
+
+```bash
+mkdir iojs
+cd iojs
+vagrant init ubuntu/trusty64
+vagrant up
+vagrant ssh
+```
+
+then, avail yourself of the current iojs tar package; i did that using the browser on the host and putting
+the `iojs-v1.0.1-linux-x64.tar.xz` archive into the `iojs` folder, which from inside the guest is
+accessible as `cd /vagrant`. From there, unpack files and issue four `mv` moves:
+
+
+```bash
+cd /vagrant
+sudo chown -R vagrant:vagrant /usr/local
+tar xvfJ iojs-v1.0.1-linux-x64.tar.xz
+cd /usr/local/bin
+mv /vagrant/iojs-v1.0.1-linux-x64/bin/iojs .
+mv /vagrant/iojs-v1.0.1-linux-x64/bin/node .
+mv /vagrant/iojs-v1.0.1-linux-x64/bin/npm .
+mv /vagrant/iojs-v1.0.1-linux-x64/lib/node_modules /usr/local/lib/
+```
+
+That's it! Test it with, e.g.,
+
+```bash
+npm install -g coffee-script
+```
 
 
 # How to Keep Order in an Asynchronous World

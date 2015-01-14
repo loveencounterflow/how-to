@@ -2,7 +2,7 @@
 
 - [Note](#note)
 - [Get io.js Up and Running](#get-iojs-up-and-running)
-	- [**Update** Now with Node Version Management Support](#update-now-with-node-version-management-support)
+	- [<u>*Update*</u> Now with Node Version Management Support](#<u>update<u>-now-with-node-version-management-support)
 	- [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
 - [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
 	- [On the Host](#on-the-host)
@@ -28,7 +28,7 @@ manual for anything, just a handy aide-mémoire, waschzettel, 備忘錄, cheat-s
 <!-- ################################################################################################### -->
 # Get io.js Up and Running
 
-## **Update** Now with Node Version Management Support
+## <u>*Update*</u> Now with Node Version Management Support
 
 As of 2015-01-14, there are three open pull request to support io.js with `n` (see https://github.com/tj/n/pulls?q=io).
 I've forked and updated `n` to [implement PR 214](https://github.com/tj/n/pull/214), which you can get as

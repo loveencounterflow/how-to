@@ -239,7 +239,25 @@ mv /vagrant/iojs-v1.0.1-linux-x64/lib/node_modules  /usr/local/lib/
 That's it! Test it with, e.g.,
 
 ```bash
-npm install -g coffee-script
+npm install -g jashkenas/coffee-script
+```
+
+As i said, this is a 'forward' thinking NodeJS fork, and indeed, we have generators without any command line
+flag. From the `coffee` REPL:
+
+```coffee
+process.versions
+  # { http_parser: '2.3',
+  #   node: '1.0.1',
+  #   v8: '3.31.74.1',
+  #   uv: '1.2.0',
+  #   zlib: '1.2.8',
+  #   ares: '1.10.0-DEV',
+  #   modules: '42',
+  #   openssl: '1.0.1k' }
+g = -> yield 42
+g().next()
+  #   { value: 42, done: false }
 ```
 
 

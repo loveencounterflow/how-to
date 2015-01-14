@@ -205,13 +205,13 @@ suggestion for the second case.
 # Get io.js Up and Running
 
 You may have heard of [io.js, a forward-thinking port of NodeJS](https://iojs.org/). If you're on OSX then
-downloading and opening the installer `*.pkg` will great you with a message saying that it will not only
+downloading and opening the installer `*.pkg` will greet you with a message saying that it will not only
 install the `iojs` binary, it will also symlink `node` to `iojs`. Depending on a lot of things you may or
 may not want to take the risk. An unanswered question is how Node version managers will react to the
 situation.
 
 For sure to just try out io.js a virtual machine would be a better option, at least for the time being. And
-it's quite easy to do. Assuming you already have done
+it's quite easy to do:
 
 ```bash
 mkdir iojs
@@ -221,20 +221,19 @@ vagrant up
 vagrant ssh
 ```
 
-then, avail yourself of the current iojs tar package; i did that using the browser on the host and putting
+Next, avail yourself of the current iojs tar package; i did that using the browser on the host and putting
 the `iojs-v1.0.1-linux-x64.tar.xz` archive into the `iojs` folder, which from inside the guest is
 accessible as `cd /vagrant`. From there, unpack files and issue four `mv` moves:
 
 
 ```bash
-cd /vagrant
 sudo chown -R vagrant:vagrant /usr/local
+cd /vagrant
 tar xvfJ iojs-v1.0.1-linux-x64.tar.xz
-cd /usr/local/bin
-mv /vagrant/iojs-v1.0.1-linux-x64/bin/iojs .
-mv /vagrant/iojs-v1.0.1-linux-x64/bin/node .
-mv /vagrant/iojs-v1.0.1-linux-x64/bin/npm .
-mv /vagrant/iojs-v1.0.1-linux-x64/lib/node_modules /usr/local/lib/
+mv /vagrant/iojs-v1.0.1-linux-x64/bin/iojs          /usr/local/bin/
+mv /vagrant/iojs-v1.0.1-linux-x64/bin/node          /usr/local/bin/
+mv /vagrant/iojs-v1.0.1-linux-x64/bin/npm           /usr/local/bin/
+mv /vagrant/iojs-v1.0.1-linux-x64/lib/node_modules  /usr/local/lib/
 ```
 
 That's it! Test it with, e.g.,

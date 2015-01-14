@@ -1,6 +1,9 @@
 
 
 - [Note](#note)
+- [Get io.js Up and Running](#get-iojs-up-and-running)
+	- [**Update** Now with Node Version Management Support](#update-now-with-node-version-management-support)
+	- [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
 - [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
 	- [On the Host](#on-the-host)
 		- [Install Vagrant](#install-vagrant)
@@ -9,7 +12,6 @@
 		- [Install CoffeeScript with Generators and `yield`](#install-coffeescript-with-generators-and-yield)
 	- [Create a Mapped Port](#create-a-mapped-port)
 	- [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
-- [Get io.js Up and Running](#get-iojs-up-and-running)
 - [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
 	- [The Problem](#the-problem)
 	- [The Solution](#the-solution)
@@ -23,6 +25,94 @@ All of the below notes come without any warranty, implied or explicit. YAYOR. Th
 OSX 10.8.5 box and may or may not work anywhere else. There may be omissions and typos. This is not a
 manual for anything, just a handy aide-mémoire, waschzettel, 備忘錄, cheat-sheet, you get the idea.
 
+<!-- ################################################################################################### -->
+# Get io.js Up and Running
+
+## **Update** Now with Node Version Management Support
+
+As of 2015-01-14, there are three open pull request to support io.js with `n` (see https://github.com/tj/n/pulls?q=io).
+I've forked and updated `n` to [implement PR 214](https://github.com/tj/n/pull/214), which you can get as
+
+```sh
+git clone https://github.com/loveencounterflow/n.git
+cd n
+make install
+```
+
+After that, you can install iojs with
+
+```sh
+n --io v1.0.1
+```
+
+Please keep in mind that i will not update the repo so you're probably better off using the official `n`
+repo; i'd fully expect the maintainers to implement iojs support within days. Also note that the author
+or PR 214 warns that his fix "makes a weak assumption that nodejs and iojs versions don't collide"; given
+the speed of NodeJS updates during the past year, i believe we can safely assume that we're weeks, moths or
+worse away from any NodeJS 0.12.x release, let alone NodeJS 1.x.x, so PR 214 should be good enough for now.
+
+
+## For the Cautious: Use a VM to try out io.js
+
+You may have heard of [io.js, a forward-thinking port of NodeJS](https://iojs.org/). If you're on OSX then
+downloading and opening the installer `*.pkg` will greet you with a message saying that it will not only
+install the `iojs` binary, it will also symlink `node` to `iojs`. Depending on a lot of things you may or
+may not want to take the risk. An unanswered question is how Node version managers will react to the
+situation.
+
+For sure to just try out io.js a virtual machine would be a better option, at least for the time being. And
+it's quite easy to do:
+
+```bash
+mkdir iojs
+cd iojs
+vagrant init ubuntu/trusty64
+vagrant up
+vagrant ssh
+```
+
+Next, avail yourself of the current iojs tar package; i did that using the browser on the host and putting
+the `iojs-v1.0.1-linux-x64.tar.xz` archive into the `iojs` folder, which from inside the guest is
+accessible as `cd /vagrant`. From there, unpack files and issue four `mv` moves:
+
+
+```bash
+sudo chown -R vagrant:vagrant /usr/local
+cd /vagrant
+tar xvfJ iojs-v1.0.1-linux-x64.tar.xz
+mv /vagrant/iojs-v1.0.1-linux-x64/bin/iojs          /usr/local/bin/
+mv /vagrant/iojs-v1.0.1-linux-x64/bin/node          /usr/local/bin/
+mv /vagrant/iojs-v1.0.1-linux-x64/bin/npm           /usr/local/bin/
+mv /vagrant/iojs-v1.0.1-linux-x64/lib/node_modules  /usr/local/lib/
+```
+
+That's it! Test it with, e.g.,
+
+```bash
+npm install -g jashkenas/coffee-script
+```
+
+As i said, this is a 'forward' thinking NodeJS fork, and indeed, we have generators without any command line
+flag. From the `coffee` REPL:
+
+```coffee
+process.versions
+  # { http_parser: '2.3',
+  #   node: '1.0.1',
+  #   v8: '3.31.74.1',
+  #   uv: '1.2.0',
+  #   zlib: '1.2.8',
+  #   ares: '1.10.0-DEV',
+  #   modules: '42',
+  #   openssl: '1.0.1k' }
+g = -> yield 42
+g().next()
+  #   { value: 42, done: false }
+```
+
+
+
+<!-- ################################################################################################### -->
 # Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit
 
 ## On the Host
@@ -60,7 +150,7 @@ Here's the painlessest way that i'm aware of to get no less than:
 * `node` installed, with
 * `n`, a very decent Node Version Manager, and
 * all your files are belong to you—you only need `sudo` to install dependencies and set a few
-	filesystem rights; from there on, `npm install -g ...` will work without `sudo`.
+  filesystem rights; from there on, `npm install -g ...` will work without `sudo`.
 
 ```bash
 sudo apt-get install git
@@ -102,8 +192,8 @@ With that version of CS installed, you can now try this:
 
 ```coffee
 g = ->
-	yield 42
-	yield 108
+  yield 42
+  yield 108
 
 f = g()
 log f.next()
@@ -202,65 +292,7 @@ suggestion for the second case.
 > http://qiita.com/yashikawa/items/b7a7d1a671106cd1a78a, and
 > http://community.spiceworks.com/how_to/show/61136-how-to-create-an-nfs-share-on-mac-os-x-snow-leopard-and-mount-automatically-during-startup-from-another-mac.
 
-# Get io.js Up and Running
-
-You may have heard of [io.js, a forward-thinking port of NodeJS](https://iojs.org/). If you're on OSX then
-downloading and opening the installer `*.pkg` will greet you with a message saying that it will not only
-install the `iojs` binary, it will also symlink `node` to `iojs`. Depending on a lot of things you may or
-may not want to take the risk. An unanswered question is how Node version managers will react to the
-situation.
-
-For sure to just try out io.js a virtual machine would be a better option, at least for the time being. And
-it's quite easy to do:
-
-```bash
-mkdir iojs
-cd iojs
-vagrant init ubuntu/trusty64
-vagrant up
-vagrant ssh
-```
-
-Next, avail yourself of the current iojs tar package; i did that using the browser on the host and putting
-the `iojs-v1.0.1-linux-x64.tar.xz` archive into the `iojs` folder, which from inside the guest is
-accessible as `cd /vagrant`. From there, unpack files and issue four `mv` moves:
-
-
-```bash
-sudo chown -R vagrant:vagrant /usr/local
-cd /vagrant
-tar xvfJ iojs-v1.0.1-linux-x64.tar.xz
-mv /vagrant/iojs-v1.0.1-linux-x64/bin/iojs          /usr/local/bin/
-mv /vagrant/iojs-v1.0.1-linux-x64/bin/node          /usr/local/bin/
-mv /vagrant/iojs-v1.0.1-linux-x64/bin/npm           /usr/local/bin/
-mv /vagrant/iojs-v1.0.1-linux-x64/lib/node_modules  /usr/local/lib/
-```
-
-That's it! Test it with, e.g.,
-
-```bash
-npm install -g jashkenas/coffee-script
-```
-
-As i said, this is a 'forward' thinking NodeJS fork, and indeed, we have generators without any command line
-flag. From the `coffee` REPL:
-
-```coffee
-process.versions
-  # { http_parser: '2.3',
-  #   node: '1.0.1',
-  #   v8: '3.31.74.1',
-  #   uv: '1.2.0',
-  #   zlib: '1.2.8',
-  #   ares: '1.10.0-DEV',
-  #   modules: '42',
-  #   openssl: '1.0.1k' }
-g = -> yield 42
-g().next()
-  #   { value: 42, done: false }
-```
-
-
+<!-- ################################################################################################### -->
 # How to Keep Order in an Asynchronous World
 
 ## The Problem

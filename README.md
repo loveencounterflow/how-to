@@ -173,13 +173,13 @@ npm install -g whatever
 
 ### *Update* Install CoffeeScript with Generators and `yield`
 
-As of 2015-01-29, CoffeeScript v0.1.9 has generators / `yield` support baked right into the
+**As of 2015-01-29, CoffeeScript v0.1.9 has generators / `yield` support baked right into the
 mainstream distribution, meaning whereever you `npm install coffy-script`, you wild get
 support for this exciting feature (of course, provided your JS VM also supports it).
 For the details, have a look at
 https://github.com/jashkenas/coffeescript/compare/1.8.0...1.9.0
 or
-http://coffeescript.org/#changelog
+http://coffeescript.org/#changelog.**
 
 <strike>As of this writing, [CoffeeScript](http://coffeescript.org/) is at 1.8.0 and comes without (obvious) support for
 the `yield` keyword (have a look at my outdated patch i dubbed [CoffyScript](https://github.com/loveencounterflow/coffy-script);

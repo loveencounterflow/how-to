@@ -30,26 +30,80 @@ manual for anything, just a handy aide-mémoire, waschzettel, 備忘錄, cheat-s
 
 ## *Update* Now with Node Version Management Support
 
-As of 2015-01-14, there are three open pull request to support io.js with `n` (see https://github.com/tj/n/pulls?q=io).
+**Update of Update** To obtain the latest version of `n` (0.2.14 as of this writing) which does include
+support for io.js, simply do
+
+```sh
+npm install -g tj/n
+```
+
+With that version, `n --help` will give you
+
+```
+  Usage: n [options/env] [COMMAND] [args]
+
+  Environments:
+    n [COMMAND] [args]            Uses default env (node)
+    n node [COMMAND] [args]       Sets env as node
+    n io [COMMAND]                Sets env as io
+
+  Commands:
+
+    n                              Output versions installed
+    n latest                       Install or activate the latest node release
+    n stable                       Install or activate the latest stable node release
+    n <version>                    Install node <version>
+    n use <version> [args ...]     Execute node <version> with [args ...]
+    n bin <version>                Output bin path for <version>
+    n rm <version ...>             Remove the given version(s)
+    n prev                         Revert to the previously activated version
+    n --latest                     Output the latest node version available
+    n --stable                     Output the latest stable node version available
+    n ls                           Output the versions of node available
+
+  (iojs):
+    n io latest                    Install or activate the latest iojs release
+    n io stable                    Install or activate the latest stable iojs release
+    n io <version>                 Install iojs <version>
+    n io use <version> [args ...]  Execute iojs <version> with [args ...]
+    n io bin <version>             Output bin path for <version>
+    n io rm <version ...>          Remove the given version(s)
+    n io --latest                  Output the latest iojs version available
+    n io --stable                  Output the latest stable iojs version available
+    n io ls                        Output the versions of iojs available
+
+  Options:
+
+    -V, --version   Output current version of n
+    -h, --help      Display help information
+
+  Aliases:
+
+    iojs    io
+    which   bin
+    use     as
+    list    ls
+    -       rm
+```
+
+In order to install io.js, simply do
+
+```
+n io latest
+```
+
+or similar.
+
+<strike>As of 2015-01-14, there are three open pull request to support io.js with `n` (see https://github.com/tj/n/pulls?q=io).
 I've forked and updated `n` to [implement PR 214](https://github.com/tj/n/pull/214), which you can get as
+git clone https://github.com/loveencounterflow/n.git cd n make install After that, you can install iojs with
+n --io v1.0.1</strike>
 
-```sh
-git clone https://github.com/loveencounterflow/n.git
-cd n
-make install
-```
-
-After that, you can install iojs with
-
-```sh
-n --io v1.0.1
-```
-
-Please keep in mind that i will not update the repo so you're probably better off using the official `n`
+<strike>Please keep in mind that i will not update the repo so you're probably better off using the official `n`
 repo; i'd fully expect the maintainers to implement iojs support within days. Also note that the author
 of PR 214 warns that his fix "makes a weak assumption that nodejs and iojs versions don't collide"; given
 the speed of NodeJS updates during the past year, i believe we can safely assume that we're weeks or months
-away from any NodeJS 0.12.x release, let alone NodeJS 1.x.x, so PR 214 should be good enough for now.
+away from any NodeJS 0.12.x release, let alone NodeJS 1.x.x, so PR 214 should be good enough for now.</strike>
 
 
 ## For the Cautious: Use a VM to try out io.js

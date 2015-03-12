@@ -1,20 +1,23 @@
 
 
 - [Note](#note)
-- [Get io.js Up and Running](#get-iojs-up-and-running)
-	- [*Update* Now with Node Version Management Support](#update-now-with-node-version-management-support)
-	- [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
-- [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
-	- [On the Host](#on-the-host)
-		- [Install Vagrant](#install-vagrant)
-	- [On the Guest](#on-the-guest)
+- [JCH (HTML, CSS, JavaScript)](#jch-html-css-javascript)
+	- [How To Count Lines In a Block Tag](#how-to-count-lines-in-a-block-tag)
+- [SYSTEM PROGRAMMING](#system-programming)
+	- [Get io.js Up and Running](#get-iojs-up-and-running)
+		- [*Update* Now with Node Version Management Support](#update-now-with-node-version-management-support)
+		- [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
+	- [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
+		- [On the Host](#on-the-host)
+			- [Install Vagrant](#install-vagrant)
+		- [On the Guest](#on-the-guest)
 		- [Install `node`, `n`, Own Your Files](#install-node-n-own-your-files)
 		- [*Update* Install CoffeeScript with Generators and `yield`](#update-install-coffeescript-with-generators-and-yield)
-	- [Create a Mapped Port](#create-a-mapped-port)
-	- [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
-- [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
-	- [The Problem](#the-problem)
-	- [The Solution](#the-solution)
+		- [Create a Mapped Port](#create-a-mapped-port)
+		- [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
+	- [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
+		- [The Problem](#the-problem)
+		- [The Solution](#the-solution)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
@@ -25,10 +28,72 @@ All of the below notes come without any warranty, implied or explicit. YAYOR. Th
 OSX 10.8.5 box and may or may not work anywhere else. There may be omissions and typos. This is not a
 manual for anything, just a handy aide-mémoire, waschzettel, 備忘錄, cheat-sheet, you get the idea.
 
-<!-- ################################################################################################### -->
-# Get io.js Up and Running
+# JCH (HTML, CSS, JavaScript)
 
-## *Update* Now with Node Version Management Support
+## How To Count Lines In a Block Tag
+
+There are situations where you need to know just how many lines of text a given element on a web contains.
+This is surprisingly hard to do in browsers. There are lots and lots of suggestions for counting lines;
+a quick search turns up a long list:
+
+* http://stackoverflow.com/questions/14375971/find-the-number-of-lines-in-a-div
+* http://stackoverflow.com/questions/783899/how-can-i-count-text-lines-inside-an-dom-element-can-i
+* http://stackoverflow.com/questions/18496179/find-the-number-of-lines-a-string-runs-into-inside-a-div-of-a-set-width-there-i
+* http://stackoverflow.com/questions/4492770/how-to-check-for-of-lines-using-jquery
+* https://forum.jquery.com/topic/can-jquery-detect-how-many-lines-of-text-within-a-div-or-a-tag
+
+There are also some libraries to do such things as typesetting in columns and shortening texts where
+knowledge about precise text dimensions is necessary, including
+
+* https://github.com/theproductguy/ThreeDots/blob/master/js/jquery.ThreeDots.js
+* https://github.com/ftlabs/ftcolumnflow
+
+Most of these solutions rely on clever techniques to add and remove text, measure font metrics and doing
+clever CSS guesstimations. One of the most prevalent and promising techniques consists in somehow obtaining
+the height of a single line and then dividing the height of a DOM container with that value. In order
+for that to work, your lines be better all of the same height and the DOM metrics precise.
+
+There is, however, a much more elegant and reliable solution that relies on the `getClientRects()` method
+of DOM nodes, as explained in https://developer.mozilla.org/en-US/docs/Web/API/Element/getClientRects.
+At first, hwoever, the reader gets frustrated by the follwoing remark:
+
+> Originally, Microsoft intended this method to return a TextRectangle object for each line of text.
+> However, the CSSOM working draft specifies that it returns a ClientRect for each border box.
+
+Awww, snap. There's a surprising number of discussion on the web that stop consider `getClientRects` at this
+point, stating that "the solution will only work in IE". But, reading on, that's not quite true:
+
+> For an inline
+> element, the two definitions are the same. But for a block element, Mozilla will return only a single
+> rectangle.
+
+Luckily, this cryptic message is better borne out by the accompanying illustration:
+
+![](https://mdn.mozillademos.org/files/3108/paragraph-rects.png)
+
+From this, it is a small step to arrive at what i currently **the most elegant and reliable way to count
+lines of text in a DOM block element as rendered by a given browser**, namely: **(1)** wrap the contents
+of the relevant block element(s) in an inline element (say, `<span class="line-counter">...</span>`); **(2)**
+retrieve the DOM node(s) of this or those element(s); **(3)** call `span.getClientRects().length` to
+find the line count(s). Step (1) can easily done dynamically using jQuery's `wrapInner()` method.
+
+Sample code:
+
+```js
+var block_nodes   = $( 'p' ); // or however you get your relevant block nodes
+block_nodes.wrapInner( '<span class="line-counter"></span>' );
+// Get line count for first `<p>` tag:
+var line_counter  = block_nodes.eq( 0 ).children( '.line-counter' )[ 1 ];
+var line_count    = line_counter.getClientRects().length;
+```
+
+
+# SYSTEM PROGRAMMING
+
+<!-- ################################################################################################### -->
+## Get io.js Up and Running
+
+### *Update* Now with Node Version Management Support
 
 **Update of Update** To obtain the latest version of `n` (0.2.14 as of this writing) which does include
 support for io.js, simply do
@@ -106,7 +171,7 @@ the speed of NodeJS updates during the past year, i believe we can safely assume
 away from any NodeJS 0.12.x release, let alone NodeJS 1.x.x, so PR 214 should be good enough for now.</strike>
 
 
-## For the Cautious: Use a VM to try out io.js
+### For the Cautious: Use a VM to try out io.js
 
 You may have heard of [io.js, a forward-thinking port of NodeJS](https://iojs.org/). If you're on OSX then
 downloading and opening the installer `*.pkg` will greet you with a message saying that it will not only
@@ -167,11 +232,11 @@ g().next()
 
 
 <!-- ################################################################################################### -->
-# Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit
+## Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit
 
-## On the Host
+### On the Host
 
-### Install Vagrant
+#### Install Vagrant
 
 Grab an installer at https://www.vagrantup.com/downloads and run it. Then, create a folder of your
 liking (which i chose to call `drifter`) which will both hold the `Vagrantfile` that captures the
@@ -195,7 +260,7 @@ vagrant ssh
 ```
 
 
-## On the Guest
+### On the Guest
 
 ### Install `node`, `n`, Own Your Files
 
@@ -220,7 +285,7 @@ make install
 n latest
 n stable
 
-# now we have two Node versions and can use `npm`:
+## now we have two Node versions and can use `npm`:
 npm install -g whatever
 ```
 
@@ -265,7 +330,7 @@ using CoffeeScript (it's implicit now. **Update** code samples corrected, but it
 Also, remember to run your scripts with `node --harmony ...` (as of NodeJS 0.11.14).
 
 
-## Create a Mapped Port
+### Create a Mapped Port
 
 If you plan to run a server of whatever kind inside your shiny new Vagrant VM, you probably also want to
 make that server visible from the host. One to accomplish that is to set up a forwarded port. Let's open
@@ -289,7 +354,7 @@ or less) silently.
   config.vm.network "forwarded_port", guest: 3000, host: 3000
 ```
 
-## Enabling NFS for Synced (a.k.a. Shared) Folder
+### Enabling NFS for Synced (a.k.a. Shared) Folder
 
 My use case for setting up a Vagrant VM is that i want to use NodeJS 0.11.x as much as possible, as it
 offers generators when started with the `--harmony` switch. Unfortunately, you can't at this time (December,
@@ -350,9 +415,9 @@ suggestion for the second case.
 > http://community.spiceworks.com/how_to/show/61136-how-to-create-an-nfs-share-on-mac-os-x-snow-leopard-and-mount-automatically-during-startup-from-another-mac.
 
 <!-- ################################################################################################### -->
-# How to Keep Order in an Asynchronous World
+## How to Keep Order in an Asynchronous World
 
-## The Problem
+### The Problem
 
 You use NodeJS streams and pipes to read data from a database; let's assume you have a collection of flight
 connection data and want to sort by price, show up to 10 connections, and exclude all flights the are priced
@@ -394,7 +459,7 @@ outgrow available RAM. Can't we make it so that the pieces of data in the stream
 which the requests got *sent*, not the order in which the responses *arrived*?
 
 
-## The Solution
+### The Solution
 
 So i thought about building a list structure—a queue—of requests that i would then match with asynchronous
 responses as they come in; whenever the oldest item in the request queue gets matched with an item in the

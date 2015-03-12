@@ -1,7 +1,7 @@
 
 
 - [Note](#note)
-- [JCH (HTML, CSS, JavaScript)](#jch-html-css-javascript)
+- [JCH (JavaScript, CSS, HTML)](#jch-javascript-css-html)
 	- [How To Count Lines In a Block Tag](#how-to-count-lines-in-a-block-tag)
 - [SYSTEM PROGRAMMING](#system-programming)
 	- [Get io.js Up and Running](#get-iojs-up-and-running)
@@ -15,6 +15,7 @@
 		- [*Update* Install CoffeeScript with Generators and `yield`](#update-install-coffeescript-with-generators-and-yield)
 		- [Create a Mapped Port](#create-a-mapped-port)
 		- [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
+- [APPLICATION PROGRAMMING](#application-programming)
 	- [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
 		- [The Problem](#the-problem)
 		- [The Solution](#the-solution)
@@ -28,7 +29,7 @@ All of the below notes come without any warranty, implied or explicit. YAYOR. Th
 OSX 10.8.5 box and may or may not work anywhere else. There may be omissions and typos. This is not a
 manual for anything, just a handy aide-mémoire, waschzettel, 備忘錄, cheat-sheet, you get the idea.
 
-# JCH (HTML, CSS, JavaScript)
+# JCH (JavaScript, CSS, HTML)
 
 ## How To Count Lines In a Block Tag
 
@@ -75,9 +76,8 @@ From this, it is a small step to arrive at what i currently **the most elegant a
 lines of text in a DOM block element as rendered by a given browser**, namely: **(1)** wrap the contents
 of the relevant block element(s) in an inline element (say, `<span class="line-counter">...</span>`); **(2)**
 retrieve the DOM node(s) of this or those element(s); **(3)** call `span.getClientRects().length` to
-find the line count(s). Step (1) can easily done dynamically using jQuery's `wrapInner()` method.
-
-Sample code:
+find the line count(s). Step (1) can easily done dynamically using jQuery's `wrapInner()` method; sample
+code:
 
 ```js
 var block_nodes   = $( 'p' ); // or however you get your relevant block nodes
@@ -415,6 +415,8 @@ suggestion for the second case.
 > http://community.spiceworks.com/how_to/show/61136-how-to-create-an-nfs-share-on-mac-os-x-snow-leopard-and-mount-automatically-during-startup-from-another-mac.
 
 <!-- ################################################################################################### -->
+# APPLICATION PROGRAMMING
+
 ## How to Keep Order in an Asynchronous World
 
 ### The Problem

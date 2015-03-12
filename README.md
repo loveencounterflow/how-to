@@ -2,7 +2,7 @@
 
 - [Note](#note)
 - [JCH (JavaScript, CSS, HTML)](#jch-javascript-css-html)
-	- [How To Count Lines In a Block Tag](#how-to-count-lines-in-a-block-tag)
+	- [How To Count Lines in a Block Tag](#how-to-count-lines-in-a-block-tag)
 - [SYSTEM PROGRAMMING](#system-programming)
 	- [Get io.js Up and Running](#get-iojs-up-and-running)
 		- [*Update* Now with Node Version Management Support](#update-now-with-node-version-management-support)
@@ -31,7 +31,7 @@ manual for anything, just a handy aide-mémoire, waschzettel, 備忘錄, cheat-s
 
 # JCH (JavaScript, CSS, HTML)
 
-## How To Count Lines In a Block Tag
+## How To Count Lines in a Block Tag
 
 There are situations where you need to know just how many lines of text a given element on a web contains.
 This is surprisingly hard to do in browsers. There are lots and lots of suggestions for counting lines;

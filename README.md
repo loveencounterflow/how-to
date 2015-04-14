@@ -19,6 +19,9 @@
 	- [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
 		- [The Problem](#the-problem)
 		- [The Solution](#the-solution)
+	- [Installing ZeroMQ (a.k.a ZMQ, 0MQ, ØMQ)](#installing-zeromq-aka-zmq-0mq-ømq)
+		- [... on OSX](#-on-osx)
+		- [... on Debian / Ubuntu](#-on-debian--ubuntu)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
@@ -292,8 +295,8 @@ npm install -g whatever
 
 ### *Update* Install CoffeeScript with Generators and `yield`
 
-**As of 2015-01-29, CoffeeScript v0.1.9 has generators / `yield` support baked right into the
-mainstream distribution, meaning whereever you `npm install coffy-script`, you wild get
+**As of 2015-01-29, CoffeeScript v1.9.1 has generators / `yield` support baked right into the
+mainstream distribution, meaning whereever you `npm install coffee-script`, you wild get
 support for this exciting feature (of course, provided your JS VM also supports it).
 For the details, have a look at
 https://github.com/jashkenas/coffeescript/compare/1.8.0...1.9.0
@@ -484,6 +487,41 @@ _ ( db.create_readstream query )
 ```
 
 The key here is to use Highland's `map` and `parallel` stream methods in tandem.
+
+
+## Installing ZeroMQ (a.k.a ZMQ, 0MQ, ØMQ)
+
+### ... on OSX
+
+```bash
+brew install zeromq
+```
+
+This will give you a ZMQ version 4 installation (as of early 2015).
+
+### ... on Debian / Ubuntu
+
+```bash
+# thx to http://askubuntu.com/a/388770/13669
+sudo add-apt-repository ppa:chris-lea/zeromq
+sudo apt-get update
+sudo apt-get install libzmq3-dbg libzmq3-dev libzmq3
+```
+
+Debian:
+
+```
+sudo apt-get install python-software-properties
+```
+
+```
+https://packages.debian.org/sid/libzmq3-dev
+
+```
+
+
+
+
 
 
 

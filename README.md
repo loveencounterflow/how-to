@@ -6,6 +6,7 @@
 - [SYSTEM PROGRAMMING](#system-programming)
 	- [Get io.js Up and Running](#get-iojs-up-and-running)
 		- [*Update* Now with Node Version Management Support](#update-now-with-node-version-management-support)
+		- [Solving that Compiliation Issue](#solving-that-compiliation-issue)
 		- [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
 	- [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
 		- [On the Host](#on-the-host)
@@ -172,6 +173,35 @@ repo; i'd fully expect the maintainers to implement iojs support within days. Al
 of PR 214 warns that his fix "makes a weak assumption that nodejs and iojs versions don't collide"; given
 the speed of NodeJS updates during the past year, i believe we can safely assume that we're weeks or months
 away from any NodeJS 0.12.x release, let alone NodeJS 1.x.x, so PR 214 should be good enough for now.</strike>
+
+
+### Solving that Compiliation Issue
+
+One great thing about NodeJS / iojs is that you can do a *lot* in plain
+JavaScript, meaning you get a high degree of portability with your software.
+
+However, there is also quite a number of important modules like say, `levelup`
+and `fuse-bindings`, that need some C code to compile upon installation. This
+can suck a lot when you have to use multiple versions of NodeJS at the same time;
+for example, i'm using NodeJS 0.12.x for most things, but have some legacy stuff that
+needs 0.10.x, and my NWJS app uses iojs v2.3.1, so i often have to switch versions.
+
+Switching versions is easy when you use `n`, but too often compilation steps will
+fail. When you try to install a module and you get this error message:
+
+```
+gyp ERR! stack Error: 404 response downloading https://nodejs.org/dist/v2.4.0/node-v2.4.0.tar.gz
+```
+
+you know you're `gyp` version is wrong. The easiest way to fix that is to [use
+`node-gyp-install`](https://www.npmjs.com/package/node-gyp-install):
+
+```
+npm install -g node-gyp-install
+node-gyp-install
+```
+
+After that, re-try to `npm install <whatever>`, and it *should* work!
 
 
 ### For the Cautious: Use a VM to try out io.js

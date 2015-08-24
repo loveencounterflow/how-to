@@ -6,6 +6,7 @@
 - [SYSTEM PROGRAMMING](#system-programming)
 	- [Get io.js Up and Running](#get-iojs-up-and-running)
 		- [*Update* Now with Node Version Management Support](#update-now-with-node-version-management-support)
+		- [Upgrade to `npm@3`](#upgrade-to-npm@3)
 		- [Solving that Compiliation Issue](#solving-that-compiliation-issue)
 		- [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
 	- [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
@@ -173,6 +174,14 @@ repo; i'd fully expect the maintainers to implement iojs support within days. Al
 of PR 214 warns that his fix "makes a weak assumption that nodejs and iojs versions don't collide"; given
 the speed of NodeJS updates during the past year, i believe we can safely assume that we're weeks or months
 away from any NodeJS 0.12.x release, let alone NodeJS 1.x.x, so PR 214 should be good enough for now.</strike>
+
+
+
+### Upgrade to `npm@3`
+
+```bash
+npm install -g npm@3.0-latest
+```
 
 
 ### Solving that Compiliation Issue

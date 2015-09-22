@@ -17,6 +17,8 @@
 		- [*Update* Install CoffeeScript with Generators and `yield`](#update-install-coffeescript-with-generators-and-yield)
 		- [Create a Mapped Port](#create-a-mapped-port)
 		- [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
+	- [Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu](#remarks-on-installing-nodejs-libreoffice-and-tex-live-on-ubuntu)
+			- [TexLive installation (Ubuntu)](#texlive-installation-ubuntu)
 - [APPLICATION PROGRAMMING](#application-programming)
 	- [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
 		- [The Problem](#the-problem)
@@ -180,7 +182,7 @@ away from any NodeJS 0.12.x release, let alone NodeJS 1.x.x, so PR 214 should be
 ### Upgrade to `npm@3`
 
 ```bash
-npm install -g npm@3.0-latest
+npm install -g npm@3
 ```
 
 
@@ -455,6 +457,35 @@ suggestion for the second case.
 > Details for this step were gleaned from https://github.com/rvagg/node-levelup/issues/222,
 > http://qiita.com/yashikawa/items/b7a7d1a671106cd1a78a, and
 > http://community.spiceworks.com/how_to/show/61136-how-to-create-an-nfs-share-on-mac-os-x-snow-leopard-and-mount-automatically-during-startup-from-another-mac.
+
+## Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu
+
+#### TexLive installation (Ubuntu)
+
+While there's a lot of software that you can and should install on Debianish /
+Ubuntish systems, there's also a number of software titles you should definitely
+*not* install that way; examples include
+
+* NodeJS, which will always be outdated when installed via `apt`, will get
+  the wrong name (`nodejs` instead of `node`), and will not give you the opportunity
+  to just-so switch between versions as you can with `n` or `nvm`;
+
+* Open/LibreOffice; as [I argue in the Readme about Writing macros for LibreOffice with
+  Coffeescript](https://github.com/loveencounterflow/coffeelibre#remarks-for-running-aoo-on-ubuntu),
+  OpenOffice in Ubuntu is annoyingly broken and somewhat hard to replace with
+  a reasonable LibreOffice installation;
+
+* and, sadly, TeX Live. Turns out while you can choose between a 'basic' and a 'full'
+  installation of TeX Live using `apt-get`, neither will be 'as full' as the one
+  that'd get with the official TeX Live download. Case in point: a command like
+  `tlmgr info xcolor` is going to fail miserably with an `apt` installation
+  of TeX Live, and [there seems to be no easy way to fix that](http://tex.stackexchange.com/questions/137428/tlmgr-cannot-setup-tlpdb).
+
+I recommend using https://github.com/scottkosty/install-tl-ubuntu instead; you can just clone
+the repo to some `tmp` location and run the install script with `sudo ./install-tl-ubuntu`,
+very simple.
+
+
 
 <!-- ################################################################################################### -->
 # APPLICATION PROGRAMMING

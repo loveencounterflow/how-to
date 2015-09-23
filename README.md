@@ -26,6 +26,8 @@
 	- [Installing ZeroMQ (a.k.a ZMQ, 0MQ, ØMQ)](#installing-zeromq-aka-zmq-0mq-ømq)
 		- [... on OSX](#-on-osx)
 		- [... on Debian / Ubuntu](#-on-debian--ubuntu)
+- [OTHER STUFF](#other-stuff)
+	- [Cycling through Firefox Tabs in Most Recently Used (MRU) Order](#cycling-through-firefox-tabs-in-most-recently-used-mru-order)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
@@ -589,6 +591,19 @@ https://packages.debian.org/sid/libzmq3-dev
 
 ```
 
+# OTHER STUFF
+
+## Cycling through Firefox Tabs in Most Recently Used (MRU) Order
+
+Annoyingly, Firefox uses 'linear' tab switching be default, meaning
+that when you `ctrl+tab` to another tab and then `ctrl+tab` again,
+you'll not get back to to the original tab but to the next tab in the
+row. You can fix that by going to `about:config` (type it into the
+address bar), then searching for the entry `browser.ctrlTab.previews`
+(typing `ctrlt` into the search field does it). Double-click that entry
+to change it to `true`.
+
+> (thx to https://alexyv.wordpress.com/2014/01/09/firefox-switching-between-tabs-in-mru-order/)
 
 
 

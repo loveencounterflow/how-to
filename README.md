@@ -39,6 +39,7 @@
 - [SYSTEM PROGRAMMING](#system-programming)
 	- [Get io.js Up and Running](#get-iojs-up-and-running)
 		- [*Update* Now with Node Version Management Support](#update-now-with-node-version-management-support)
+		- [Upgrade to `npm@3`](#upgrade-to-npm@3)
 		- [Solving that Compiliation Issue](#solving-that-compiliation-issue)
 		- [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
 	- [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
@@ -49,6 +50,8 @@
 		- [*Update* Install CoffeeScript with Generators and `yield`](#update-install-coffeescript-with-generators-and-yield)
 		- [Create a Mapped Port](#create-a-mapped-port)
 		- [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
+	- [Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu](#remarks-on-installing-nodejs-libreoffice-and-tex-live-on-ubuntu)
+			- [TexLive installation (Ubuntu)](#texlive-installation-ubuntu)
 - [APPLICATION PROGRAMMING](#application-programming)
 	- [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
 		- [The Problem](#the-problem)
@@ -56,6 +59,8 @@
 	- [Installing ZeroMQ (a.k.a ZMQ, 0MQ, ØMQ)](#installing-zeromq-aka-zmq-0mq-ømq)
 		- [... on OSX](#-on-osx)
 		- [... on Debian / Ubuntu](#-on-debian--ubuntu)
+- [OTHER STUFF](#other-stuff)
+	- [Cycling through Firefox Tabs in Most Recently Used (MRU) Order](#cycling-through-firefox-tabs-in-most-recently-used-mru-order)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
@@ -218,6 +223,14 @@ repo; i'd fully expect the maintainers to implement iojs support within days. Al
 of PR 214 warns that his fix "makes a weak assumption that nodejs and iojs versions don't collide"; given
 the speed of NodeJS updates during the past year, i believe we can safely assume that we're weeks or months
 away from any NodeJS 0.12.x release, let alone NodeJS 1.x.x, so PR 214 should be good enough for now.</strike>
+
+
+
+### Upgrade to `npm@3`
+
+```bash
+npm install -g npm@3
+```
 
 
 ### Solving that Compiliation Issue
@@ -518,6 +531,35 @@ command 2> >(while read line; do echo -e "\e[01;31m$line\e[0m" >&2; done)
  1508  cat ~/temp/load_count.txt
 ```
 
+## Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu
+
+#### TexLive installation (Ubuntu)
+
+While there's a lot of software that you can and should install on Debianish /
+Ubuntish systems, there's also a number of software titles you should definitely
+*not* install that way; examples include
+
+* NodeJS, which will always be outdated when installed via `apt`, will get
+  the wrong name (`nodejs` instead of `node`), and will not give you the opportunity
+  to just-so switch between versions as you can with `n` or `nvm`;
+
+* Open/LibreOffice; as [I argue in the Readme about Writing macros for LibreOffice with
+  Coffeescript](https://github.com/loveencounterflow/coffeelibre#remarks-for-running-aoo-on-ubuntu),
+  OpenOffice in Ubuntu is annoyingly broken and somewhat hard to replace with
+  a reasonable LibreOffice installation;
+
+* and, sadly, TeX Live. Turns out while you can choose between a 'basic' and a 'full'
+  installation of TeX Live using `apt-get`, neither will be 'as full' as the one
+  that'd get with the official TeX Live download. Case in point: a command like
+  `tlmgr info xcolor` is going to fail miserably with an `apt` installation
+  of TeX Live, and [there seems to be no easy way to fix that](http://tex.stackexchange.com/questions/137428/tlmgr-cannot-setup-tlpdb).
+
+I recommend using https://github.com/scottkosty/install-tl-ubuntu instead; you can just clone
+the repo to some `tmp` location and run the install script with `sudo ./install-tl-ubuntu`,
+very simple.
+
+
+
 <!-- ################################################################################################### -->
 # APPLICATION PROGRAMMING
 
@@ -620,6 +662,19 @@ https://packages.debian.org/sid/libzmq3-dev
 
 ```
 
+# OTHER STUFF
+
+## Cycling through Firefox Tabs in Most Recently Used (MRU) Order
+
+Annoyingly, Firefox uses 'linear' tab switching be default, meaning
+that when you `ctrl+tab` to another tab and then `ctrl+tab` again,
+you'll not get back to to the original tab but to the next tab in the
+row. You can fix that by going to `about:config` (type it into the
+address bar), then searching for the entry `browser.ctrlTab.previews`
+(typing `ctrlt` into the search field does it). Double-click that entry
+to change it to `true`.
+
+> (thx to https://alexyv.wordpress.com/2014/01/09/firefox-switching-between-tabs-in-mru-order/)
 
 
 

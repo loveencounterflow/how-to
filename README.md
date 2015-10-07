@@ -1,3 +1,36 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Note](#note)
+- [JCH (JavaScript, CSS, HTML)](#jch-javascript-css-html)
+  - [How To Count Lines in a Block Tag](#how-to-count-lines-in-a-block-tag)
+- [SYSTEM PROGRAMMING](#system-programming)
+  - [Make Another Machine Visible in File Manager](#make-another-machine-visible-in-file-manager)
+  - [Get io.js Up and Running](#get-iojs-up-and-running)
+    - [*Update* Now with Node Version Management Support](#update-now-with-node-version-management-support)
+    - [Solving that Compiliation Issue](#solving-that-compiliation-issue)
+    - [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
+  - [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
+    - [On the Host](#on-the-host)
+      - [Install Vagrant](#install-vagrant)
+    - [On the Guest](#on-the-guest)
+    - [Install `node`, `n`, Own Your Files](#install-node-n-own-your-files)
+    - [*Update* Install CoffeeScript with Generators and `yield`](#update-install-coffeescript-with-generators-and-yield)
+    - [Create a Mapped Port](#create-a-mapped-port)
+    - [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
+  - [Command Line: Show Errors in Red](#command-line-show-errors-in-red)
+  - [Notes on the Frequently Spinning-Up Disk Problem](#notes-on-the-frequently-spinning-up-disk-problem)
+- [APPLICATION PROGRAMMING](#application-programming)
+  - [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
+    - [The Problem](#the-problem)
+    - [The Solution](#the-solution)
+  - [Installing ZeroMQ (a.k.a ZMQ, 0MQ, ØMQ)](#installing-zeromq-aka-zmq-0mq-%C3%B8mq)
+    - [... on OSX](#-on-osx)
+    - [... on Debian / Ubuntu](#-on-debian--ubuntu)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 
 - [Note](#note)
@@ -94,7 +127,19 @@ var line_count    = line_counter.getClientRects().length;
 
 # SYSTEM PROGRAMMING
 
+## Make Another Machine Visible in File Manager
+
+[FUSE](), [OSX Fuse]()
+
+Simply install the following package: sshfs, then add yourself to the fuse group:
+
+```bash
+sudo apt-get install sshfs
+sudo gpasswd -a $USER fuse`
+```
+
 <!-- ################################################################################################### -->
+
 ## Get io.js Up and Running
 
 ### *Update* Now with Node Version Management Support
@@ -446,6 +491,32 @@ suggestion for the second case.
 > Details for this step were gleaned from https://github.com/rvagg/node-levelup/issues/222,
 > http://qiita.com/yashikawa/items/b7a7d1a671106cd1a78a, and
 > http://community.spiceworks.com/how_to/show/61136-how-to-create-an-nfs-share-on-mac-os-x-snow-leopard-and-mount-automatically-during-startup-from-another-mac.
+
+## Command Line: Show Errors in Red
+
+```bash
+command 2> >(while read line; do echo -e "\e[01;31m$line\e[0m" >&2; done)
+```
+
+## Notes on the Frequently Spinning-Up Disk Problem
+
+```bash
+ 1494  sudo apt-get install smartmontools
+ 1495  sudo smartctl -a /dev/
+ 1496  df
+ 1497  sudo smartctl -a /dev/sda1
+ 1498  sudo smartctl -a /dev/sda1 | grep "Load_Cycle_Count"
+ 1499  sudo smartctl -a /dev/sda | grep "Load_Cycle_Count"
+ 1500  cat /etc/acpi/asus-wireless.sh
+ 1501  l /etc/acpi/
+ 1502  laptop_mode
+ 1503  hdparm -B 255 /dev/sda
+ 1504  sudo hdparm -B 255 /dev/sda
+ 1505  sudo hdparm -B 254 /dev/sda
+ 1506  sudo smartctl -a /dev/sda | grep "Load_Cycle_Count"
+ 1507  echo `sudo smartctl -a /dev/sda | grep Load_Cycle_Count` " | " `date` >> ~/temp/load_count.txt
+ 1508  cat ~/temp/load_count.txt
+```
 
 <!-- ################################################################################################### -->
 # APPLICATION PROGRAMMING

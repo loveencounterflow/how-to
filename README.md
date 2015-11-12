@@ -394,7 +394,7 @@ npm install -g whatever
 editor that runs in the terminal; I first found myself unable to install
 it properly until I found out my NodeJS installation—more specifically: my global
 modules folder—was kind of borked. The following contains some advice for NodeJS
-nಠ_ಠbs and everyone who experiences failure when trying to `npm install -g`
+nಠಠbs and everyone who experiences failure when trying to `npm install -g`
 something.
 
 **1: Install NodeJS**

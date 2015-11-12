@@ -9,6 +9,7 @@
   - [Make Another Machine Visible in File Manager](#make-another-machine-visible-in-file-manager)
   - [Get io.js Up and Running](#get-iojs-up-and-running)
     - [*Update* Now with Node Version Management Support](#update-now-with-node-version-management-support)
+    - [Upgrade to `npm@3`](#upgrade-to-npm@3)
     - [Solving that Compiliation Issue](#solving-that-compiliation-issue)
     - [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
   - [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
@@ -16,11 +17,14 @@
       - [Install Vagrant](#install-vagrant)
     - [On the Guest](#on-the-guest)
     - [Install `node`, `n`, Own Your Files](#install-node-n-own-your-files)
+    - [Installing slap; Remarks on Installing Node, npm](#installing-slap-remarks-on-installing-node-npm)
     - [*Update* Install CoffeeScript with Generators and `yield`](#update-install-coffeescript-with-generators-and-yield)
     - [Create a Mapped Port](#create-a-mapped-port)
     - [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
   - [Command Line: Show Errors in Red](#command-line-show-errors-in-red)
   - [Notes on the Frequently Spinning-Up Disk Problem](#notes-on-the-frequently-spinning-up-disk-problem)
+  - [Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu](#remarks-on-installing-nodejs-libreoffice-and-tex-live-on-ubuntu)
+      - [TexLive installation (Ubuntu)](#texlive-installation-ubuntu)
 - [APPLICATION PROGRAMMING](#application-programming)
   - [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
     - [The Problem](#the-problem)
@@ -28,6 +32,8 @@
   - [Installing ZeroMQ (a.k.a ZMQ, 0MQ, ØMQ)](#installing-zeromq-aka-zmq-0mq-%C3%B8mq)
     - [... on OSX](#-on-osx)
     - [... on Debian / Ubuntu](#-on-debian--ubuntu)
+- [OTHER STUFF](#other-stuff)
+  - [Cycling through Firefox Tabs in Most Recently Used (MRU) Order](#cycling-through-firefox-tabs-in-most-recently-used-mru-order)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -379,6 +385,52 @@ n stable
 ## now we have two Node versions and can use `npm`:
 npm install -g whatever
 ```
+
+### Installing slap; Remarks on Installing Node, npm
+
+> First written as experience report as https://github.com/slap-editor/slap/issues/228
+
+**1: Install NodeJS**
+
+
+First of all, slap appears to be compatible (so far) with the newest NodeJS (v5 as of this writing). To me, the painlessest way to get the newest versions of Nodejs, `npm` and `n` (NodeJS version management, highly recommended) is to follow the outline in [my how-to](https://github.com/loveencounterflow/how-to#install-node-n-own-your-files); roughly, clone `n`, build it, and use it once to get the newest NodeJS (should come with `npm` v3):
+
+```bash
+git clone https://github.com/visionmedia/n
+cd n
+sudo chown -R <user>:<user> /usr/local
+make install
+n latest
+n stable
+```
+
+I write this because people always ask how to best install NodeJS. Debianists and Ubuntuers **don't let their friends install NodeJS with `apt-get`**—that will get you an outdated version, naming conflicts, insane file rights setups, what have you.
+
+
+**2: Cleanup Global NPM Modules**
+
+
+This one's a biggy: In case you've been running NodeJS for as long as I have, you'll likely have ooogles of global modules installed over the years. Given the fast evolution of both Node and `npm`, there's bound to be some bit rot, so it's time to clear up that space. I was unable to install slap and got all kinds of weird errors until I resolved to **manually remove my `~/npm/lib/node_modules` folder** (actually I renamed it for reference and created a new `node_modules`).
+
+
+
+**3: Install slap**
+
+
+The official slap docs recommend to `sudo npm install -g slap@latest`. Not sure whether that `sudo` gives you important stuff that you don't get without (readers please fill me out on that one), but, generally speaking, the majority of people living on planet NodeJS prefer **user-owned installs**, **user-owned `/usr/local` directories**, and so on. **This also happens to be the way of `homebrew`, and is generally considered A Good Idea**. For this reason, i just did
+
+```bash
+npm install -g slap
+```
+
+which appears to work. Again, not sure what `slap@latest` gives you that you don't get without it; most of the time, you don't add version markers to `npm install`.
+
+> It *may* occur that some `package.json` does specify an outdated version which will inadvertently keep you from upgrading to the next major version of some package. That *shouldn't* happen here (not quite sure: do get global packages an entry in a global `package.json`?) but just to stay on the safe side, you can always `npm uninstall --save xxx && npm install --save xxx` a package to obtain the latest version (the `--save` switch produces a suitable entry in the package's `package.json`), even across major versions (yes yes I know there are simpler ways but this one is really obvious and memorable).
+
+I can strongly recommend to [`npm install -g npm-check`](https://github.com/dylang/npm-check), which will give you the greatest way to control `npm` dependencies. `npm-check -u` gives you an interactive prompt for project-local files (with list selection! and install-now option!!); `npm-check -u -g` does the same for global modules (including slap and, behold, `npm` itself!!).
+
+
+
 
 
 ### *Update* Install CoffeeScript with Generators and `yield`

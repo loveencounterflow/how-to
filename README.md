@@ -390,6 +390,13 @@ npm install -g whatever
 
 > First written as experience report as https://github.com/slap-editor/slap/issues/228
 
+[slap](https://github.com/slap-editor/slap/issues/228) is a Sublime-like
+editor that runs in the terminal; I first found myself unable to install
+it properly and then found out my NodeJS install—more specifically: my global
+modules—where kind of borked. The following contains some advice for NodeJS
+n00bs and everyone who experiences failure when trying to `npm install -g`
+something.
+
 **1: Install NodeJS**
 
 

@@ -138,6 +138,33 @@ var line_count    = line_counter.getClientRects().length;
 
 # SYSTEM PROGRAMMING
 
+## Install Broadcom Wireless Driver
+
+My Acer Aspire E3-112 has a Broadcom 43142 chipset:
+
+```sh
+flow@enceladus ~/io $ lspci -vnn | grep -A 9 Network
+02:00.0 Network controller [0280]: Broadcom Corporation BCM43142 802.11b/g/n [14e4:4365] (rev 01)
+  Subsystem: Foxconn International, Inc. BCM43142 802.11b/g/n [105b:e07e]
+  Flags: bus master, fast devsel, latency 0, IRQ 17
+  Memory at 90600000 (64-bit, non-prefetchable) [size=32K]
+  Capabilities: <access denied>
+  Kernel driver in use: wl
+  Kernel modules: bcma, wl
+
+03:00.0 Ethernet controller [0200]: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller [10ec:8168] (rev 0c)
+  Subsystem: Acer Incorporated [ALI] RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller [1025:0933]
+```
+Unfortunately, some systems that I tried (Antergos, Debian, Linux Mint Cinnamon) did not configure
+the device correctly; while `BCM` did show up when running `dmesg`, there was no entry for wireless in
+the system tray. 
+
+A search revealed the following, which did work:
+
+```sh
+sudo apt-get --reinstall install bcmwl-kernel-source
+```
+
 ## Make Another Machine Visible in File Manager
 
 [FUSE](), [OSX Fuse]()

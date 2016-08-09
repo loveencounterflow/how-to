@@ -6,13 +6,13 @@
 - [JCH (JavaScript, CSS, HTML)](#jch-javascript-css-html)
   - [How To Count Lines in a Block Tag](#how-to-count-lines-in-a-block-tag)
 - [SYSTEM PROGRAMMING](#system-programming)
+  - [Install Broadcom Wireless Driver](#install-broadcom-wireless-driver)
   - [Make Another Machine Visible in File Manager](#make-another-machine-visible-in-file-manager)
   - [Get io.js Up and Running](#get-iojs-up-and-running)
     - [*Update* Now with Node Version Management Support](#update-now-with-node-version-management-support)
-    - [Upgrade to `npm@3`](#upgrade-to-npm@3)
+    - [Upgrade to `npm@3`](#upgrade-to-npm3)
     - [Solving that Compiliation Issue](#solving-that-compiliation-issue)
     - [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
-  - [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
     - [On the Host](#on-the-host)
       - [Install Vagrant](#install-vagrant)
     - [On the Guest](#on-the-guest)
@@ -25,7 +25,6 @@
   - [Notes on the Frequently Spinning-Up Disk Problem](#notes-on-the-frequently-spinning-up-disk-problem)
   - [Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu](#remarks-on-installing-nodejs-libreoffice-and-tex-live-on-ubuntu)
       - [TexLive installation (Ubuntu)](#texlive-installation-ubuntu)
-- [APPLICATION PROGRAMMING](#application-programming)
   - [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
     - [The Problem](#the-problem)
     - [The Solution](#the-solution)
@@ -34,6 +33,7 @@
     - [... on Debian / Ubuntu](#-on-debian--ubuntu)
 - [OTHER STUFF](#other-stuff)
   - [Cycling through Firefox Tabs in Most Recently Used (MRU) Order](#cycling-through-firefox-tabs-in-most-recently-used-mru-order)
+  - [Find Directory by Partial Name](#find-directory-by-partial-name)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

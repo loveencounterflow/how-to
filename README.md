@@ -157,7 +157,7 @@ flow@enceladus ~/io $ lspci -vnn | grep -A 9 Network
 ```
 Unfortunately, some systems that I tried (Antergos, Debian, Linux Mint Cinnamon) did not configure
 the device correctly; while `BCM` did show up when running `dmesg`, there was no entry for wireless in
-the system tray. 
+the system tray.
 
 A search revealed the following, which did work:
 
@@ -362,7 +362,7 @@ g().next()
 
 #### Install Vagrant
 
-Grab an installer at https://www.vagrantup.com/downloads and run it. Then, create a folder of your
+Grab an installer at https://www.vagrantup.com/downloads.html and run it. Then, create a folder of your
 liking (which i chose to call `drifter`) which will both hold the `Vagrantfile` that captures the
 setup of one specific VM and acts as the synced (shared) folder that allows simple data exchange between
 guest and host. From the terminal, `cd` into that folder, choose a VM name from https://vagrantcloud.com/
@@ -396,10 +396,7 @@ Here's the painlessest way that i'm aware of to get no less than:
   filesystem rights; from there on, `npm install -g ...` will work without `sudo`.
 
 ```bash
-sudo apt-get install git
-sudo apt-get install build-essential
-sudo apt-get install htop
-sudo apt-get install make # should already be installed e.g. on Ubuntu server
+sudo apt-get install git build-essential htop make
 git clone https://github.com/visionmedia/n
 
 cd n
@@ -408,6 +405,10 @@ make install
 
 n latest
 n stable
+# or e.g.
+n 5.12.0
+
+npm install -g npm coffee-script doctoc
 
 ## now we have two Node versions and can use `npm`:
 npm install -g whatever
@@ -763,8 +764,11 @@ to change it to `true`.
 > (thx to https://alexyv.wordpress.com/2014/01/09/firefox-switching-between-tabs-in-mru-order/)
 
 
+## Find Directory by Partial Name
 
-
+```sh
+find / -type d -iname '*keyboard*' | less -SNR -#19
+```
 
 
 

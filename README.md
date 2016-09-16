@@ -1,74 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [Note](#note)
-- [JCH (JavaScript, CSS, HTML)](#jch-javascript-css-html)
-  - [How To Count Lines in a Block Tag](#how-to-count-lines-in-a-block-tag)
-- [SYSTEM PROGRAMMING](#system-programming)
-  - [Install Broadcom Wireless Driver](#install-broadcom-wireless-driver)
-  - [Make Another Machine Visible in File Manager](#make-another-machine-visible-in-file-manager)
-  - [Get io.js Up and Running](#get-iojs-up-and-running)
-    - [*Update* Now with Node Version Management Support](#update-now-with-node-version-management-support)
-    - [Upgrade to `npm@3`](#upgrade-to-npm3)
-    - [Solving that Compiliation Issue](#solving-that-compiliation-issue)
-    - [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
-    - [On the Host](#on-the-host)
-      - [Install Vagrant](#install-vagrant)
-    - [On the Guest](#on-the-guest)
-    - [Install `node`, `n`, Own Your Files](#install-node-n-own-your-files)
-    - [Installing slap; Remarks on Installing Node, npm](#installing-slap-remarks-on-installing-node-npm)
-    - [*Update* Install CoffeeScript with Generators and `yield`](#update-install-coffeescript-with-generators-and-yield)
-    - [Create a Mapped Port](#create-a-mapped-port)
-    - [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
-  - [Command Line: Show Errors in Red](#command-line-show-errors-in-red)
-  - [Notes on the Frequently Spinning-Up Disk Problem](#notes-on-the-frequently-spinning-up-disk-problem)
-  - [Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu](#remarks-on-installing-nodejs-libreoffice-and-tex-live-on-ubuntu)
-      - [TexLive installation (Ubuntu)](#texlive-installation-ubuntu)
-  - [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
-    - [The Problem](#the-problem)
-    - [The Solution](#the-solution)
-  - [Installing ZeroMQ (a.k.a ZMQ, 0MQ, ØMQ)](#installing-zeromq-aka-zmq-0mq-%C3%B8mq)
-    - [... on OSX](#-on-osx)
-    - [... on Debian / Ubuntu](#-on-debian--ubuntu)
-- [OTHER STUFF](#other-stuff)
-  - [Cycling through Firefox Tabs in Most Recently Used (MRU) Order](#cycling-through-firefox-tabs-in-most-recently-used-mru-order)
-  - [Find Directory by Partial Name](#find-directory-by-partial-name)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-
-
-- [Note](#note)
-- [JCH (JavaScript, CSS, HTML)](#jch-javascript-css-html)
-	- [How To Count Lines in a Block Tag](#how-to-count-lines-in-a-block-tag)
-- [SYSTEM PROGRAMMING](#system-programming)
-	- [Get io.js Up and Running](#get-iojs-up-and-running)
-		- [*Update* Now with Node Version Management Support](#update-now-with-node-version-management-support)
-		- [Upgrade to `npm@3`](#upgrade-to-npm@3)
-		- [Solving that Compiliation Issue](#solving-that-compiliation-issue)
-		- [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
-	- [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
-		- [On the Host](#on-the-host)
-			- [Install Vagrant](#install-vagrant)
-		- [On the Guest](#on-the-guest)
-		- [Install `node`, `n`, Own Your Files](#install-node-n-own-your-files)
-		- [*Update* Install CoffeeScript with Generators and `yield`](#update-install-coffeescript-with-generators-and-yield)
-		- [Create a Mapped Port](#create-a-mapped-port)
-		- [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
-	- [Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu](#remarks-on-installing-nodejs-libreoffice-and-tex-live-on-ubuntu)
-			- [TexLive installation (Ubuntu)](#texlive-installation-ubuntu)
-- [APPLICATION PROGRAMMING](#application-programming)
-	- [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
-		- [The Problem](#the-problem)
-		- [The Solution](#the-solution)
-	- [Installing ZeroMQ (a.k.a ZMQ, 0MQ, ØMQ)](#installing-zeromq-aka-zmq-0mq-ømq)
-		- [... on OSX](#-on-osx)
-		- [... on Debian / Ubuntu](#-on-debian--ubuntu)
-- [OTHER STUFF](#other-stuff)
-	- [Cycling through Firefox Tabs in Most Recently Used (MRU) Order](#cycling-through-firefox-tabs-in-most-recently-used-mru-order)
-
-> **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 
 # Note
@@ -237,6 +166,7 @@ With that version, `n --help` will give you
     list    ls
     -       rm
 ```
+
 
 In order to install io.js, simply do
 
@@ -749,7 +679,7 @@ https://packages.debian.org/sid/libzmq3-dev
 
 ```
 
-# OTHER STUFF
+# Other Stuff
 
 ## Cycling through Firefox Tabs in Most Recently Used (MRU) Order
 
@@ -770,6 +700,43 @@ to change it to `true`.
 find / -type d -iname '*keyboard*' | less -SNR -#19
 ```
 
+## Mirror / Download a Website from Archive.Org's WayBack Machine
 
+### HtTrack Won't Work
+
+[HtTrack](https://www.httrack.com/) is a great tool but it doesn't take kindly
+to [Archive.Org](https://web.archive.org)'s' URL structure. The problem is that
+(1) whenever the WayBack Machine crawls a website and makes a snapshot, that
+snapshot will only include URLs that are different from the last snapshot; (2)
+those changed addresses will be made accessible to the world under a URL that
+starts with https://web.archive.org/web/, then has a timestamp looking like
+`20160907003604`, followed by the mirrored site's URL.
+
+When you click your way through the mirrored site, you will often jump between
+timestamps. Now you *can* use HtTrack with wildcards, like so:
+
+```
+httrack https://web.archive.org/web/*/http://example.com/index.cfm --robots=N --max-rate=3000
+```
+
+and this does work in principle, **but** what you'll get is a long, looooong list of timestamped
+folders with tiny bits of data in each one, which makes it almost impossible to use.
+
+### Wayback_Machine_Downloader Does Work
+
+Use [Wayback_Machine_Downloader](https://github.com/hartator/wayback-machine-downloader) instead:
+
+```sh
+# what i did to ensure my ruby is v2+:
+# echo $PATH
+# export PATH=/Users/flow/bin:$PATH
+# cd ~/bin
+# ln -s /usr/local/bin/ruby
+# which ruby
+# ruby -v
+gem install wayback_machine_downloader
+cd example-com/
+wayback_machine_downloader --to 20160830000000 http://example.com
+```
 
 

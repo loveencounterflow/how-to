@@ -766,6 +766,8 @@ folders with tiny bits of data in each one, which makes it almost impossible to 
 
 ### Wayback_Machine_Downloader Does Work
 
+> thx to http://superuser.com/a/957298
+
 Use [Wayback_Machine_Downloader](https://github.com/hartator/wayback-machine-downloader) instead:
 
 ```sh

@@ -40,6 +40,7 @@
 - [Apps & Tools](#apps-&-tools)
   - [Searching in Files: ag, sag](#searching-in-files-ag-sag)
   - [On-Screen Keyboard: onboard](#on-screen-keyboard-onboard)
+  - [Cloning, Using, Pushing to bzr (Bazaar) Repos with git](#cloning-using-pushing-to-bzr-bazaar-repos-with-git)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -798,4 +799,33 @@ sudo apt-get install onboard
 onboard-settings
 onboard
 ```
+
+## Cloning, Using, Pushing to bzr (Bazaar) Repos with git
+
+https://github.com/felipec/git-remote-bzr
+
+
+```bash
+sudo apt-get install bzr
+wget https://raw.github.com/felipec/git-remote-bzr/master/git-remote-bzr -O ~/bin/git-remote-bzr
+chmod +x ~/bin/git-remote-bzr
+
+git clone "bzr::lp:ubuntu/hello"
+```
+
+* A clone of the [onboard LaunchPad Bazaar repo](https://code.launchpad.net/onboard) is available as a [git
+  repo under https://github.com/loveencounterflow/onboard](https://github.com/loveencounterflow/onboard).
+
+* To toggle the keyboard, execute this command line:
+
+```bash
+dbus-send --type=method_call --print-reply --dest=org.onboard.Onboard /org/onboard/Onboard/Keyboard org.onboard.Onboard.Keyboard.ToggleVisible
+```
+
+I put the above line into my Linux Mint / Preferences / Keyboard / Shortcuts / Custom Shortcuts settings
+(and bound it to the pretty much unused `pause` key), so now I can toggle the keyboard with a single
+keystroke.
+
+
+
 

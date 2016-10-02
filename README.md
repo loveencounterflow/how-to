@@ -34,41 +34,12 @@
 - [OTHER STUFF](#other-stuff)
   - [Cycling through Firefox Tabs in Most Recently Used (MRU) Order](#cycling-through-firefox-tabs-in-most-recently-used-mru-order)
   - [Find Directory by Partial Name](#find-directory-by-partial-name)
+- [Apps & Tools](#apps-&-tools)
+  - [Searching in Files: ag, sag](#searching-in-files-ag-sag)
+  - [On-Screen Keyboard: onboard](#on-screen-keyboard-onboard)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-
-
-- [Note](#note)
-- [JCH (JavaScript, CSS, HTML)](#jch-javascript-css-html)
-	- [How To Count Lines in a Block Tag](#how-to-count-lines-in-a-block-tag)
-- [SYSTEM PROGRAMMING](#system-programming)
-	- [Get io.js Up and Running](#get-iojs-up-and-running)
-		- [*Update* Now with Node Version Management Support](#update-now-with-node-version-management-support)
-		- [Upgrade to `npm@3`](#upgrade-to-npm@3)
-		- [Solving that Compiliation Issue](#solving-that-compiliation-issue)
-		- [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
-	- [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
-		- [On the Host](#on-the-host)
-			- [Install Vagrant](#install-vagrant)
-		- [On the Guest](#on-the-guest)
-		- [Install `node`, `n`, Own Your Files](#install-node-n-own-your-files)
-		- [*Update* Install CoffeeScript with Generators and `yield`](#update-install-coffeescript-with-generators-and-yield)
-		- [Create a Mapped Port](#create-a-mapped-port)
-		- [Enabling NFS for Synced (a.k.a. Shared) Folder](#enabling-nfs-for-synced-aka-shared-folder)
-	- [Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu](#remarks-on-installing-nodejs-libreoffice-and-tex-live-on-ubuntu)
-			- [TexLive installation (Ubuntu)](#texlive-installation-ubuntu)
-- [APPLICATION PROGRAMMING](#application-programming)
-	- [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
-		- [The Problem](#the-problem)
-		- [The Solution](#the-solution)
-	- [Installing ZeroMQ (a.k.a ZMQ, 0MQ, ØMQ)](#installing-zeromq-aka-zmq-0mq-ømq)
-		- [... on OSX](#-on-osx)
-		- [... on Debian / Ubuntu](#-on-debian--ubuntu)
-- [OTHER STUFF](#other-stuff)
-	- [Cycling through Firefox Tabs in Most Recently Used (MRU) Order](#cycling-through-firefox-tabs-in-most-recently-used-mru-order)
-
-> **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 
 # Note
@@ -770,6 +741,17 @@ to change it to `true`.
 find / -type d -iname '*keyboard*' | less -SNR -#19
 ```
 
+# Apps & Tools
+
+## Searching in Files: ag, sag
+
+## On-Screen Keyboard: onboard
+
+```bash
+sudo apt-get install onboard
+onboard-settings
+onboard
+```
 
 
 

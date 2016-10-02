@@ -744,7 +744,6 @@ to change it to `true`.
 find / -type d -iname '*keyboard*' | less -SNR -#19
 ```
 
-<<<<<<< HEAD
 # Apps & Tools
 
 ## Searching in Files: ag, sag
@@ -756,7 +755,7 @@ sudo apt-get install onboard
 onboard-settings
 onboard
 ```
-=======
+
 ## Mirror / Download a Website from Archive.Org's WayBack Machine
 
 ### HtTrack Won't Work
@@ -780,7 +779,6 @@ and this does work in principle, **but** what you'll get is a long, looooong lis
 folders with tiny bits of data in each one, which makes it almost impossible to use.
 
 ### Wayback_Machine_Downloader Does Work
->>>>>>> 90fd948d318ceb1aa477022eec9694cc05ac22e4
 
 > thx to http://superuser.com/a/957298
 

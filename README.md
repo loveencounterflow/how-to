@@ -34,12 +34,12 @@
 - [Other Stuff](#other-stuff)
   - [Cycling through Firefox Tabs in Most Recently Used (MRU) Order](#cycling-through-firefox-tabs-in-most-recently-used-mru-order)
   - [Find Directory by Partial Name](#find-directory-by-partial-name)
-- [Apps & Tools](#apps-&-tools)
-  - [Searching in Files: ag, sag](#searching-in-files-ag-sag)
-  - [On-Screen Keyboard: onboard](#on-screen-keyboard-onboard)
   - [Mirror / Download a Website from Archive.Org's WayBack Machine](#mirror--download-a-website-from-archiveorgs-wayback-machine)
     - [HtTrack Won't Work](#httrack-wont-work)
     - [Wayback_Machine_Downloader Does Work](#wayback_machine_downloader-does-work)
+- [Apps & Tools](#apps-&-tools)
+  - [Searching in Files: ag, sag](#searching-in-files-ag-sag)
+  - [On-Screen Keyboard: onboard](#on-screen-keyboard-onboard)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -744,18 +744,6 @@ to change it to `true`.
 find / -type d -iname '*keyboard*' | less -SNR -#19
 ```
 
-# Apps & Tools
-
-## Searching in Files: ag, sag
-
-## On-Screen Keyboard: onboard
-
-```bash
-sudo apt-get install onboard
-onboard-settings
-onboard
-```
-
 ## Mirror / Download a Website from Archive.Org's WayBack Machine
 
 ### HtTrack Won't Work
@@ -797,4 +785,17 @@ cd example-com/
 wayback_machine_downloader --to 20160830000000 http://example.com
 ```
 
+
+
+# Apps & Tools
+
+## Searching in Files: ag, sag
+
+## On-Screen Keyboard: onboard
+
+```bash
+sudo apt-get install onboard
+onboard-settings
+onboard
+```
 

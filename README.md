@@ -147,7 +147,7 @@ Simply install the following package: sshfs, then add yourself to the fuse group
 
 ```bash
 sudo apt-get install sshfs
-sudo gpasswd -a $USER fuse`
+sudo gpasswd -a $USER fuse
 ```
 
 <!-- ################################################################################################### -->
@@ -794,11 +794,21 @@ wayback_machine_downloader --to 20160830000000 http://example.com
 
 ## On-Screen Keyboard: onboard
 
+This is the best on-screen keyboard I've seen so far:
+
 ```bash
 sudo apt-get install onboard
 onboard-settings
 onboard
 ```
+
+Unfortunately, the sources are [hosted on launchpad](https://launchpad.net/onboard), which is a horrible
+site that makes SourceForge look great and accessible, if you ask me. I did manage to fork the sources using
+[git-remote-bzr](#cloning-using-pushing-to-bzr-bazaar-repos-with-git), and you know what, without doing
+anything else I can now at least look inside the code just so, online, and peruse the sources for hints on
+usage, or maybe there's even an official documentation? Wait, big parts (75%) of onboard are written in
+Python? You couldn't have guessed that much from clicking through the launchpad repo pages for hours.
+
 
 ## Cloning, Using, Pushing to bzr (Bazaar) Repos with git
 

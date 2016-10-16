@@ -941,6 +941,52 @@ exit 0
 cstateInfo.sh
 ```
 
-
+Possibly affected Intel® Processors:
+* Atom™ E3805
+* Atom™ E3815
+* Atom™ E3825
+* Atom™ E3826
+* Atom™ E3827
+* Atom™ E3845
+* Atom™ Z3735D
+* Atom™ Z3735E
+* Atom™ Z3735F
+* Atom™ Z3735G
+* Atom™ Z3736F
+* Atom™ Z3736G
+* Atom™ Z3740
+* Atom™ Z3740D
+* Atom™ Z3745
+* Atom™ Z3745D
+* Atom™ Z3770
+* Atom™ Z3770D
+* Atom™ Z3775
+* Atom™ Z3775D
+* Atom™ Z3785
+* Atom™ Z3795
+* Celeron® J1750
+* Celeron® J1800
+* Celeron® J1850
+* Celeron® J1900
+* Celeron® N2805
+* Celeron® N2806
+* Celeron® N2807
+* Celeron® N2808
+* Celeron® N2810
+* Celeron® N2815
+* Celeron® N2820
+* Celeron® N2830
+* Celeron® N2840
+* Celeron® N2910
+* Celeron® N2920
+* Celeron® N2930
+* Celeron® N2940
+* Pentium® A1020
+* Pentium® J2850
+* Pentium® J2900
+* Pentium® N3510
+* Pentium® N3520
+* Pentium® N3530
+* Pentium® N3540
 
 

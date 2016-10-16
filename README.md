@@ -941,7 +941,13 @@ exit 0
 cstateInfo.sh
 ```
 
-Possibly affected Intel® Processors:
+Do
+
+```bash
+less /proc/cpuinfo
+```
+
+to find out whether your CPU matches any of these possibly affected Intel® Processors:
 * Atom™ E3805
 * Atom™ E3815
 * Atom™ E3825

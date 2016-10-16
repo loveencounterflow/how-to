@@ -786,7 +786,11 @@ cd example-com/
 wayback_machine_downloader --to 20160830000000 http://example.com
 ```
 
+### Remove that Annoying Enter Your Password Popup in Mint, Ubuntu
 
+Open Seahorse Password and Keyring manager, create a new keyring without a password, make it the default.
+
+See http://askubuntu.com/a/735463
 
 # Apps & Tools
 
@@ -835,6 +839,90 @@ dbus-send --type=method_call --print-reply --dest=org.onboard.Onboard /org/onboa
 I put the above line into my Linux Mint / Preferences / Keyboard / Shortcuts / Custom Shortcuts settings
 (and bound it to the pretty much unused `pause` key), so now I can toggle the keyboard with a single
 keystroke.
+
+
+# Bay Trail Chips, Linux, Atom-Celerons
+
+http://www.heise.de/newsticker/meldung/Patch-stabilisiert-Linux-auf-Atom-Celerons-3337456.html
+
+* [Mozilla Bug #109051](https://bugzilla.kernel.org/show_bug.cgi?id=109051#c434)
+* [c6off+c7on.sh](https://bugzilla.kernel.org/attachment.cgi?id=223851)
+* [cstateInfo.sh](https://bugzilla.kernel.org/attachment.cgi?id=223861)
+
+> The intel_idle.max_cstate boot parameter refers to enumeration done by the linux kernel (number in column
+> State) and not to the Intel notation of core states C0, C1, C2, C3, C6, C7, etc. Latency, Residency, and
+> Time units are microseconds.
+
+```
+~/bin ► ./cstateInfo.sh
+cpu0 State  Name     Disabled  Latency  Residency         Time    Usage
+         0  POLL            0        0          0     15750446     7676
+         1  C1-BYT          0        1          1    187784220   506757
+         2  C6N-BYT         0      300        275    309130057   374376
+         3  C6S-BYT         0      500        560   4646966391  1864384
+         4  C7-BYT          0     1200       4000   9156699917   832033
+         5  C7S-BYT         0    10000      20000  19508763201   324992
+cpu1 State  Name     Disabled  Latency  Residency         Time    Usage
+         0  POLL            0        0          0     24124917     8885
+         1  C1-BYT          0        1          1    225946256   697915
+         2  C6N-BYT         0      300        275    352557953   470276
+         3  C6S-BYT         0      500        560   4567333192  2017181
+         4  C7-BYT          0     1200       4000  11112293359  1025444
+         5  C7S-BYT         0    10000      20000  17413428249   387377
+cpu2 State  Name     Disabled  Latency  Residency         Time    Usage
+         0  POLL            0        0          0     33569810    21979
+         1  C1-BYT          0        1          1    442760166   785786
+         2  C6N-BYT         0      300        275    441597919   524631
+         3  C6S-BYT         0      500        560   4149672467  1941720
+         4  C7-BYT          0     1200       4000   6954219391   598363
+         5  C7S-BYT         0    10000      20000  21498265463   339007
+cpu3 State  Name     Disabled  Latency  Residency         Time    Usage
+         0  POLL            0        0          0     54960543    29888
+         1  C1-BYT          0        1          1    539278855   907380
+         2  C6N-BYT         0      300        275    482857299   587530
+         3  C6S-BYT         0      500        560   4089241789  1975537
+         4  C7-BYT          0     1200       4000   6742161656   559788
+         5  C7S-BYT         0    10000      20000  21723411756   331348
+```
+
+
+> The Linux kernel enumerates the states for the J1900 as follows:
+>
+> * 0 POLL
+> * 1 C1-BYT
+> * 2 C6N-BYT
+> * 3 C6S-BYT
+> * 4 C7-BYT
+> * 5 C7S-BYT
+>
+> The parameter intel_idle.max_cstate refers to that enumeration and does _NOT_ conform to the Intel
+> notation of the C-states (which confused me):
+>
+> So "intel_idle.max_cstate=2" means POLL, C1-BYT, and C6N-BYT (the first of the intel C6 states) are
+> enabled and all other states (C6S-BYT, C7-BYT, C7S-BYT) are disabled and _CANNOT_ be enabled after boot
+> time.
+>
+> Fortunately the /sys interface of the kernel allows fine-grained tweeking at run-time and one can turn off
+> and on the the states individually (if not disabled at boot time via intel_idle.max_cstate=<number>).
+>
+> In order to investigate whether erratum VLP52 is the root cause for this kernel bug (109051) I attached
+> two shell scripts to this bug.
+>
+> The first (c6off+c7on.sh) will disable all intel C6 core states for Baytrail processors (C6N-BYT and
+> C6S-BYT) + enable all C7 core states (C7-BYT and C7S-BYT).
+>
+> The second script can be used to verify that the C6 states are disabled (column "Disabled" should show a
+> "1" for the disabled states and the count for the columns "Time" and "Usage" should not change any longer
+> for the disabled C6*-BYT states).
+>
+> The "c6off+c7on.sh" script should be started at system boot and if erratum VLP52 is the root cause of this
+> bug then Baytrail systems with the processors mentioned in
+> https://bugzilla.kernel.org/show_bug.cgi?id=109051#c425 (J2850, J1850, J1750, N3510, N2810, N2805, N2910,
+> N3520, N2920, N2820, N2806, N2815, J2900, J1900, J1800, N3530, N2930, N2830, N2807, N3540, N2940, N2840,
+> N2808) should run stably again. Especially Baytrail based systems with low average load (e.g. tablets and
+> notebooks) should consume considerably less power with enabled C7*-BYT states.
+
+
 
 
 

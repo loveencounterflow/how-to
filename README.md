@@ -924,7 +924,22 @@ cpu3 State  Name     Disabled  Latency  Residency         Time    Usage
 > N2808) should run stably again. Especially Baytrail based systems with low average load (e.g. tablets and
 > notebooks) should consume considerably less power with enabled C7*-BYT states.
 
+In `/etc/rc.local`:
 
+```bash
+[...]
+/home/flow/bin/c6off+c7on.sh || exit 1
+
+exit 0
+
+```
+
+```bash
+# e.g. in ~/.bashrc or on the command line:
+# just to see whether https://github.com/loveencounterflow/how-to#bay-trail-chips-linux-atom-celerons
+# worked:
+cstateInfo.sh
+```
 
 
 

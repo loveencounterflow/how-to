@@ -37,10 +37,12 @@
   - [Mirror / Download a Website from Archive.Org's WayBack Machine](#mirror--download-a-website-from-archiveorgs-wayback-machine)
     - [HtTrack Won't Work](#httrack-wont-work)
     - [Wayback_Machine_Downloader Does Work](#wayback_machine_downloader-does-work)
+    - [Remove that Annoying Enter Your Password Popup in Mint, Ubuntu](#remove-that-annoying-enter-your-password-popup-in-mint-ubuntu)
 - [Apps & Tools](#apps-&-tools)
   - [Searching in Files: ag, sag](#searching-in-files-ag-sag)
   - [On-Screen Keyboard: onboard](#on-screen-keyboard-onboard)
   - [Cloning, Using, Pushing to bzr (Bazaar) Repos with git](#cloning-using-pushing-to-bzr-bazaar-repos-with-git)
+- [Bay Trail Chips, Linux, Atom-Celerons](#bay-trail-chips-linux-atom-celerons)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

@@ -360,6 +360,18 @@ vagrant up
 vagrant ssh
 ```
 
+#### install Guest Additions
+
+The most easiest way to get those elusive guest additions:
+
+```bash
+vagrant init debian/jessie64
+vagrant box update
+vagrant plugin install vagrant-vbguest
+vagrant halt
+vagrant up
+vagrant ssh
+```
 
 ### On the Guest
 

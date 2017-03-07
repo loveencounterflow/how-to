@@ -1,0 +1,1008 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "README" "" "December 2016" "" ""
+.
+.SH "NAME"
+\fBREADME\fR
+.
+.P
+All of the below notes come without any warranty, implied or explicit\. YAYOR\. The instructions worked on my OSX 10\.8\.5 box and may or may not work anywhere else\. There may be omissions and typos\. This is not a manual for anything, just a handy aide\-mémoire, waschzettel, 備忘錄, cheat\-sheet, you get the idea\.
+.
+.SH "How To Count Lines in a Block Tag"
+There are situations where you need to know just how many lines of text a given element on a web contains\. This is surprisingly hard to do in browsers\. There are lots and lots of suggestions for counting lines; a quick search turns up a long list:
+.
+.IP "\(bu" 4
+http://stackoverflow\.com/questions/14375971/find\-the\-number\-of\-lines\-in\-a\-div
+.
+.IP "\(bu" 4
+http://stackoverflow\.com/questions/783899/how\-can\-i\-count\-text\-lines\-inside\-an\-dom\-element\-can\-i
+.
+.IP "\(bu" 4
+http://stackoverflow\.com/questions/18496179/find\-the\-number\-of\-lines\-a\-string\-runs\-into\-inside\-a\-div\-of\-a\-set\-width\-there\-i
+.
+.IP "\(bu" 4
+http://stackoverflow\.com/questions/4492770/how\-to\-check\-for\-of\-lines\-using\-jquery
+.
+.IP "\(bu" 4
+https://forum\.jquery\.com/topic/can\-jquery\-detect\-how\-many\-lines\-of\-text\-within\-a\-div\-or\-a\-tag
+.
+.IP "" 0
+.
+.P
+There are also some libraries to do such things as typesetting in columns and shortening texts where knowledge about precise text dimensions is necessary, including
+.
+.IP "\(bu" 4
+https://github\.com/theproductguy/ThreeDots/blob/master/js/jquery\.ThreeDots\.js
+.
+.IP "\(bu" 4
+https://github\.com/ftlabs/ftcolumnflow
+.
+.IP "" 0
+.
+.P
+Most of these solutions rely on clever techniques to add and remove text, measure font metrics and doing clever CSS guesstimations\. One of the most prevalent and promising techniques consists in somehow obtaining the height of a single line and then dividing the height of a DOM container with that value\. In order for that to work, your lines be better all of the same height and the DOM metrics precise\.
+.
+.P
+There is, however, a much more elegant and reliable solution that relies on the \fBgetClientRects()\fR method of DOM nodes, as explained in https://developer\.mozilla\.org/en\-US/docs/Web/API/Element/getClientRects\. At first, hwoever, the reader gets frustrated by the follwoing remark:
+.
+.P
+Awww, snap\. There\'s a surprising number of discussion on the web that stop consider \fBgetClientRects\fR at this point, stating that "the solution will only work in IE"\. But, reading on, that\'s not quite true:
+.
+.P
+Luckily, this cryptic message is better borne out by the accompanying illustration:
+.
+.P
+.
+.P
+From this, it is a small step to arrive at what i currently \fBthe most elegant and reliable way to count lines of text in a DOM block element as rendered by a given browser\fR, namely: \fB(1)\fR wrap the contents of the relevant block element(s) in an inline element (say, \fB<span class="line\-counter">\.\.\.</span>\fR); \fB(2)\fR retrieve the DOM node(s) of this or those element(s); \fB(3)\fR call \fBspan\.getClientRects()\.length\fR to find the line count(s)\. Step (1) can easily done dynamically using jQuery\'s \fBwrapInner()\fR method; sample code:
+.
+.IP "" 4
+.
+.nf
+
+var block_nodes   = $( \'p\' ); // or however you get your relevant block nodes
+block_nodes\.wrapInner( \'<span class="line\-counter"></span>\' );
+// Get line count for first `<p>` tag:
+var line_counter  = block_nodes\.eq( 0 )\.children( \'\.line\-counter\' )[ 1 ];
+var line_count    = line_counter\.getClientRects()\.length;
+.
+.fi
+.
+.IP "" 0
+.
+.SH "Install Broadcom Wireless Driver"
+My Acer Aspire E3\-112 has a Broadcom 43142 chipset:
+.
+.IP "" 4
+.
+.nf
+
+flow@enceladus ~/io $ lspci \-vnn | grep \-A 9 Network
+02:00\.0 Network controller [0280]: Broadcom Corporation BCM43142 802\.11b/g/n [14e4:4365] (rev 01)
+  Subsystem: Foxconn International, Inc\. BCM43142 802\.11b/g/n [105b:e07e]
+  Flags: bus master, fast devsel, latency 0, IRQ 17
+  Memory at 90600000 (64\-bit, non\-prefetchable) [size=32K]
+  Capabilities: <access denied>
+  Kernel driver in use: wl
+  Kernel modules: bcma, wl
+
+03:00\.0 Ethernet controller [0200]: Realtek Semiconductor Co\., Ltd\. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller [10ec:8168] (rev 0c)
+  Subsystem: Acer Incorporated [ALI] RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller [1025:0933]
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Unfortunately, some systems that I tried (Antergos, Debian, Linux Mint Cinnamon) did not configure the device correctly; while \fBBCM\fR did show up when running \fBdmesg\fR, there was no entry for wireless in the system tray\.
+.
+.P
+A search revealed the following, which did work:
+.
+.IP "" 4
+.
+.nf
+
+sudo apt\-get \-\-reinstall install bcmwl\-kernel\-source
+.
+.fi
+.
+.IP "" 0
+.
+.SH "Make Another Machine Visible in File Manager"
+FUSE \fI\fR, OSX Fuse \fI\fR
+.
+.P
+Simply install the following package: sshfs, then add yourself to the fuse group:
+.
+.IP "" 4
+.
+.nf
+
+sudo apt\-get install sshfs
+sudo gpasswd \-a $USER fuse
+.
+.fi
+.
+.IP "" 0
+.
+.P
+\fI!\-\- ################################################################################################### \-\-\fR
+.
+.SH "Get io\.js Up and Running"
+.
+.SS "<em>Update</em> Now with Node Version Management Support"
+\fBUpdate of Update\fR To obtain the latest version of \fBn\fR (0\.2\.14 as of this writing) which does include support for io\.js, simply do
+.
+.IP "" 4
+.
+.nf
+
+npm install \-g tj/n
+.
+.fi
+.
+.IP "" 0
+.
+.P
+With that version, \fBn \-\-help\fR will give you
+.
+.IP "" 4
+.
+.nf
+
+  Usage: n [options/env] [COMMAND] [args]
+
+  Environments:
+    n [COMMAND] [args]            Uses default env (node)
+    n node [COMMAND] [args]       Sets env as node
+    n io [COMMAND]                Sets env as io
+
+  Commands:
+
+    n                              Output versions installed
+    n latest                       Install or activate the latest node release
+    n stable                       Install or activate the latest stable node release
+    n <version>                    Install node <version>
+    n use <version> [args \.\.\.]     Execute node <version> with [args \.\.\.]
+    n bin <version>                Output bin path for <version>
+    n rm <version \.\.\.>             Remove the given version(s)
+    n prev                         Revert to the previously activated version
+    n \-\-latest                     Output the latest node version available
+    n \-\-stable                     Output the latest stable node version available
+    n ls                           Output the versions of node available
+
+  (iojs):
+    n io latest                    Install or activate the latest iojs release
+    n io stable                    Install or activate the latest stable iojs release
+    n io <version>                 Install iojs <version>
+    n io use <version> [args \.\.\.]  Execute iojs <version> with [args \.\.\.]
+    n io bin <version>             Output bin path for <version>
+    n io rm <version \.\.\.>          Remove the given version(s)
+    n io \-\-latest                  Output the latest iojs version available
+    n io \-\-stable                  Output the latest stable iojs version available
+    n io ls                        Output the versions of iojs available
+
+  Options:
+
+    \-V, \-\-version   Output current version of n
+    \-h, \-\-help      Display help information
+
+  Aliases:
+
+    iojs    io
+    which   bin
+    use     as
+    list    ls
+    \-       rm
+.
+.fi
+.
+.IP "" 0
+.
+.P
+In order to install io\.js, simply do
+.
+.IP "" 4
+.
+.nf
+
+n io latest
+.
+.fi
+.
+.IP "" 0
+.
+.P
+or similar\.
+.
+.P
+.
+.P
+.
+.SS "Upgrade to <code>npm@3</code>"
+.
+.nf
+
+npm install \-g npm@3
+.
+.fi
+.
+.SS "Solving that Compiliation Issue"
+One great thing about NodeJS / iojs is that you can do a \fIlot\fR in plain JavaScript, meaning you get a high degree of portability with your software\.
+.
+.P
+However, there is also quite a number of important modules like say, \fBlevelup\fR and \fBfuse\-bindings\fR, that need some C code to compile upon installation\. This can suck a lot when you have to use multiple versions of NodeJS at the same time; for example, i\'m using NodeJS 0\.12\.x for most things, but have some legacy stuff that needs 0\.10\.x, and my NWJS app uses iojs v2\.3\.1, so i often have to switch versions\.
+.
+.P
+Switching versions is easy when you use \fBn\fR, but too often compilation steps will fail\. When you try to install a module and you get this error message:
+.
+.IP "" 4
+.
+.nf
+
+gyp ERR! stack Error: 404 response downloading https://nodejs\.org/dist/v2\.4\.0/node\-v2\.4\.0\.tar\.gz
+.
+.fi
+.
+.IP "" 0
+.
+.P
+you know you\'re \fBgyp\fR version is wrong\. The easiest way to fix that is to use \fBnode\-gyp\-install\fR \fIhttps://www\.npmjs\.com/package/node\-gyp\-install\fR:
+.
+.IP "" 4
+.
+.nf
+
+npm install \-g node\-gyp\-install
+node\-gyp\-install
+.
+.fi
+.
+.IP "" 0
+.
+.P
+After that, re\-try to \fBnpm install <whatever>\fR, and it \fIshould\fR work!
+.
+.SS "For the Cautious: Use a VM to try out io\.js"
+You may have heard of io\.js, a forward\-thinking port of NodeJS \fIhttps://iojs\.org/\fR\. If you\'re on OSX then downloading and opening the installer \fB*\.pkg\fR will greet you with a message saying that it will not only install the \fBiojs\fR binary, it will also symlink \fBnode\fR to \fBiojs\fR\. Depending on a lot of things you may or may not want to take the risk\. An unanswered question is how Node version managers will react to the situation\.
+.
+.P
+For sure to just try out io\.js a virtual machine would be a better option, at least for the time being\. And it\'s quite easy to do:
+.
+.IP "" 4
+.
+.nf
+
+mkdir iojs
+cd iojs
+vagrant init ubuntu/trusty64
+vagrant up
+vagrant ssh
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Next, avail yourself of the current iojs tar package; i did that using the browser on the host and putting the \fBiojs\-v1\.0\.1\-linux\-x64\.tar\.xz\fR archive into the \fBiojs\fR folder, which from inside the guest is accessible as \fBcd /vagrant\fR\. From there, unpack files and issue four \fBmv\fR moves:
+.
+.IP "" 4
+.
+.nf
+
+sudo chown \-R vagrant:vagrant /usr/local
+cd /vagrant
+tar xvfJ iojs\-v1\.0\.1\-linux\-x64\.tar\.xz
+mv /vagrant/iojs\-v1\.0\.1\-linux\-x64/bin/iojs          /usr/local/bin/
+mv /vagrant/iojs\-v1\.0\.1\-linux\-x64/bin/node          /usr/local/bin/
+mv /vagrant/iojs\-v1\.0\.1\-linux\-x64/bin/npm           /usr/local/bin/
+mv /vagrant/iojs\-v1\.0\.1\-linux\-x64/lib/node_modules  /usr/local/lib/
+.
+.fi
+.
+.IP "" 0
+.
+.P
+That\'s it! Test it with, e\.g\.,
+.
+.IP "" 4
+.
+.nf
+
+npm install \-g coffee\-script
+.
+.fi
+.
+.IP "" 0
+.
+.P
+As i said, this is a \'forward\' thinking NodeJS fork, and indeed, we have generators without any command line flag\. From the \fBcoffee\fR REPL:
+.
+.IP "" 4
+.
+.nf
+
+process\.versions
+  # { http_parser: \'2\.3\',
+  #   node: \'1\.0\.1\',
+  #   v8: \'3\.31\.74\.1\',
+  #   uv: \'1\.2\.0\',
+  #   zlib: \'1\.2\.8\',
+  #   ares: \'1\.10\.0\-DEV\',
+  #   modules: \'42\',
+  #   openssl: \'1\.0\.1k\' }
+g = \-> yield 42
+g()\.next()
+  #   { value: 42, done: false }
+.
+.fi
+.
+.IP "" 0
+.
+.P
+\fI!\-\- ################################################################################################### \-\-\fR
+.
+.SH "Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit"
+.
+.SS "On the Host"
+.
+.P
+Grab an installer at https://www\.vagrantup\.com/downloads\.html and run it\. Then, create a folder of your liking (which i chose to call \fBdrifter\fR) which will both hold the \fBVagrantfile\fR that captures the setup of one specific VM and acts as the synced (shared) folder that allows simple data exchange between guest and host\. From the terminal, \fBcd\fR into that folder, choose a VM name from https://vagrantcloud\.com/ and install everything (which should take a minute or two)\.
+.
+.P
+\fBNOTE\fR you may want to have a look at sections \fICreate a Mapped Port\fR and \fIEnabling NFS for Synced (a\.k\.a\. Shared) Folder\fR, below, to learn how to modify \fBVagrantfile\fR before you do your first \fBvagrant up\fR (which will do the installation step; \fBvagrant init\fR just provides the configuration files)\. \fBRemember\fR that when you get asked for a password, that is your password on the \fIhost\fR—you never need a password on the guest (unless you somehow configure Vagrant for that)\.
+.
+.IP "" 4
+.
+.nf
+
+mkdir drifter
+cd drifter
+vagrant init ubuntu/trusty64
+vagrant up
+vagrant ssh
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The most easiest way to get those elusive guest additions:
+.
+.IP "" 4
+.
+.nf
+
+vagrant init debian/jessie64
+vagrant box update
+vagrant plugin install vagrant\-vbguest
+vagrant halt
+vagrant up
+vagrant ssh
+.
+.fi
+.
+.IP "" 0
+.
+.SS "On the Guest"
+.
+.SS "Install <code>node</code>, <code>n</code>, Own Your Files"
+Here\'s the painlessest way that i\'m aware of to get no less than:
+.
+.IP "\(bu" 4
+\fBnode\fR installed, with
+.
+.IP "\(bu" 4
+\fBn\fR, a very decent Node Version Manager, and
+.
+.IP "\(bu" 4
+all your files are belong to you—you only need \fBsudo\fR to install dependencies and set a few filesystem rights; from there on, \fBnpm install \-g \.\.\.\fR will work without \fBsudo\fR\.
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+sudo apt\-get install git build\-essential htop make
+git clone https://github\.com/visionmedia/n
+
+cd n
+sudo chown \-R vagrant:vagrant /usr/local
+make install
+
+n latest
+n stable
+# or e\.g\.
+n 5\.12\.0
+
+npm install \-g npm coffee\-script doctoc
+
+## now we have two Node versions and can use `npm`:
+npm install \-g whatever
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Installing slap; Remarks on Installing Node, npm"
+.
+.P
+slap \fIhttps://github\.com/slap\-editor/slap/issues/228\fR is a Sublime\-like editor that runs in the terminal; I first found myself unable to install it properly until I found out my NodeJS installation—more specifically: my global modules folder—was kind of borked\. The following contains some advice for NodeJS nಠಠbs and everyone who experiences failure when trying to \fBnpm install \-g\fR something\.
+.
+.P
+\fB1: Install NodeJS\fR
+.
+.P
+First of all, slap appears to be compatible (so far) with the newest NodeJS (v5 as of this writing)\. To me, the painlessest way to get the newest versions of Nodejs, \fBnpm\fR and \fBn\fR (NodeJS version management, highly recommended) is to follow the outline in my how\-to \fIhttps://github\.com/loveencounterflow/how\-to#install\-node\-n\-own\-your\-files\fR; roughly, clone \fBn\fR, build it, and use it once to get the newest NodeJS (should come with \fBnpm\fR v3):
+.
+.IP "" 4
+.
+.nf
+
+git clone https://github\.com/visionmedia/n
+cd n
+sudo chown \-R <user>:<user> /usr/local
+make install
+n latest
+n stable
+.
+.fi
+.
+.IP "" 0
+.
+.P
+I write this because people always ask how to best install NodeJS\. Debianists and Ubuntuers \fBdon\'t let their friends install NodeJS with \fBapt\-get\fR\fR—that will get you an outdated version, naming conflicts, insane file rights setups, what have you\.
+.
+.P
+\fB2: Cleanup Global NPM Modules\fR
+.
+.P
+This one\'s a biggy: In case you\'ve been running NodeJS for as long as I have, you\'ll likely have ooogles of global modules installed over the years\. Given the fast evolution of both Node and \fBnpm\fR, there\'s bound to be some bit rot, so it\'s time to clear up that space\. I was unable to install slap and got all kinds of weird errors until I resolved to \fBmanually remove my \fB~/npm/lib/node_modules\fR folder\fR (actually I renamed it for reference and created a new \fBnode_modules\fR)\.
+.
+.P
+\fB3: Install slap\fR
+.
+.P
+The official slap docs recommend to \fBsudo npm install \-g slap@latest\fR\. Not sure whether that \fBsudo\fR gives you important stuff that you don\'t get without (readers please fill me out on that one), but, generally speaking, the majority of people living on planet NodeJS prefer \fBuser\-owned installs\fR, \fBuser\-owned \fB/usr/local\fR directories\fR, and so on\. \fBThis also happens to be the way of \fBhomebrew\fR, and is generally considered A Good Idea\fR\. For this reason, i just did
+.
+.IP "" 4
+.
+.nf
+
+npm install \-g slap
+.
+.fi
+.
+.IP "" 0
+.
+.P
+which appears to work\. Again, not sure what \fBslap@latest\fR gives you that you don\'t get without it; most of the time, you don\'t add version markers to \fBnpm install\fR\.
+.
+.P
+I can strongly recommend to \fBnpm install \-g npm\-check\fR \fIhttps://github\.com/dylang/npm\-check\fR, which will give you the greatest way to control \fBnpm\fR dependencies\. \fBnpm\-check \-u\fR gives you an interactive prompt for project\-local files (with list selection! and install\-now option!!); \fBnpm\-check \-u \-g\fR does the same for global modules (including slap and, behold, \fBnpm\fR itself!!)\.
+.
+.SS "<em>Update</em> Install CoffeeScript with Generators and <code>yield</code>"
+\fBAs of 2015\-01\-29, CoffeeScript v1\.9\.1 has generators / \fByield\fR support baked right into the mainstream distribution, meaning whereever you \fBnpm install coffee\-script\fR, you wild get support for this exciting feature (of course, provided your JS VM also supports it)\. For the details, have a look at https://github\.com/jashkenas/coffeescript/compare/1\.8\.0\.\.\.1\.9\.0 or http://coffeescript\.org/#changelog\.\fR
+.
+.P
+.
+.P
+.
+.P
+.
+.P
+With that version of CS installed, you can now try this:
+.
+.IP "" 4
+.
+.nf
+
+g = \->
+  yield 42
+  yield 108
+
+f = g()
+log f\.next()
+log f\.next()
+log f\.next()
+.
+.fi
+.
+.IP "" 0
+.
+.P
+While this does not look like anything useful on first sight, it opens a whole new world of possibilities for some very important classes of problems\. Again, head over to the readme mentioned above and don\'t forget it\'s obsolete and in need of a re\-write; you should be able to run everything, but \fBavoid the star\fR when using CoffeeScript (it\'s implicit now\. \fBUpdate\fR code samples corrected, but it still shows up in the text)\. Also, remember to run your scripts with \fBnode \-\-harmony \.\.\.\fR (as of NodeJS 0\.11\.14)\.
+.
+.SS "Create a Mapped Port"
+If you plan to run a server of whatever kind inside your shiny new Vagrant VM, you probably also want to make that server visible from the host\. One to accomplish that is to set up a forwarded port\. Let\'s open the host\'s \fBVagrantfile\fR in an editor to do that:
+.
+.IP "" 4
+.
+.nf
+
+cd drifter
+open \-t \./Vagrantfile
+.
+.fi
+.
+.IP "" 0
+.
+.P
+In the Vagrantfile, look for an outcommented line like the below, uncomment it and choose the appropriate settings\. In my case, i chose to map the guest\'s port 3000 to the same port on the host, so i can run the same software in the host or in the VM\. Keep in mind though that a VM with such a setting running in the background will cause host applications trying to offer connectivity on that very port to fail (more or less) silently\.
+.
+.IP "" 4
+.
+.nf
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine\. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine\.
+  config\.vm\.network "forwarded_port", guest: 3000, host: 3000
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Enabling NFS for Synced (a\.k\.a\. Shared) Folder"
+My use case for setting up a Vagrant VM is that i want to use NodeJS 0\.11\.x as much as possible, as it offers generators when started with the \fB\-\-harmony\fR switch\. Unfortunately, you can\'t at this time (December, 2014) \fBnpm install level\fR under NodeJS > 0\.10\.x, so it\'s going to be difficult if your whole application relies on new\-fangled stuff like \fByield\fR\.
+.
+.P
+Fortunately, though, setting up VMs has become very fast and straightforward, and networking (think bi\-directional WebSockets) has evolved a lot, so you can always create a separate environment with bespoke dependencies, and this is exactly what i need\.
+.
+.P
+At some point when i hoped i had everything up and running:
+.
+.IP "\(bu" 4
+\fBn 0\.10\.35\fR; NodeJS correct version? Check!
+.
+.IP "\(bu" 4
+\fBnpm install level\fR; LevelDB binaries compiled? Check!
+.
+.IP "\(bu" 4
+\fBrequire \'level\'; db = level \'\.\./data/mydb\'\fR; LevelDB instance fine? Check!
+.
+.IP "\(bu" 4
+Let\'s put a value into the DB with \fBdb\.put key, value ( error ) \-> \.\.\.\fR\. OAWH:
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+OpenError: IO error: \./users\.db/MANIFEST\-000001: Invalid argument
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Turns out the underlying VirtualBox implementation has known issues with \fBmmap\fRped files that LevelDB relies on\. Fortunately, there\'s a workaround: use an NFS (Network File System) share\.
+.
+.P
+On the host, try \fBsudo nfsd status\fR; you should see an output like
+.
+.IP "" 4
+.
+.nf
+
+nfsd service is enabled
+nfsd is running (pid 2140, 8 threads)
+.
+.fi
+.
+.IP "" 0
+.
+.P
+You may have to \fBsudo nfsd enable\fR, and/or \fBsudo touch /etc/exports\fR, and/or \fBsudo nfsd start\fR, and/or reboot to get the NFS demon to run\.
+.
+.P
+\fBNote\fR that Vagrant may try to access \fB/etc/exports\fR when starting up; if you started without \fBsudo\fR, you will be asked to enter your password\. That\'s your user password on the \fIhost\fR, not the one on the \fIguest\fR (which you do not know, as all authentication on the guest is done implicitly)\.
+.
+.P
+Then, in the \fBVagrantfile\fR, look for the below settings and edit them; i chose to overwrite the existing setting in the first case (so i get an NFS share for the standard shared folder, which is the folder the \fBVagrantfile\fR resides in on the host, and \fB/vagrant\fR on the guest), and to use the default suggestion for the second case\.
+.
+.IP "" 4
+.
+.nf
+
+  # Share an additional folder to the guest VM\. The first argument is
+  # the path on the host to the actual folder\. The second argument is
+  # the path on the guest to mount the folder\. And the optional third
+  # argument is a set of non\-required options\.
+  config\.vm\.synced_folder "\.", "/vagrant", type: "nfs"
+
+  # Create a private network, which allows host\-only access to the machine
+  # using a specific IP\.
+  config\.vm\.network "private_network", ip: "192\.168\.33\.10"
+.
+.fi
+.
+.IP "" 0
+.
+.SH "Command Line: Show Errors in Red"
+.
+.nf
+
+command 2> >(while read line; do echo \-e "\ee[01;31m$line\ee[0m" >&2; done)
+.
+.fi
+.
+.SH "Notes on the Frequently Spinning\-Up Disk Problem"
+.
+.nf
+
+ 1494  sudo apt\-get install smartmontools
+ 1495  sudo smartctl \-a /dev/
+ 1496  df
+ 1497  sudo smartctl \-a /dev/sda1
+ 1498  sudo smartctl \-a /dev/sda1 | grep "Load_Cycle_Count"
+ 1499  sudo smartctl \-a /dev/sda | grep "Load_Cycle_Count"
+ 1500  cat /etc/acpi/asus\-wireless\.sh
+ 1501  l /etc/acpi/
+ 1502  laptop_mode
+ 1503  hdparm \-B 255 /dev/sda
+ 1504  sudo hdparm \-B 255 /dev/sda
+ 1505  sudo hdparm \-B 254 /dev/sda
+ 1506  sudo smartctl \-a /dev/sda | grep "Load_Cycle_Count"
+ 1507  echo `sudo smartctl \-a /dev/sda | grep Load_Cycle_Count` " | " `date` >> ~/temp/load_count\.txt
+ 1508  cat ~/temp/load_count\.txt
+.
+.fi
+.
+.SH "Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu"
+.
+.P
+While there\'s a lot of software that you can and should install on Debianish / Ubuntish systems, there\'s also a number of software titles you should definitely \fInot\fR install that way; examples include
+.
+.IP "\(bu" 4
+NodeJS, which will always be outdated when installed via \fBapt\fR, will get the wrong name (\fBnodejs\fR instead of \fBnode\fR), and will not give you the opportunity to just\-so switch between versions as you can with \fBn\fR or \fBnvm\fR;
+.
+.IP "\(bu" 4
+Open/LibreOffice; as I argue in the Readme about Writing macros for LibreOffice with Coffeescript \fIhttps://github\.com/loveencounterflow/coffeelibre#remarks\-for\-running\-aoo\-on\-ubuntu\fR, OpenOffice in Ubuntu is annoyingly broken and somewhat hard to replace with a reasonable LibreOffice installation;
+.
+.IP "\(bu" 4
+and, sadly, TeX Live\. Turns out while you can choose between a \'basic\' and a \'full\' installation of TeX Live using \fBapt\-get\fR, neither will be \'as full\' as the one that\'d get with the official TeX Live download\. Case in point: a command like \fBtlmgr info xcolor\fR is going to fail miserably with an \fBapt\fR installation of TeX Live, and there seems to be no easy way to fix that \fIhttp://tex\.stackexchange\.com/questions/137428/tlmgr\-cannot\-setup\-tlpdb\fR\.
+.
+.IP "" 0
+.
+.P
+I recommend using https://github\.com/scottkosty/install\-tl\-ubuntu instead; you can just clone the repo to some \fBtmp\fR location and run the install script with \fBsudo \./install\-tl\-ubuntu\fR, very simple\.
+.
+.P
+\fI!\-\- ################################################################################################### \-\-\fR
+.
+.SH "How to Keep Order in an Asynchronous World"
+.
+.SS "The Problem"
+You use NodeJS streams and pipes to read data from a database; let\'s assume you have a collection of flight connection data and want to sort by price, show up to 10 connections, and exclude all flights the are priced above a certain \fBlimit\fR\. In principle, your setup could look similar to this:
+.
+.IP "" 4
+.
+.nf
+
+( db\.create_readstream query )
+  \.pipe filter ( id, price ) \-> return price < limit
+  \.pipe sort_by_price_ascending
+  \.pipe at_most 10
+  \.pipe output
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The way we have set up things means \fBoutput\fR will contain a list of up to 10 flight IDs and prices, sorted with the cheapest flights first\. That\'s fine, but also a little spartanic\. Luckily, you\'ve got a stream transformer \fBfind_details\fR that will take a flight ID, send a request to the database or a website to fill out the many pertinent details that people want to know before booking\. You stick that transformer into your pipeline and are (\.\.\.almost) good to go:
+.
+.IP "" 4
+.
+.nf
+
+( db\.create_readstream query )
+  \.pipe filter ( id, price ) \-> return price < limit
+  \.pipe sort_by_price_ascending
+  \.pipe at_most 10
+  \.pipe find_details
+  \.pipe output
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Unfortunately, since DB and HTTP requests are inherently asynchronous in NodeJS, this means you just destroyed the ordering of your results\. In this case it wouldn\'t be a big deal, since we\'d only have to resort a dozen pieces, but in the actual use case that this model use case is based on i had tens of thousands of data items\. My workaround was to cache the responses of the details query in a list, and when the stream signalled it was done, i sorted the list and re\-sent each item one by one\.
+.
+.P
+This is not only annoying from a theoretical point of view (ideally, streams should manage pieces one by one and avoid buffering where possible), it also means more memory consumption and poorer performance\. And it entails you\'ll have to look for yet another workaround if the amount of data to be processed should ever outgrow available RAM\. Can\'t we make it so that the pieces of data in the stream somehow keep the order in which the requests got \fIsent\fR, not the order in which the responses \fIarrived\fR?
+.
+.SS "The Solution"
+So i thought about building a list structure—a queue—of requests that i would then match with asynchronous responses as they come in; whenever the oldest item in the request queue gets matched with an item in the response queue, then sending the response into the stream and deleting request and response from their queues would be safe\. Less buffering, ordering preserved\. Yay\.
+.
+.P
+Turns out this functionality is already available as highland\.js/parallel \fIhttp://highlandjs\.org/#parallel\fR:
+.
+.IP "" 4
+.
+.nf
+
+_           = require \'highland\'
+concurrency = 5
+
+_ ( db\.create_readstream query )
+  \.pipe     filter ( id, price ) \-> return price < limit
+  \.pipe     sort_by_price_ascending
+  \.pipe     at_most 10
+  \.map      find_details
+  \.parallel concurrency # send up to 5 requests at the same time
+  \.pipe     output
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The key here is to use Highland\'s \fBmap\fR and \fBparallel\fR stream methods in tandem\.
+.
+.SH "Installing ZeroMQ (a\.k\.a ZMQ, 0MQ, ØMQ)"
+.
+.SS "\.\.\. on OSX"
+.
+.nf
+
+brew install zeromq
+.
+.fi
+.
+.P
+This will give you a ZMQ version 4 installation (as of early 2015)\.
+.
+.SS "\.\.\. on Debian / Ubuntu"
+.
+.nf
+
+# thx to http://askubuntu\.com/a/388770/13669
+sudo add\-apt\-repository ppa:chris\-lea/zeromq
+sudo apt\-get update
+sudo apt\-get install libzmq3\-dbg libzmq3\-dev libzmq3
+.
+.fi
+.
+.P
+Debian:
+.
+.IP "" 4
+.
+.nf
+
+sudo apt\-get install python\-software\-properties
+.
+.fi
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+https://packages\.debian\.org/sid/libzmq3\-dev
+.
+.fi
+.
+.IP "" 0
+.
+.SH "Cycling through Firefox Tabs in Most Recently Used (MRU) Order"
+Annoyingly, Firefox uses \'linear\' tab switching be default, meaning that when you \fBctrl+tab\fR to another tab and then \fBctrl+tab\fR again, you\'ll not get back to to the original tab but to the next tab in the row\. You can fix that by going to \fBabout:config\fR (type it into the address bar), then searching for the entry \fBbrowser\.ctrlTab\.previews\fR (typing \fBctrlt\fR into the search field does it)\. Double\-click that entry to change it to \fBtrue\fR\.
+.
+.SH "Find Directory by Partial Name"
+.
+.nf
+
+find / \-type d \-iname \'*keyboard*\' | less \-SNR \-#19
+.
+.fi
+.
+.SH "Mirror / Download a Website from Archive\.Org\'s WayBack Machine"
+.
+.SS "HtTrack Won\'t Work"
+HtTrack \fIhttps://www\.httrack\.com/\fR is a great tool but it doesn\'t take kindly to Archive\.Org \fIhttps://web\.archive\.org\fR\'s\' URL structure\. The problem is that (1) whenever the WayBack Machine crawls a website and makes a snapshot, that snapshot will only include URLs that are different from the last snapshot; (2) those changed addresses will be made accessible to the world under a URL that starts with https://web\.archive\.org/web/, then has a timestamp looking like \fB20160907003604\fR, followed by the mirrored site\'s URL\.
+.
+.P
+When you click your way through the mirrored site, you will often jump between timestamps\. Now you \fIcan\fR use HtTrack with wildcards, like so:
+.
+.IP "" 4
+.
+.nf
+
+httrack https://web\.archive\.org/web/*/http://example\.com/index\.cfm \-\-robots=N \-\-max\-rate=3000
+.
+.fi
+.
+.IP "" 0
+.
+.P
+and this does work in principle, \fBbut\fR what you\'ll get is a long, looooong list of timestamped folders with tiny bits of data in each one, which makes it almost impossible to use\.
+.
+.SS "Wayback_Machine_Downloader Does Work"
+.
+.P
+Use Wayback_Machine_Downloader \fIhttps://github\.com/hartator/wayback\-machine\-downloader\fR instead:
+.
+.IP "" 4
+.
+.nf
+
+# what i did to ensure my ruby is v2+:
+# echo $PATH
+# export PATH=/Users/flow/bin:$PATH
+# cd ~/bin
+# ln \-s /usr/local/bin/ruby
+# which ruby
+# ruby \-v
+gem install wayback_machine_downloader
+cd example\-com/
+wayback_machine_downloader \-\-to 20160830000000 http://example\.com
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Remove that Annoying Enter Your Password Popup in Mint, Ubuntu"
+Open Seahorse Password and Keyring manager, create a new keyring without a password, make it the default\.
+.
+.P
+See http://askubuntu\.com/a/735463
+.
+.SH "Searching in Files: ag, sag"
+.
+.SH "On\-Screen Keyboard: onboard"
+This is the best on\-screen keyboard I\'ve seen so far:
+.
+.IP "" 4
+.
+.nf
+
+sudo apt\-get install onboard
+onboard\-settings
+onboard
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Unfortunately, the sources are hosted on launchpad \fIhttps://launchpad\.net/onboard\fR, which is a horrible site that makes SourceForge look great and accessible, if you ask me\. I did manage to fork the sources using \fIgit\-remote\-bzr\fR, and you know what, without doing anything else I can now at least look inside the code just so, online, and peruse the sources for hints on usage, or maybe there\'s even an official documentation? Wait, big parts (75%) of onboard are written in Python? You couldn\'t have guessed that much from clicking through the launchpad repo pages for hours\.
+.
+.SH "Cloning, Using, Pushing to bzr (Bazaar) Repos with git"
+https://github\.com/felipec/git\-remote\-bzr
+.
+.IP "" 4
+.
+.nf
+
+sudo apt\-get install bzr
+wget https://raw\.github\.com/felipec/git\-remote\-bzr/master/git\-remote\-bzr \-O ~/bin/git\-remote\-bzr
+chmod +x ~/bin/git\-remote\-bzr
+
+git clone "bzr::lp:ubuntu/hello"
+.
+.fi
+.
+.IP "" 0
+.
+.IP "\(bu" 4
+A clone of the onboard LaunchPad Bazaar repo \fIhttps://code\.launchpad\.net/onboard\fR is available as a git repo under https://github\.com/loveencounterflow/onboard \fIhttps://github\.com/loveencounterflow/onboard\fR\.
+.
+.IP "\(bu" 4
+To toggle the keyboard, execute this command line:
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+dbus\-send \-\-type=method_call \-\-print\-reply \-\-dest=org\.onboard\.Onboard /org/onboard/Onboard/Keyboard org\.onboard\.Onboard\.Keyboard\.ToggleVisible
+.
+.fi
+.
+.IP "" 0
+.
+.P
+I put the above line into my Linux Mint / Preferences / Keyboard / Shortcuts / Custom Shortcuts settings (and bound it to the pretty much unused \fBpause\fR key), so now I can toggle the keyboard with a single keystroke\.http://www\.heise\.de/newsticker/meldung/Patch\-stabilisiert\-Linux\-auf\-Atom\-Celerons\-3337456\.html
+.
+.IP "\(bu" 4
+Mozilla Bug #109051 \fIhttps://bugzilla\.kernel\.org/show_bug\.cgi?id=109051#c434\fR
+.
+.IP "\(bu" 4
+c6off+c7on\.sh \fIhttps://bugzilla\.kernel\.org/attachment\.cgi?id=223851\fR
+.
+.IP "\(bu" 4
+cstateInfo\.sh \fIhttps://bugzilla\.kernel\.org/attachment\.cgi?id=223861\fR
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+~/bin ► \./cstateInfo\.sh
+cpu0 State  Name     Disabled  Latency  Residency         Time    Usage
+         0  POLL            0        0          0     15750446     7676
+         1  C1\-BYT          0        1          1    187784220   506757
+         2  C6N\-BYT         0      300        275    309130057   374376
+         3  C6S\-BYT         0      500        560   4646966391  1864384
+         4  C7\-BYT          0     1200       4000   9156699917   832033
+         5  C7S\-BYT         0    10000      20000  19508763201   324992
+cpu1 State  Name     Disabled  Latency  Residency         Time    Usage
+         0  POLL            0        0          0     24124917     8885
+         1  C1\-BYT          0        1          1    225946256   697915
+         2  C6N\-BYT         0      300        275    352557953   470276
+         3  C6S\-BYT         0      500        560   4567333192  2017181
+         4  C7\-BYT          0     1200       4000  11112293359  1025444
+         5  C7S\-BYT         0    10000      20000  17413428249   387377
+cpu2 State  Name     Disabled  Latency  Residency         Time    Usage
+         0  POLL            0        0          0     33569810    21979
+         1  C1\-BYT          0        1          1    442760166   785786
+         2  C6N\-BYT         0      300        275    441597919   524631
+         3  C6S\-BYT         0      500        560   4149672467  1941720
+         4  C7\-BYT          0     1200       4000   6954219391   598363
+         5  C7S\-BYT         0    10000      20000  21498265463   339007
+cpu3 State  Name     Disabled  Latency  Residency         Time    Usage
+         0  POLL            0        0          0     54960543    29888
+         1  C1\-BYT          0        1          1    539278855   907380
+         2  C6N\-BYT         0      300        275    482857299   587530
+         3  C6S\-BYT         0      500        560   4089241789  1975537
+         4  C7\-BYT          0     1200       4000   6742161656   559788
+         5  C7S\-BYT         0    10000      20000  21723411756   331348
+.
+.fi
+.
+.IP "" 0
+.
+.P
+In \fB/etc/rc\.local\fR:
+.
+.IP "" 4
+.
+.nf
+
+[\.\.\.]
+/home/flow/bin/c6off+c7on\.sh || exit 1
+
+exit 0
+.
+.fi
+.
+.IP "" 0
+.
+.IP "" 4
+.
+.nf
+
+# e\.g\. in ~/\.bashrc or on the command line:
+# just to see whether https://github\.com/loveencounterflow/how\-to#bay\-trail\-chips\-linux\-atom\-celerons
+# worked:
+cstateInfo\.sh
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Do
+.
+.IP "" 4
+.
+.nf
+
+less /proc/cpuinfo
+.
+.fi
+.
+.IP "" 0
+.
+.P
+to find out whether your CPU matches any of these possibly affected Intel® Processors: * Atom™ E3805 * Atom™ E3815 * Atom™ E3825 * Atom™ E3826 * Atom™ E3827 * Atom™ E3845 * Atom™ Z3735D * Atom™ Z3735E * Atom™ Z3735F * Atom™ Z3735G * Atom™ Z3736F * Atom™ Z3736G * Atom™ Z3740 * Atom™ Z3740D * Atom™ Z3745 * Atom™ Z3745D * Atom™ Z3770 * Atom™ Z3770D * Atom™ Z3775 * Atom™ Z3775D * Atom™ Z3785 * Atom™ Z3795 * Celeron® J1750 * Celeron® J1800 * Celeron® J1850 * Celeron® J1900 * Celeron® N2805 * Celeron® N2806 * Celeron® N2807 * Celeron® N2808 * Celeron® N2810 * Celeron® N2815 * Celeron® N2820 * Celeron® N2830 * Celeron® N2840 * Celeron® N2910 * Celeron® N2920 * Celeron® N2930 * Celeron® N2940 * Pentium® A1020 * Pentium® J2850 * Pentium® J2900 * Pentium® N3510 * Pentium® N3520 * Pentium® N3530 * Pentium® N3540

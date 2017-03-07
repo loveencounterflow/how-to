@@ -15,6 +15,7 @@
     - [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
     - [On the Host](#on-the-host)
       - [Install Vagrant](#install-vagrant)
+      - [install Guest Additions](#install-guest-additions)
     - [On the Guest](#on-the-guest)
     - [Install `node`, `n`, Own Your Files](#install-node-n-own-your-files)
     - [Installing slap; Remarks on Installing Node, npm](#installing-slap-remarks-on-installing-node-npm)
@@ -43,6 +44,12 @@
   - [On-Screen Keyboard: onboard](#on-screen-keyboard-onboard)
   - [Cloning, Using, Pushing to bzr (Bazaar) Repos with git](#cloning-using-pushing-to-bzr-bazaar-repos-with-git)
 - [Bay Trail Chips, Linux, Atom-Celerons](#bay-trail-chips-linux-atom-celerons)
+- [VisualStudio Code (VSC)](#visualstudio-code-vsc)
+- [Diskspace Analyzers](#diskspace-analyzers)
+  - [qdirstat](#qdirstat)
+- [Git GUIs](#git-guis)
+  - [gitkraken](#gitkraken)
+- [Git Gotcha: Git Repo Too Big](#git-gotcha-git-repo-too-big)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1006,5 +1013,110 @@ to find out whether your CPU matches any of these possibly affected Intel® Proc
 * Pentium® N3520
 * Pentium® N3530
 * Pentium® N3540
+
+# VisualStudio Code (VSC)
+
+# Diskspace Analyzers
+
+## qdirstat
+
+Successor to kdirstat: https://github.com/shundhammer/qdirstat
+
+Install on Ubuntu-ish systems using Nathan Rennie-Waldock's
+[QDirStat PPA](https://launchpad.net/~nathan-renniewaldock/+archive/ubuntu/qdirstat):
+
+```bash
+sudo add-apt-repository ppa:nathan-renniewaldock/qdirstat
+sudo apt-get update
+sudo apt-get install qdirstat
+```
+
+# Git GUIs
+
+## gitkraken
+
+doesn't run on Linux Mint Cinnamon, it seems:
+
+```
+/usr/lib ► gitkraken
+Node started time: 1488472940858
+libcurl.so.4: cannot open shared object file: No such file or directory
+Error: libcurl.so.4: cannot open shared object file: No such file or directory
+    at Error (native)
+    at process.module.(anonymous function) [as dlopen] (ELECTRON_ASAR.js:158:20)
+    at Object.Module._extensions..node (module.js:568:18)
+    at Object.module.(anonymous function) [as .node] (ELECTRON_ASAR.js:169:18)
+    at Module.load (module.js:456:32)
+    at tryModuleLoad (module.js:415:12)
+    at Function.Module._load (module.js:407:3)
+    at Module.require (module.js:466:17)
+    at require (internal/module.js:20:19)
+    at Object.<anonymous> (/usr/share/gitkraken/resources/app.asar/node_modules/nodegit/dist/nodegit.js:11:12)
+    at Module._compile (module.js:541:32)
+    ...
+```
+
+even after
+
+```bash
+sudo ln -sf /usr/lib/x86_64-linux-gnu/libcurl-gnutls.so.4.4.0 libcurl.so.4
+```
+
+and, as recommended by nodegit:
+
+```bash
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install libstdc++-4.9-dev
+```
+
+# Git Gotcha: Git Repo Too Big
+
+Sometimes you relentlessly check in everything and make your repo grow unwieldy, sometimes to the point that
+remotes give up with an out of memory (look out for that `error: pack-objects died of signal 9` line).
+
+The first step to remedy is to know which files are checked in and cause what magnitude on storage / memory
+strain on your `git`. Git itself remains opaque to user demands like this, but fortunately there is this
+friendly script to be gleaned from
+[stubbisms.wordpress.com](https://stubbisms.wordpress.com/2009/07/10/git-script-to-show-largest-pack-objects-and-trim-your-waist-line/)
+(I saved it as `git-biggest.sh`):
+
+
+```bash
+#!/bin/bash
+#set -x
+
+# Shows you the largest objects in your repo's pack file.
+# Written for osx.
+#
+# @see https://stubbisms.wordpress.com/2009/07/10/git-script-to-show-largest-pack-objects-and-trim-your-waist-line/
+# @author Antony Stubbs
+
+# set the internal field spereator to line break, so that we can iterate easily over the verify-pack output
+IFS=$'\n';
+
+# list all objects including their size, sort by size, take top 30
+objects=`git verify-pack -v .git/objects/pack/pack-*.idx | grep -v chain | sort -k3nr | head --lines=30`
+
+echo "All sizes are in kB's. The pack column is the size of the object, compressed, inside the pack file."
+
+output="size,pack,SHA,location"
+for y in $objects
+do
+    # extract the size in bytes
+    size=$((`echo $y | cut -f 5 -d ' '`/1024))
+    # extract the compressed size in bytes
+    compressedSize=$((`echo $y | cut -f 6 -d ' '`/1024))
+    # extract the SHA
+    sha=`echo $y | cut -f 1 -d ' '`
+    # find the objects location in the repository tree
+    other=`git rev-list --all --objects | grep $sha`
+    #lineBreak=`echo -e "\n"`
+    output="${output}\n${size},${compressedSize},${other}"
+done
+
+echo -e $output | column -t -s ', '
+```
+
 
 

@@ -1031,6 +1031,187 @@ sudo apt-get update
 sudo apt-get install qdirstat
 ```
 
+<!-- ######################################################################################## -->
+<!-- ######################################################################################## -->
+<!-- ######################################################################################## -->
+
+# Electron doesn't Find `libcurl.so.4` (on Linux Mint)
+
+> https://github.com/electron/electron/issues/8853
+
+I'm looking for a nice Git GUI, and so I came across [gitkraken](https://www.gitkraken.com/download/linux-deb) the other day. However, it wouldn't start but fail with
+
+```sh
+/usr/lib ► gitkraken
+Node started time: 1488472940858
+libcurl.so.4: cannot open shared object file: No such file or directory
+Error: libcurl.so.4: cannot open shared object file: No such file or directory
+    at Error (native)
+    at process.module.(anonymous function) [as dlopen] (ELECTRON_ASAR.js:158:20)
+    at Object.Module._extensions..node (module.js:568:18)
+    at Object.module.(anonymous function) [as .node] (ELECTRON_ASAR.js:169:18)
+    at Module.load (module.js:456:32)
+    at tryModuleLoad (module.js:415:12)
+    at Function.Module._load (module.js:407:3)
+    at Module.require (module.js:466:17)
+    at require (internal/module.js:20:19)
+    at Object.<anonymous> (/usr/share/gitkraken/resources/app.asar/node_modules/nodegit/dist/nodegit.js:11:12)
+    at Module._compile (module.js:541:32)
+    ...
+```
+
+I tried to fix the issue with
+
+```sh
+sudo ln -sf /usr/lib/x86_64-linux-gnu/libcurl-gnutls.so.4.4.0 libcurl.so.4
+```
+
+and, as recommended by nodegit:
+
+```sh
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install libstdc++-4.9-dev
+```
+
+but to no avail. Naturally I would have thought this to be a problem with the gitkraken app, but today I chose to try and run [Cycligent Git Tool](https://www.cycligent.com/git-tool), and look what happened:
+
+```sh
+► /usr/share/CycligentGitTool/CycligentGitTool
+A JavaScript error occurred in the main process
+Uncaught Exception:
+Error: libcurl.so.4: cannot open shared object file: No such file or directory
+    at Error (native)
+    at process.module.(anonymous function) [as dlopen] (ELECTRON_ASAR.js:173:20)
+    at Object.Module._extensions..node (module.js:583:18)
+    at Object.module.(anonymous function) [as .node] (ELECTRON_ASAR.js:173:20)
+    at Module.load (module.js:473:32)
+    at tryModuleLoad (module.js:432:12)
+    at Function.Module._load (module.js:424:3)
+    at Module.require (module.js:483:17)
+    at require (internal/module.js:20:19)
+    at Object.<anonymous> (/usr/share/CycligentGitTool/resources/app/cygit/server/node_modules/nodegit-electron-linux-x64/dist/nodegit.js:11:12)
+```
+
+so it would appear Electron has a problem here. The strange thing is that I *can* start Atom, and I never had a problem like that with it (well, maybe it doesn't even need libcurl, of course).
+
+This is on Linux Mint Cinnamon:
+
+```sh
+► uname -a && cat /etc/issue
+Linux enceladus 4.4.0-62-generic #83-Ubuntu SMP Wed Jan 18 14:10:15 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+Linux Mint 18 Sarah
+```
+
+<!-- ######################################################################################## -->
+<!-- ######################################################################################## -->
+<!-- ######################################################################################## -->
+
+# `npm install nodegit`, gitkraken, CycligentGitTool all fail to install, run, on Linux Mint Cinnamon
+
+When I try to `npm install nodegit`, I get (with both node v6.9.1 and v7.7.1):
+
+```
+npm WARN prefer global node-gyp@3.5.0 should be installed with -g
+
+> nodegit@0.18.0 install /home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit
+> node lifecycleScripts/preinstall && node lifecycleScripts/install
+
+[nodegit] Running pre-install script
+[nodegit] Configuring libssh2.
+{ Error: Command failed: /home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/libssh2/configure --with-libssl-prefix=/home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/openssl/openssl
+/home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/libssh2/missing: Unknown '--is-lightweight' option
+Try /home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/libssh2/missing --help for more information
+configure: WARNING: 'missing' script is too old or missing
+configure: error: No crypto library found!
+Try --with-libssl-prefix=PATH
+ or --with-libgcrypt-prefix=PATH
+ or --with-wincng on Windows
+
+    at ChildProcess.exithandler (child_process.js:206:12)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:877:16)
+    at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
+  killed: false,
+  code: 1,
+  signal: null,
+  cmd: '/home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/libssh2/configure --with-libssl-prefix=/home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/openssl/openssl' }
+/home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/libssh2/missing: Unknown '--is-lightweight' option
+Try '/home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/libssh2/missing --help' for more information
+configure: WARNING: 'missing' script is too old or missing
+configure: error: No crypto library found!
+Try --with-libssl-prefix=PATH
+ or --with-libgcrypt-prefix=PATH
+ or --with-wincng on Windows
+
+[nodegit] ERROR - Could not finish preinstall
+{ Error: Command failed: /home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/libssh2/configure --with-libssl-prefix=/home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/openssl/openssl
+/home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/libssh2/missing: Unknown '--is-lightweight' option
+Try '/home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/libssh2/missing --help' for more information
+configure: WARNING: 'missing' script is too old or missing
+configure: error: No crypto library found!
+Try --with-libssl-prefix=PATH
+ or --with-libgcrypt-prefix=PATH
+ or --with-wincng on Windows
+
+    at ChildProcess.exithandler (child_process.js:206:12)
+    at emitTwo (events.js:106:13)
+    at ChildProcess.emit (events.js:191:7)
+    at maybeClose (internal/child_process.js:877:16)
+    at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
+  killed: false,
+  code: 1,
+  signal: null,
+  cmd: '/home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/libssh2/configure --with-libssl-prefix=/home/flow/temp/resolving-issue-nodegit-libcurl/node_modules/nodegit/vendor/openssl/openssl' }
+npm WARN resolving-issue-nodegit-libcurl@1.0.0 No description
+npm WARN resolving-issue-nodegit-libcurl@1.0.0 No repository field.
+npm ERR! Linux 4.4.0-62-generic
+npm ERR! argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "--save" "nodegit"
+npm ERR! node v6.9.1
+npm ERR! npm  v3.10.8
+npm ERR! code ELIFECYCLE
+
+npm ERR! nodegit@0.18.0 install: `node lifecycleScripts/preinstall && node lifecycleScripts/install`
+npm ERR! Exit status 1
+npm ERR!
+npm ERR! Failed at the nodegit@0.18.0 install script 'node lifecycleScripts/preinstall && node lifecycleScripts/install'.
+```
+
+In related news (https://github.com/electron/electron/issues/8853), both [gitkraken](https://www.gitkraken.com/download/linux-deb) and [Cycligent Git Tool](https://www.cycligent.com/git-tool) refuse to run, and in both cases, `nodegit` being unable to load `libcurl.so.4` would appear to be the point of failure:
+
+```
+/usr/lib ► gitkraken
+Node started time: 1488472940858
+libcurl.so.4: cannot open shared object file: No such file or directory
+Error: libcurl.so.4: cannot open shared object file: No such file or directory
+    at Error (native)
+    at process.module.(anonymous function) [as dlopen] (ELECTRON_ASAR.js:158:20)
+    at Object.Module._extensions..node (module.js:568:18)
+    at Object.module.(anonymous function) [as .node] (ELECTRON_ASAR.js:169:18)
+    at Module.load (module.js:456:32)
+    at tryModuleLoad (module.js:415:12)
+    at Function.Module._load (module.js:407:3)
+    at Module.require (module.js:466:17)
+    at require (internal/module.js:20:19)
+    at Object.<anonymous> (/usr/share/gitkraken/resources/app.asar/node_modules/nodegit/dist/nodegit.js:11:12)
+    at Module._compile (module.js:541:32)
+    ...
+```
+
+
+This is on Linux Mint Cinnamon:
+
+```
+► uname -a && cat /etc/issue
+Linux enceladus 4.4.0-62-generic #83-Ubuntu SMP Wed Jan 18 14:10:15 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+Linux Mint 18 Sarah
+```
+
+<!-- ######################################################################################## -->
+<!-- ######################################################################################## -->
+<!-- ######################################################################################## -->
+
 # Git GUIs
 
 ## gitkraken
@@ -1058,13 +1239,13 @@ Error: libcurl.so.4: cannot open shared object file: No such file or directory
 
 even after
 
-```bash
+```sh
 sudo ln -sf /usr/lib/x86_64-linux-gnu/libcurl-gnutls.so.4.4.0 libcurl.so.4
 ```
 
 and, as recommended by nodegit:
 
-```bash
+```sh
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt-get update
 sudo apt-get install libstdc++-4.9-dev
@@ -1074,6 +1255,8 @@ sudo apt-get install libstdc++-4.9-dev
 
 Sometimes you relentlessly check in everything and make your repo grow unwieldy, sometimes to the point that
 remotes give up with an out of memory (look out for that `error: pack-objects died of signal 9` line).
+
+## Finding the Top Ten Big Files in a Git Repo
 
 The first step to remedy is to know which files are checked in and cause what magnitude on storage / memory
 strain on your `git`. Git itself remains opaque to user demands like this, but fortunately there is this
@@ -1117,6 +1300,160 @@ done
 
 echo -e $output | column -t -s ', '
 ```
+
+Observe though that one and the same file may appear in more than one line.
+
+## List ALL those Files FTW!
+
+The `git-biggest` utility introduced above is not going to help you if what you want to
+
+* identify spurious or security-breaching files of any size,
+* gain a bird's eye view of what exactly has been tracked by the repo at any given point in time,
+* know how many file objects there are in the repo,
+* or check whether there is maybe some sizable, now forgotton (and irrelevant) history of *small* (but maybe
+  nonetheless numerous) files.
+
+In these cases, the `git-list-all-files-ever` (thx to http://superuser.com/a/429694) utility is handy; it's
+basically `git log` on steroids:
+
+```sh
+git log --pretty=format: --name-status | cut -f2- | sort -u | less -SR
+```
+
+
+## Rewrite Git History to Throw Out the Big Files You don't Need
+
+To remove files from a git repo *including the file's history* must be one of the most frequently asked
+questions on GitHub. Turns out git offers more than one solution to this problem, and, fact is, you will
+never be able to remember any one of them. Why must that be so hard?
+
+Recently I came across [The BFG](https://rtyley.github.io/bfg-repo-cleaner) which makes that task quite fast
+and easy. BFG is quite fast and, as such, easy to use. You can download a `*.jar` file that you then drop
+into your `bin` folder; I wrote a starter script `git-bfg` that does that JavaJarBarBlinx stuff for me:
+
+```sh
+#!/usr/bin/env bash
+java -jar /home/flow/bin/bfg-1.12.15.jar $*
+```
+
+Once you have that, keep in mind the following points:
+
+* The BFG cleans the history of entire folders with the `--delete-folders` and the history of indivual
+  files with the `--delete-files` option.
+
+* *Both options need exactly one glob as argument** and will act on all matching folder- or filenames. You
+  crucially **cannot** have a path part in the glob. **This means you may inadvertently remove the histories
+  of several like-named files when you were only thinking to remove the history of a single file.
+
+* By default, The BFG will not touch your most recent commit; that is, you must do `git rm ... && git add ..
+  && git commit -m'remove file ...'` *before* you run `bfg`.
+
+* As is the case with `git filter-branch`, you will want to run a compacting step after all extraneous stuff
+  has been removed (for which see `git-bfg-cleanup`, below). Be aware that this still may leave 'empty
+  commits' (i.e. commits that do not affect any file at all) behind.
+
+* You may want to keep a backup and/or clone of your precious repo. Just in case.
+
+`git-bfg-cleanup`:
+
+```sh
+git reflog expire --expire=now --all && git gc --prune=now --aggressive
+```
+
+```sh
+git rm -rf log
+git add . && git commit -m'remove superfluous folders'
+git-bfg --delete-folders log
+
+git rm helo.txt
+git add . && git commit -m'remove superfluous files'
+git-bfg --delete-files helo.txt
+
+git-bfg-cleanup.sh
+```
+
+
+## The Slower, but Safer Alternative (to Getting Rid of Files in Git)
+
+All things considered, I tend to not use `bfg` b/c I shudder at the thought of accidentally destroying
+a valuable file alongside with an extraneous file. Instead, I wrote a one-liner, `git-purge-file`,
+which I modelled after the example given on [git-scm.com](https://git-scm.com/docs/git-filter-branch):
+
+`git-purge-file`:
+
+```sh
+#!/usr/bin/env bash
+
+
+# thx to http://stackoverflow.com/a/13802438/7568091 for the trick with the quotes
+# ... which didn'T work ...
+# thx to http://stackoverflow.com/a/5608358/7568091 for the trick with printf
+
+x=$(printf '%q' "$1")
+git filter-branch -f --index-filter "git rm --cached --ignore-unmatch $x" HEAD
+
+```
+
+> call `git-purge-file` with filenames double-quoted and bracket-escaped, as in `git-purge-file "foo
+> \(bar\)"`.
+
+
+# Change Default Shell (in Ubuntu)
+
+```
+sudo usermod -s <shell> <username>
+```
+
+# RDBMS Enitity-Relationship Diagrams (for PostGreSQL)
+
+## Schema Spy
+
+Old Version (5.0.0) (which has currently more diagrams):
+
+* http://schemaspy.sourceforge.net/
+* https://sourceforge.net/projects/schemaspy/files/
+
+New Version (6.0.0):
+
+* https://github.com/schemaspy/schemaspy
+* https://github.com/schemaspy/schemaspy/releases
+
+Avail yourself of a suitable JDBC driver:
+
+* https://jdbc.postgresql.org/download.html
+
+```
+java -jar schemaSpy_5.0.0.jar     -t pgsql -dp /path/to/postgresql-42.0.0.jar -hq -host localhost -port 5432 -db DBNAME -s SCHEMA -u USER -p PWD -o /tmp/my-schema
+java -jar schemaspy-6.0.0-rc1.jar -t pgsql -dp /path/to/postgresql-42.0.0.jar -hq -host localhost -port 5432 -db DBNAME -s SCHEMA -u USER -p PWD -o /tmp/my-schema
+```
+
+## PostGreSQL AutoDoc
+
+https://github.com/cbbrowne/autodoc
+
+```
+git clone https://github.com/cbbrowne/autodoc
+sudo apt-get install libdbi-perl libhtml-template-perl libterm-readkey-perl libdbd-pg-perl
+cd autodoc/
+sudo make install
+
+cd /tmp/
+postgresql_autodoc
+```
+
+## pgModeler
+
+https://www.pgmodeler.com.br/
+
+```
+sudo apt-get install pgmodeler
+```
+
+
+
+
+
+
 
 
 

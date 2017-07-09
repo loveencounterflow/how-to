@@ -1449,7 +1449,27 @@ https://www.pgmodeler.com.br/
 sudo apt-get install pgmodeler
 ```
 
+## pgLoader
 
+```
+sudo apt-get install pgloader
+```
+
+will install pgLoader v3.2.2 at the time of this writing. To get a more recent copy:
+```
+sudo apt-get install sbcl unzip libsqlite3-dev make curl gawk freetds-dev libzip-dev```
+git clone https://github.com/dimitri/pgloader.git
+cd pgloader
+make pgloader
+./build/bin/pgloader --version
+```
+
+If it worked, you should see
+
+```
+pgloader version "3.4.cf6182f"
+compiled with SBCL 1.3.1.debian
+```
 
 
 

@@ -1472,7 +1472,11 @@ compiled with SBCL 1.3.1.debian
 ```
 
 
+## ImageMagick
 
+```
+sudo apt-get install imagemagick
+```
 
 
 

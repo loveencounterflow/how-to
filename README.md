@@ -1479,5 +1479,19 @@ sudo apt-get install imagemagick
 ```
 
 
+# Getting Started with PostgreSQL
 
+
+```
+sudo -u postgres psql
+```
+
+```
+create role dba with superuser;
+create role ubuntu login;
+create database ubuntu;
+grant dba to ubuntu;
+alter role ubuntu createdb;
+alter database ubuntu owner to ubuntu;
+```
 

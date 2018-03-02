@@ -1495,3 +1495,64 @@ alter role ubuntu createdb;
 alter database ubuntu owner to ubuntu;
 ```
 
+# Install Riot Client
+
+```bash
+echo "deb https://riot.im/packages/debian/ xenial main" | sudo tee -a /etc/apt/sources.list.d/matrix-riot-im.list
+```
+
+# Install R
+
+Thx to [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-install-r-on-ubuntu-16-04-2):
+
+```bash
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+sudo apt-get update
+sudo apt install r-base
+```
+
+https://rkward.kde.org/
+https://rkward.kde.org/Binaries_and_Build_Scripts
+https://launchpad.net/~rkward-devel/+archive/ubuntu/rkward-stable-cran
+
+```bash
+sudo add-apt-repository ppa:rkward-devel/rkward-stable-cran
+sudo apt update
+sudo apt install rkward
+```
+
+
+# Scripting VMs Upstart Times
+
+```sh
+#!/bin/bash
+set -euo pipefail
+
+k=100
+
+echo 'bash';      time for ((i=0;i<k;i++)); do bash       -c 'x=$(( 1234 * 1234 ))'; done;
+echo 'python3.5'; time for ((i=0;i<k;i++)); do python3.5  -c 'x = 1234 * 1234';      done;
+echo 'node';      time for ((i=0;i<k;i++)); do node       -e 'x = 1234 * 1234';      done;
+echo 'perl';      time for ((i=0;i<k;i++)); do perl       -e '@x = 1234 * 1234';     done;
+echo 'ruby';      time for ((i=0;i<k;i++)); do ruby       -e 'x = 1234 * 1234';      done;
+
+# k=100
+# bash          real    0m 0.283s  user    0m 0.008s  sys     0m 0.024s
+# perl          real    0m 0.360s  user    0m 0.012s  sys     0m 0.028s
+# python3.5     real    0m 7.579s  user    0m 6.440s  sys     0m 0.780s
+# ruby          real    0m10.942s  user    0m 9.684s  sys     0m 0.864s
+# node          real    0m19.289s  user    0m17.372s  sys     0m 1.544s
+
+# bash           0.283  100.00 %   1.00 x
+# perl           0.36    78.61 %   1.27 x
+# python3.5      7.579    3.73 %  26.78 x
+# ruby          10.942    2.59 %  38.66 x
+# node          19.289    1.47 %  68.16 x
+```
+
+
+
+
+
+

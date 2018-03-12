@@ -1482,9 +1482,36 @@ sudo apt-get install imagemagick
 # Getting Started with PostgreSQL
 
 
+## Remove Everything
+
+https://geekforum.wordpress.com/2015/05/20/purge-postgresql-uninstall-completely/
+
+```bash
+sudo apt --purge remove postgresql\*
+sudo rm -r /var/lib/postgresql
+sudo rm -r /etc/postgresql
+```
+
+## Install All the Versions
+
+
+https://wiki.postgresql.org/wiki/Apt
+
+```bash
+sudo apt install wget ca-certificates psmisc
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt update
+sudo apt install postgresql-9.6 postgresql-plpython3-9.6 postgresql-contrib-9.6 postgresql-9.6-pgtap
+```
+
+Log into Postgres as super user:
+
 ```
 sudo -u postgres psql
 ```
+
+Create roles:
 
 ```
 create role dba with superuser;
@@ -1494,6 +1521,8 @@ grant dba to ubuntu;
 alter role ubuntu createdb;
 alter database ubuntu owner to ubuntu;
 ```
+
+...or consider using [intershop](https://github.com/loveencounterflow/intershop).
 
 # Install Riot Client
 

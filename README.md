@@ -1580,8 +1580,20 @@ echo 'ruby';      time for ((i=0;i<k;i++)); do ruby       -e 'x = 1234 * 1234'; 
 # node          19.289    1.47 %  68.16 x
 ```
 
+## Booting Linux from USB Drive
 
+* https://help.ubuntu.com/community/mkusb
 
+* [YUMI – Multiboot USB Creator](https://www.pendrivelinux.com/yumi-multiboot-usb-creator/)
 
+> YUMI (Your Universal Multiboot Installer), is the successor to our
+> MultibootISOs. It can be used to create a Multiboot Bootable USB Flash Drive
+> containing multiple operating systems, antivirus utilities, disc cloning,
+> diagnostic tools, and more. Contrary to MultiBootISOs which used grub to boot
+> ISO files directly from USB, YUMI uses syslinux to boot extracted
+> distributions stored on the USB device, and reverts to using grub to Boot
+> Multiple ISO files from USB, if necessary.
+
+* [MultiSystem, YUMI](https://askubuntu.com/a/519007)
 
 

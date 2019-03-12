@@ -161,93 +161,6 @@ sudo gpasswd -a $USER fuse
 
 <!-- ################################################################################################### -->
 
-## Get io.js Up and Running
-
-### *Update* Now with Node Version Management Support
-
-**Update of Update** To obtain the latest version of `n` (0.2.14 as of this writing) which does include
-support for io.js, simply do
-
-```sh
-npm install -g tj/n
-```
-
-With that version, `n --help` will give you
-
-```
-  Usage: n [options/env] [COMMAND] [args]
-
-  Environments:
-    n [COMMAND] [args]            Uses default env (node)
-    n node [COMMAND] [args]       Sets env as node
-    n io [COMMAND]                Sets env as io
-
-  Commands:
-
-    n                              Output versions installed
-    n latest                       Install or activate the latest node release
-    n stable                       Install or activate the latest stable node release
-    n <version>                    Install node <version>
-    n use <version> [args ...]     Execute node <version> with [args ...]
-    n bin <version>                Output bin path for <version>
-    n rm <version ...>             Remove the given version(s)
-    n prev                         Revert to the previously activated version
-    n --latest                     Output the latest node version available
-    n --stable                     Output the latest stable node version available
-    n ls                           Output the versions of node available
-
-  (iojs):
-    n io latest                    Install or activate the latest iojs release
-    n io stable                    Install or activate the latest stable iojs release
-    n io <version>                 Install iojs <version>
-    n io use <version> [args ...]  Execute iojs <version> with [args ...]
-    n io bin <version>             Output bin path for <version>
-    n io rm <version ...>          Remove the given version(s)
-    n io --latest                  Output the latest iojs version available
-    n io --stable                  Output the latest stable iojs version available
-    n io ls                        Output the versions of iojs available
-
-  Options:
-
-    -V, --version   Output current version of n
-    -h, --help      Display help information
-
-  Aliases:
-
-    iojs    io
-    which   bin
-    use     as
-    list    ls
-    -       rm
-```
-
-
-In order to install io.js, simply do
-
-```
-n io latest
-```
-
-or similar.
-
-<strike>As of 2015-01-14, there are three open pull request to support io.js with `n` (see https://github.com/tj/n/pulls?q=io).
-I've forked and updated `n` to [implement PR 214](https://github.com/tj/n/pull/214), which you can get as
-git clone https://github.com/loveencounterflow/n.git cd n make install After that, you can install iojs with
-n --io v1.0.1</strike>
-
-<strike>Please keep in mind that i will not update the repo so you're probably better off using the official `n`
-repo; i'd fully expect the maintainers to implement iojs support within days. Also note that the author
-of PR 214 warns that his fix "makes a weak assumption that nodejs and iojs versions don't collide"; given
-the speed of NodeJS updates during the past year, i believe we can safely assume that we're weeks or months
-away from any NodeJS 0.12.x release, let alone NodeJS 1.x.x, so PR 214 should be good enough for now.</strike>
-
-
-
-### Upgrade to `npm@3`
-
-```bash
-npm install -g npm@3
-```
 
 
 ### Solving that Compiliation Issue
@@ -392,8 +305,8 @@ Here's the painlessest way that i'm aware of to get no less than:
   filesystem rights; from there on, `npm install -g ...` will work without `sudo`.
 
 ```bash
-sudo apt-get install git build-essential htop make
-git clone https://github.com/visionmedia/n
+sudo apt install git build-essential htop make
+git clone https://github.com/tj/n
 
 cd n
 sudo chown -R vagrant:vagrant /usr/local
@@ -427,7 +340,7 @@ something.
 First of all, slap appears to be compatible (so far) with the newest NodeJS (v5 as of this writing). To me, the painlessest way to get the newest versions of Nodejs, `npm` and `n` (NodeJS version management, highly recommended) is to follow the outline in [my how-to](https://github.com/loveencounterflow/how-to#install-node-n-own-your-files); roughly, clone `n`, build it, and use it once to get the newest NodeJS (should come with `npm` v3):
 
 ```bash
-git clone https://github.com/visionmedia/n
+git clone https://github.com/tj/n
 cd n
 sudo chown -R <user>:<user> /usr/local
 make install
@@ -1527,7 +1440,13 @@ alter database ubuntu owner to ubuntu;
 # Install Riot Client
 
 ```bash
-echo "deb https://riot.im/packages/debian/ xenial main" | sudo tee -a /etc/apt/sources.list.d/matrix-riot-im.list
+# replace `sid` with second part of codename:
+cat /etc/debian_version
+sudo sh -c "echo 'deb https://riot.im/packages/debian/ sid main' > /etc/apt/sources.list.d/matrix-riot-im.list"
+curl -L https://riot.im/packages/debian/repo-key.asc | sudo apt-key add -
+sudo apt update && sudo apt install riot-web
+
+
 ```
 
 # Install R
@@ -1595,5 +1514,141 @@ echo 'ruby';      time for ((i=0;i<k;i++)); do ruby       -e 'x = 1234 * 1234'; 
 > Multiple ISO files from USB, if necessary.
 
 * [MultiSystem, YUMI](https://askubuntu.com/a/519007)
+
+
+## Install Sublime Text 3 with APT
+
+
+```bash
+cd /tmp
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+sudo apt install apt-transport-https
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt update
+sudo apt install sublime-text
+```
+
+
+## Install Suckless Terminal
+
+```bash
+# prerequisites (thx to http://www.adercon.com/ac/node/115)
+sudo apt install git build-essential htop make\n
+# clone any of these; they implement different configurations
+git clone https://github.com/LukeSmithxyz/st.git
+git clone https://github.com/rudyghill/st.git
+# compile
+cd st
+make
+```
+
+## Remapping Keys with XKB
+
+* https://unix.stackexchange.com/a/65600/280204
+* https://www.x.org/releases/X11R7.7/doc/man/man1/xkbcomp.1.xhtml
+* https://www.charvolant.org/doug/xkb/html/xkb.html
+* https://www.charvolant.org/doug/xkb/html/node5.html
+
+
+### Install kbdgen
+
+* https://pypi.org/project/kbdgen
+* https://divvun.github.io/kbdgen
+* https://github.com/divvun/kbdgen
+
+Make sure PIP3 is installed:
+
+```bash
+sudo apt install python3-pip\n
+sudo pip3 install setuptools
+```
+
+then:
+
+```bash
+# install to ~/.local/bin/kbdgen
+pip3 install kbdgen
+```
+
+
+```
+less /usr/share/X11/xkb/symbols/de
+10186  setxkbmap -print
+10187  setxkbmap -print > flowskeyboard
+10188  l
+10189  mkcd ~/.xkb/symbols
+10190  touch flowskeyswap
+10191  gio open flowskeyswap
+10192  l /usr/share/X11/xkb/symbols/de
+10193  less /usr/share/X11/xkb/symbols/de
+10194  xkbcomp -I$HOME/.xkb ~/.xkb/keymap/mykbd $DISPLAY
+10195  xkbcomp -I$HOME/.xkb ~/.xkb/keymap/flowskeyboard $DISPLAY
+10196  xev
+```
+
+## Activate Composing Keys Behavior
+
+* https://cyberborean.wordpress.com/2008/01/06/compose-key-magic/
+
+## Install Python 3, PIP 3
+
+```
+sudo apt install python3-pip
+sudo pip3 install setuptools
+```
+
+## Remap Keys With Xmodmap
+
+`~/Xmodmap`:
+
+```
+keycode  24 = q Q q Q at Greek_OMEGA at
+keycode  25 = w W w W lstroke Lstroke lstroke
+keycode  26 = e E e E EuroSign a b
+keycode  27 = r R r R paragraph registered paragraph
+keycode 110 = Prior NoSymbol Prior NoSymbol Prior
+keycode 112 = Home NoSymbol Home NoSymbol Home
+keycode 115 = Next NoSymbol Next NoSymbol Next
+keycode 117 = End NoSymbol End NoSymbol End
+keycode 135 = Control_R NoSymbol Control_R NoSymbol Control_R
+keycode 105 = Menu NoSymbol Menu NoSymbol Menu
+```
+
+
+`~/.xinitrc`:
+
+```
+xmodmap ~/.Xmodmap
+```
+
+## Fixing Those Crazy Caret Keys in the Console
+
+**Symptom 1**—In some situations, hitting the return key (or backspace, an arrow key, etc) doesn't do the
+expected thing in the console, but instead displays a caret code like `^M`.
+
+**Symptom 2**—This can be especially annoying when trying to `shh user@host` into another machine; you get
+asked to enter your password, which you do (without getting any feedback from the command line, which is
+annoying but the expected thing to happen), and hit the return key. Then, nothing happens, indefinitely.
+
+**Diagnostic**—If an `shh` login fails, there's a simple diagnostic to see whether you've fallen prey to the
+Crazy Caret Key Syndrom: temporarily rename/move your `~/.ssh/known_hosts` to something/somewhere else. This
+will make `ssh` ask you to type in `yes[enter]` before accepting the remote's identity. Thing is, you'll use
+the same `ssh` program with the same symptoms, but now visual feedback is not swallowed. Try `ssh user@host`
+or `ssh -vvv user@host` again; when asked to confirm the remote's identity, type `yes[enter]`; in case you
+see `yes^M` on the console instead of going on to the password input, you're experiencing CCKS. Strangely,
+you can still `[ctrl]+c` yourself out of this without getting to see `^C` instead (hopefully).
+
+**Solution 1**—The most straightforward solution is to open another terminal emulator (e.g. the crappy
+pre-installed one you were forced to use before installing your favorite one). This helped in my case.
+
+**Solution 2**—as pointed out by https://askubuntu.com/a/452576, one known solution is to run (wait for it)
+`stty sane`, then try to `ssh` again. This worked for me using `konsole`.
+
+
+
+
+
+
+
 
 

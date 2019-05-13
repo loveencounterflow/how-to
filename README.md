@@ -1644,7 +1644,7 @@ pre-installed one you were forced to use before installing your favorite one). T
 **Solution 2**—as pointed out by https://askubuntu.com/a/452576, one known solution is to run (wait for it)
 `stty sane`, then try to `ssh` again. This worked for me using `konsole`.
 
-
+For much more detail see https://unix.stackexchange.com/a/243651/280204.
 
 
 

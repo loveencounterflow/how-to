@@ -1,3 +1,41 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [{ http_parser: \'2\.3\',](#-http_parser-%5C2%5C3%5C)
+- [node: \'1\.0\.1\',](#node-%5C1%5C0%5C1%5C)
+- [v8: \'3\.31\.74\.1\',](#v8-%5C3%5C31%5C74%5C1%5C)
+- [uv: \'1\.2\.0\',](#uv-%5C1%5C2%5C0%5C)
+- [zlib: \'1\.2\.8\',](#zlib-%5C1%5C2%5C8%5C)
+- [ares: \'1\.10\.0\-DEV\',](#ares-%5C1%5C10%5C0%5C-dev%5C)
+- [modules: \'42\',](#modules-%5C42%5C)
+- [openssl: \'1\.0\.1k\' }](#openssl-%5C1%5C0%5C1k%5C-)
+- [{ value: 42, done: false }](#-value-42-done-false-)
+- [or e\.g\.](#or-e%5Cg%5C)
+  - [now we have two Node versions and can use `npm`:](#now-we-have-two-node-versions-and-can-use-npm)
+- [Create a forwarded port mapping which allows access to a specific port](#create-a-forwarded-port-mapping-which-allows-access-to-a-specific-port)
+- [within the machine from a port on the host machine\. In the example below,](#within-the-machine-from-a-port-on-the-host-machine%5C-in-the-example-below)
+- [accessing "localhost:8080" will access port 80 on the guest machine\.](#accessing-localhost8080-will-access-port-80-on-the-guest-machine%5C)
+- [Share an additional folder to the guest VM\. The first argument is](#share-an-additional-folder-to-the-guest-vm%5C-the-first-argument-is)
+- [the path on the host to the actual folder\. The second argument is](#the-path-on-the-host-to-the-actual-folder%5C-the-second-argument-is)
+- [the path on the guest to mount the folder\. And the optional third](#the-path-on-the-guest-to-mount-the-folder%5C-and-the-optional-third)
+- [argument is a set of non\-required options\.](#argument-is-a-set-of-non%5C-required-options%5C)
+- [Create a private network, which allows host\-only access to the machine](#create-a-private-network-which-allows-host%5C-only-access-to-the-machine)
+- [using a specific IP\.](#using-a-specific-ip%5C)
+- [thx to http://askubuntu\.com/a/388770/13669](#thx-to-httpaskubuntu%5Ccoma38877013669)
+- [what i did to ensure my ruby is v2+:](#what-i-did-to-ensure-my-ruby-is-v2)
+- [echo $PATH](#echo-path)
+- [export PATH=/Users/flow/bin:$PATH](#export-pathusersflowbinpath)
+- [cd ~/bin](#cd-bin)
+- [ln \-s /usr/local/bin/ruby](#ln-%5C-s-usrlocalbinruby)
+- [which ruby](#which-ruby)
+- [ruby \-v](#ruby-%5C-v)
+- [e\.g\. in ~/\.bashrc or on the command line:](#e%5Cg%5C-in-%5Cbashrc-or-on-the-command-line)
+- [just to see whether https://github\.com/loveencounterflow/how\-to#bay\-trail\-chips\-linux\-atom\-celerons](#just-to-see-whether-httpsgithub%5Ccomloveencounterflowhow%5C-tobay%5C-trail%5C-chips%5C-linux%5C-atom%5C-celerons)
+- [worked:](#worked)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .

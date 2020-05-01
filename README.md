@@ -8,11 +8,9 @@
 - [SYSTEM PROGRAMMING](#system-programming)
   - [Install Broadcom Wireless Driver](#install-broadcom-wireless-driver)
   - [Make Another Machine Visible in File Manager](#make-another-machine-visible-in-file-manager)
-  - [Get io.js Up and Running](#get-iojs-up-and-running)
-    - [*Update* Now with Node Version Management Support](#update-now-with-node-version-management-support)
-    - [Upgrade to `npm@3`](#upgrade-to-npm3)
     - [Solving that Compiliation Issue](#solving-that-compiliation-issue)
     - [For the Cautious: Use a VM to try out io.js](#for-the-cautious-use-a-vm-to-try-out-iojs)
+  - [Setting up a Vagrant VM to Host a Custom NodeJS for Testing, Fun, and Profit](#setting-up-a-vagrant-vm-to-host-a-custom-nodejs-for-testing-fun-and-profit)
     - [On the Host](#on-the-host)
       - [Install Vagrant](#install-vagrant)
       - [install Guest Additions](#install-guest-additions)
@@ -26,6 +24,7 @@
   - [Notes on the Frequently Spinning-Up Disk Problem](#notes-on-the-frequently-spinning-up-disk-problem)
   - [Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu](#remarks-on-installing-nodejs-libreoffice-and-tex-live-on-ubuntu)
       - [TexLive installation (Ubuntu)](#texlive-installation-ubuntu)
+- [APPLICATION PROGRAMMING](#application-programming)
   - [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
     - [The Problem](#the-problem)
     - [The Solution](#the-solution)
@@ -39,7 +38,7 @@
     - [HtTrack Won't Work](#httrack-wont-work)
     - [Wayback_Machine_Downloader Does Work](#wayback_machine_downloader-does-work)
     - [Remove that Annoying Enter Your Password Popup in Mint, Ubuntu](#remove-that-annoying-enter-your-password-popup-in-mint-ubuntu)
-- [Apps & Tools](#apps-&-tools)
+- [Apps & Tools](#apps--tools)
   - [Searching in Files: ag, sag](#searching-in-files-ag-sag)
   - [On-Screen Keyboard: onboard](#on-screen-keyboard-onboard)
   - [Cloning, Using, Pushing to bzr (Bazaar) Repos with git](#cloning-using-pushing-to-bzr-bazaar-repos-with-git)
@@ -47,9 +46,38 @@
 - [VisualStudio Code (VSC)](#visualstudio-code-vsc)
 - [Diskspace Analyzers](#diskspace-analyzers)
   - [qdirstat](#qdirstat)
+- [Electron doesn't Find `libcurl.so.4` (on Linux Mint)](#electron-doesnt-find-libcurlso4-on-linux-mint)
+- [`npm install nodegit`, gitkraken, CycligentGitTool all fail to install, run, on Linux Mint Cinnamon](#npm-install-nodegit-gitkraken-cycligentgittool-all-fail-to-install-run-on-linux-mint-cinnamon)
 - [Git GUIs](#git-guis)
   - [gitkraken](#gitkraken)
 - [Git Gotcha: Git Repo Too Big](#git-gotcha-git-repo-too-big)
+  - [Finding the Top Ten Big Files in a Git Repo](#finding-the-top-ten-big-files-in-a-git-repo)
+  - [List ALL those Files FTW!](#list-all-those-files-ftw)
+  - [Rewrite Git History to Throw Out the Big Files You don't Need](#rewrite-git-history-to-throw-out-the-big-files-you-dont-need)
+  - [The Slower, but Safer Alternative (to Getting Rid of Files in Git)](#the-slower-but-safer-alternative-to-getting-rid-of-files-in-git)
+- [Change Default Shell (in Ubuntu)](#change-default-shell-in-ubuntu)
+- [RDBMS Enitity-Relationship Diagrams (for PostGreSQL)](#rdbms-enitity-relationship-diagrams-for-postgresql)
+  - [Schema Spy](#schema-spy)
+  - [PostGreSQL AutoDoc](#postgresql-autodoc)
+  - [pgModeler](#pgmodeler)
+  - [pgLoader](#pgloader)
+  - [ImageMagick](#imagemagick)
+- [Getting Started with PostgreSQL](#getting-started-with-postgresql)
+  - [Remove Everything](#remove-everything)
+  - [Install All the Versions](#install-all-the-versions)
+- [Install Riot Client](#install-riot-client)
+- [Install R](#install-r)
+- [Scripting VMs Upstart Times](#scripting-vms-upstart-times)
+  - [Booting Linux from USB Drive](#booting-linux-from-usb-drive)
+  - [Install Sublime Text 3 with APT](#install-sublime-text-3-with-apt)
+  - [Install Suckless Terminal](#install-suckless-terminal)
+  - [Remapping Keys with XKB](#remapping-keys-with-xkb)
+    - [Install kbdgen](#install-kbdgen)
+  - [Activate Composing Keys Behavior](#activate-composing-keys-behavior)
+  - [Install Python 3, PIP 3](#install-python-3-pip-3)
+  - [Remap Keys With Xmodmap](#remap-keys-with-xmodmap)
+  - [Fixing Those Crazy Caret Keys in the Console](#fixing-those-crazy-caret-keys-in-the-console)
+  - [Local Logins Without Password](#local-logins-without-password)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -138,6 +166,7 @@ flow@enceladus ~/io $ lspci -vnn | grep -A 9 Network
 03:00.0 Ethernet controller [0200]: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller [10ec:8168] (rev 0c)
   Subsystem: Acer Incorporated [ALI] RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller [1025:0933]
 ```
+
 Unfortunately, some systems that I tried (Antergos, Debian, Linux Mint Cinnamon) did not configure
 the device correctly; while `BCM` did show up when running `dmesg`, there was no entry for wireless in
 the system tray.
@@ -147,6 +176,19 @@ A search revealed the following, which did work:
 ```sh
 sudo apt-get --reinstall install bcmwl-kernel-source
 ```
+
+**UPDATE** Years later [IBM Computing](https://ibcomputing.com/) is featuring an article on [How to Install
+WiFi driver for Broadcom BCM43142 WiFi device in GNU/Linux
+Distros](https://ibcomputing.com/install-wifi-driver-broadcom-bcm43142-linux/) which is my preferred method
+now:
+
+```sh
+sudo apt install broadcom-sta-dkms
+```
+
+restart and you should be done (DKMS stands for Dynamic Kernel Module Support and whatever that means, I'm
+happy when it works out of the box).
+
 
 ## Make Another Machine Visible in File Manager
 
@@ -1647,8 +1689,13 @@ pre-installed one you were forced to use before installing your favorite one). T
 For much more detail see https://unix.stackexchange.com/a/243651/280204.
 
 
+## Local Logins Without Password
 
-
+```sh
+sudo apt install keychain
+ssh-keygen
+ssh-copy-id user@192.168.000.000
+```
 
 
 

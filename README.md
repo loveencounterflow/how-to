@@ -70,6 +70,7 @@
 - [Scripting VMs Upstart Times](#scripting-vms-upstart-times)
   - [Booting Linux from USB Drive](#booting-linux-from-usb-drive)
   - [Install Sublime Text 3 with APT](#install-sublime-text-3-with-apt)
+  - [Install Sublime Merge (Git Client)](#install-sublime-merge-git-client)
   - [Install Suckless Terminal](#install-suckless-terminal)
   - [Remapping Keys with XKB](#remapping-keys-with-xkb)
     - [Install kbdgen](#install-kbdgen)
@@ -78,6 +79,11 @@
   - [Remap Keys With Xmodmap](#remap-keys-with-xmodmap)
   - [Fixing Those Crazy Caret Keys in the Console](#fixing-those-crazy-caret-keys-in-the-console)
   - [Local Logins Without Password](#local-logins-without-password)
+  - [Install ZSH](#install-zsh)
+  - [Install Wine on Linux Mint 19.x](#install-wine-on-linux-mint-19x)
+    - [Add i386 Architecture](#add-i386-architecture)
+    - [Install FAudio](#install-faudio)
+    - [Install Wine from WinHQ](#install-wine-from-winhq)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1452,12 +1458,33 @@ sudo rm -r /etc/postgresql
 
 https://wiki.postgresql.org/wiki/Apt
 
+On Ubuntu and Linux Mint, retrieve the Ubuntu codename (not the Mint codename):
+
+```bash
+# yields e.g. 'bionic' on Ubuntu, but e.g. 'tricia' on Mint:
+# On **Ubuntu**, do:
+codename=$(lsb_release -cs)
+
+# On **Linux Mint**, do:
+codename=$(lsb_release -cs)
+source /etc/os-release && codename="$UBUNTU_CODENAME"
+```
+
+Then:
+
 ```bash
 sudo apt install wget ca-certificates psmisc
-sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+cmd='echo "deb http://apt.postgresql.org/pub/repos/apt/ '$codename'-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+sudo sh -c "$cmd"
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo apt update
-sudo apt install postgresql-9.6 postgresql-plpython3-9.6 postgresql-contrib-9.6 postgresql-9.6-pgtap
+```
+
+See [scripts/add-postgres-apt-and-update](scripts/add-postgres-apt-and-update).
+
+
+```bash
+sudo apt install postgresql-12 postgresql-plpython3-12 postgresql-contrib-12
 ```
 
 Log into Postgres as super user:
@@ -1487,9 +1514,9 @@ cat /etc/debian_version
 sudo sh -c "echo 'deb https://riot.im/packages/debian/ sid main' > /etc/apt/sources.list.d/matrix-riot-im.list"
 curl -L https://riot.im/packages/debian/repo-key.asc | sudo apt-key add -
 sudo apt update && sudo apt install riot-web
-
-
 ```
+
+
 
 # Install R
 
@@ -1570,6 +1597,18 @@ sudo apt update
 sudo apt install sublime-text
 ```
 
+## Install Sublime Merge (Git Client)
+
+```bash
+# Ensure apt is set up to work with https sources:
+sudo apt install apt-transport-https
+
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+# echo "deb https://download.sublimetext.com/ apt/dev/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt update
+sudo apt install sublime-merge
+```
 
 ## Install Suckless Terminal
 
@@ -1696,6 +1735,131 @@ sudo apt install keychain
 ssh-keygen
 ssh-copy-id user@192.168.000.000
 ```
+
+## Install ZSH
+
+
+thx to https://gist.github.com/tsabat/1498393
+
+```bash
+sudo apt update && sudo apt install zsh zplug
+zsh --version
+wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
+chsh -s `which zsh`
+# sudo shutdown -r 0
+echo "should restart computer now"
+```
+
+
+Add the following lines to `~/.zshrc`:
+
+```bash
+source /usr/share/zplug/init.zsh
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-history-substring-search"
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "romkatv/powerlevel10k", as:theme, depth:1
+# zplug "foo/bar"
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+zplug load
+# zplug load --verbose
+```
+
+See [unixorn/awesome-zsh-plugins](https://github.com/unixorn/awesome-zsh-plugins) for ZSH plugins.
+
+## Install Wine on Linux Mint 19.x
+
+In Linux Mint 19.3 Tricia (which is based on Ubuntu 18.04 bionic):
+
+https://wiki.winehq.org/Ubuntu
+
+### Add i386 Architecture
+
+```bash
+sudo dpkg --add-architecture i386
+```
+
+### Install FAudio
+
+[Satisfy FAudio dependency (only needed for Ubuntu before 19.04)](https://forum.winehq.org/viewtopic.php?f=8&t=32192):
+
+```bash
+wget -O - https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/Release.key | sudo apt-key add -
+sudo add-apt-repository 'deb https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/ ./'
+sudo apt update
+sudo apt install libfaudio0 libfaudio0:i386
+```
+
+
+<strike>
+> The quickest and easiest way to satisfy the new dependency is to download and install both the i386 and
+> amd64 libfaudio0 packages before attempting to upgrade or install a WineHQ package. By installing the
+> downloaded packages locally, you will not have to add the OBS repository. This only has to be done once.
+
+Download
+
+* https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/amd64/libfaudio0_19.07-0~bionic_amd64.deb
+* https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/i386/libfaudio0_19.07-0~bionic_i386.deb
+
+```bash
+sudo dpkg -i ~/Downloads/libfaudio0_19.07-0_bionic_amd64.deb                                            100 ✘
+```
+
+Output:
+
+```
+Selecting previously unselected package libfaudio0:amd64.
+(Reading database ... 299844 files and directories currently installed.)
+Preparing to unpack .../libfaudio0_19.07-0_bionic_amd64.deb ...
+Unpacking libfaudio0:amd64 (19.07-0~bionic) ...
+Setting up libfaudio0:amd64 (19.07-0~bionic) ...
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+```
+
+```bash
+sudo dpkg -i ~/Downloads/libfaudio0_19.07-0_bionic_i386.deb                                                 ✔
+```
+
+Output:
+
+```
+(Reading database ... 299847 files and directories currently installed.)
+Preparing to unpack .../libfaudio0_19.07-0_bionic_i386.deb ...
+Unpacking libfaudio0:i386 (19.07-0~bionic) over (19.07-0~bionic) ...
+dpkg: dependency problems prevent configuration of libfaudio0:i386:
+ libfaudio0:i386 depends on libc6 (>= 2.4).
+ libfaudio0:i386 depends on libsdl2-2.0-0 (>= 2.0.8).
+
+dpkg: error processing package libfaudio0:i386 (--install):
+ dependency problems - leaving unconfigured
+Processing triggers for libc-bin (2.27-3ubuntu1) ...
+Errors were encountered while processing:
+ libfaudio0:i386
+```
+</strike>
+
+### Install Wine from WinHQ
+
+```bash
+wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add -
+sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
+sudo apt update
+sudo apt install --install-recommends winehq-stable
+```
+
+> If apt complains about missing dependencies, install them, then repeat the last two steps (update and
+> install). See the [FAQ entry on dependency
+> errors](https://wiki.winehq.org/FAQ#How_do_I_solve_dependency_errors_when_trying_to_install_Wine.3F) for
+> tips on troubleshooting dependency issues.
 
 
 

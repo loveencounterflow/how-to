@@ -84,6 +84,7 @@
     - [Add i386 Architecture](#add-i386-architecture)
     - [Install FAudio](#install-faudio)
     - [Install Wine from WinHQ](#install-wine-from-winhq)
+    - [Install Albert Launcher](#install-albert-launcher)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1704,15 +1705,29 @@ xmodmap ~/.Xmodmap
 
 ## Fixing Those Crazy Caret Keys in the Console
 
-**Symptom 1**—In some situations, hitting the return key (or backspace, an arrow key, etc) doesn't do the
+Crazy Caret Keys Syndrome (CCKS)
+
+**Symptom 1**—In some situations hitting the return key (or backspace, an arrow key, etc) doesn't do the
 expected thing in the console, but instead displays a caret code like `^M`.
+
+**Symptom 1a**—In my case, this happened annoyingly often when using `konsole` and being at the interactive
+prompt of a pager like `less`, which is waiting for me to hit up and down arrow keys to move or `q` to quit.
+When CCKS happens, `less` will not quit after you hit `q`; instead, it will just display `q` on the prompt
+line like it's waiting for more (which it apparently is). It's only after you accidentally hit `return` that
+the program will try to understand those keystrokes; in case there indeed is a letter `q` on the line,
+`less` will act on that and quit. In case there were more characters on the prompt line, those characters
+will be spilled out to your command prompt that has been lying there waiting for you all the time, including
+that last `return` of yours, so it interprets that `return` key, meaning it tries to execute any garbage
+that came before the first `q`.
 
 **Symptom 2**—This can be especially annoying when trying to `shh user@host` into another machine; you get
 asked to enter your password, which you do (without getting any feedback from the command line, which is
 annoying but the expected thing to happen), and hit the return key. Then, nothing happens, indefinitely.
 
+**Symptom 3**—The cursor vanishes. Not sure when this happens, but it does sometimes, at least in `konsole`.
+
 **Diagnostic**—If an `shh` login fails, there's a simple diagnostic to see whether you've fallen prey to the
-Crazy Caret Key Syndrom: temporarily rename/move your `~/.ssh/known_hosts` to something/somewhere else. This
+Crazy Caret Key Syndrome: temporarily rename/move your `~/.ssh/known_hosts` to something/somewhere else. This
 will make `ssh` ask you to type in `yes[enter]` before accepting the remote's identity. Thing is, you'll use
 the same `ssh` program with the same symptoms, but now visual feedback is not swallowed. Try `ssh user@host`
 or `ssh -vvv user@host` again; when asked to confirm the remote's identity, type `yes[enter]`; in case you
@@ -1727,6 +1742,16 @@ pre-installed one you were forced to use before installing your favorite one). T
 
 For much more detail see https://unix.stackexchange.com/a/243651/280204.
 
+**Solution 3**—I added this script, `repair-terminal`, to the path:
+
+```bash
+#!/bin/bash
+echo -e "\x1B[?25h"
+stty sane
+```
+
+The way this works is it first emits an [ANSII VT100 Escape Sequence to show the
+cursor](https://stackoverflow.com/a/15011692); then it calls upon `stty` to rectify things.
 
 ## Local Logins Without Password
 
@@ -1860,6 +1885,22 @@ sudo apt install --install-recommends winehq-stable
 > install). See the [FAQ entry on dependency
 > errors](https://wiki.winehq.org/FAQ#How_do_I_solve_dependency_errors_when_trying_to_install_Wine.3F) for
 > tips on troubleshooting dependency issues.
+
+
+### Install Albert Launcher
+
+For Linux Mint 19.3 Tricia (Ubuntu 18.04 Bionic)
+
+* https://albertlauncher.github.io/docs/installing/
+* https://software.opensuse.org/download.html?project=home:manuelschneid3r&package=albert
+
+```bash
+curl https://build.opensuse.org/projects/home:manuelschneid3r/public_key | sudo apt-key add -
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_18.04/ /' > /etc/apt/sources.list.d/home:manuelschneid3r.list"
+curl https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_18.04/Release.key | sudo apt-key add -
+sudo apt-get update && sudo apt-get install albert
+```
+
 
 
 

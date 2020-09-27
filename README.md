@@ -85,6 +85,8 @@
     - [Install FAudio](#install-faudio)
     - [Install Wine from WinHQ](#install-wine-from-winhq)
     - [Install Albert Launcher](#install-albert-launcher)
+    - [Fork Kitty](#fork-kitty)
+    - [Install `ripgrep`, One of the Best, Fastest Command Line Search Engines](#install-ripgrep-one-of-the-best-fastest-command-line-search-engines)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1615,7 +1617,8 @@ sudo apt install sublime-merge
 
 ```bash
 # prerequisites (thx to http://www.adercon.com/ac/node/115)
-sudo apt install git build-essential htop make\n
+sudo apt install git build-essential htop make
+sudo apt install libfontconfig1-dev libx11-dev libxft-dev
 # clone any of these; they implement different configurations
 git clone https://github.com/LukeSmithxyz/st.git
 git clone https://github.com/rudyghill/st.git
@@ -1779,7 +1782,7 @@ echo "should restart computer now"
 Add the following lines to `~/.zshrc`:
 
 ```bash
-source /usr/share/zplug/init.zsh
+source /usr/share/zplug/init.zsh # or, ~/.zplug/init.sh, as the case may be
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"
@@ -1899,6 +1902,37 @@ curl https://build.opensuse.org/projects/home:manuelschneid3r/public_key | sudo 
 sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_18.04/ /' > /etc/apt/sources.list.d/home:manuelschneid3r.list"
 curl https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_18.04/Release.key | sudo apt-key add -
 sudo apt-get update && sudo apt-get install albert
+```
+
+
+### Fork Kitty
+
+* https://github.com/kovidgoyal/kitty
+* https://sw.kovidgoyal.net/kitty/build.html
+
+```bash
+sudo apt install libharfbuzz-dev libdbus-1-dev libxcursor-dev libxrandr-dev libxi-dev
+sudo apt install libxinerama-dev libgl1-mesa-dev libxkbcommon-x11-dev libfontconfig-dev
+# sudo apt install libpython-dev # ???
+sudo apt install libpython3.6-dev
+```
+
+
+### Install `ripgrep`, One of the Best, Fastest Command Line Search Engines
+
+* https://beyondgrep.com/feature-comparison/
+* https://github.com/BurntSushi/ripgrep
+* https://github.com/BurntSushi/ripgrep#installation
+* https://phiresky.github.io/blog/2019/rga--ripgrep-for-zip-targz-docx-odt-epub-jpg/
+
+If you're a Debian user (or a user of a Debian derivative like Ubuntu), then ripgrep can be installed using
+a binary .deb file provided in each ripgrep release.
+
+
+```bash
+# curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
+wget https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
+sudo dpkg -i ripgrep_12.1.1_amd64.deb
 ```
 
 

@@ -1,0 +1,45 @@
+#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
+# home="$(realpath "$(realpath "${BASH_SOURCE[0]}" | xargs dirname)"/.)"
+# cd "$home"
+
+grey='\x1b[38;05;240m'
+blue='\x1b[38;05;27m'
+lime='\x1b[38;05;118m'
+orange='\x1b[38;05;208m'
+red='\x1b[38;05;124m'
+reset='\x1b[0m'
+function info () { set +u;  printf "$grey""INTERSHOP ""$blue%s$reset\n" "$1 $2 $3 $4 $5 $6"; set -u; }
+function help () { set +u;  printf "$grey""INTERSHOP ""$lime%s$reset\n" "$1 $2 $3 $4 $5 $6"; set -u; }
+function urge () { set +u;  printf "$grey""INTERSHOP ""$orange%s$reset\n" "$1 $2 $3 $4 $5 $6"; set -u; }
+function warn () { set +u;  printf "$grey""INTERSHOP ""$red%s$reset\n" "$1 $2 $3 $4 $5 $6"; set -u; }
+
+
+sudo apt install wget ca-certificates psmisc
+
+export codename=$(lsb_release -cs)
+urge 'Linux Mint codename is' "$codename"
+source /etc/os-release && export codename="$UBUNTU_CODENAME"
+info 'Ubuntu     codename is' "$codename"
+
+cmd='echo "deb http://apt.postgresql.org/pub/repos/apt/ '$codename'-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+
+set -x
+sudo sh -c "$cmd"
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt update
+set +x
+
+
+
+
+# sudo apt install wget ca-certificates psmisc
+# sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $codename\-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+# wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+# sudo apt update
+
+
+
+
+

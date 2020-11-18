@@ -89,6 +89,9 @@
     - [Install Albert Launcher](#install-albert-launcher)
     - [Fork Kitty](#fork-kitty)
     - [Install `ripgrep`, One of the Best, Fastest Command Line Search Engines](#install-ripgrep-one-of-the-best-fastest-command-line-search-engines)
+    - [Run GUI (Desktop) Programs on Remote Host (How to Work Remotely without VNC)](#run-gui-desktop-programs-on-remote-host-how-to-work-remotely-without-vnc)
+      - [Show GUI Applications on Remote Machine](#show-gui-applications-on-remote-machine)
+      - [Show GUI Applications on Local Machine](#show-gui-applications-on-local-machine)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1971,6 +1974,38 @@ wget https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1
 sudo dpkg -i ripgrep_12.1.1_amd64.deb
 ```
 
+### Run GUI (Desktop) Programs on Remote Host (How to Work Remotely without VNC)
+
+#### Show GUI Applications on Remote Machine
+
+```sh
+# thx to https://askubuntu.com/a/47658
+ssh user@example.com
+export DISPLAY=:0
+firefox
+```
+
+or, equivalently,
+
+```sh
+ssh user@example.com "DISPLAY=:0 nohup firefox"
+```
+
+This will open a browser window on the remote machine. `nuhup` ('no hang-up', from the days when we
+communicated via acoustically coupled handsets) will prevent the application window from being closed when
+the SSH session ends (not needed in all cases).
+
+
+#### Show GUI Applications on Local Machine
+
+More interesting is the possibility to run a GUI application on the remote machine but get the app window displayed locally.
+This is possible with the `-Y` ('Enables trusted X11 forwarding') flag to the `ss` command:
+
+```sh
+# thx to commenter to https://askubuntu.com/a/47658
+ssh -Y user@example.com
+firefox
+```
 
 
 

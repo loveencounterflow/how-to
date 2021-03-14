@@ -2009,3 +2009,20 @@ firefox
 
 
 
+# Raspberry Pi OS (raspbian)
+
+## Enable SSH server
+
+```sh
+sudo apt install openssh-server openssh-client
+sudo update-rc.d ssh enable
+sudo /etc/init.d/ssh status
+```
+
+
+
+
+
+
+
+

@@ -94,6 +94,7 @@
       - [Show GUI Applications on Local Machine](#show-gui-applications-on-local-machine)
 - [Raspberry Pi OS (raspbian)](#raspberry-pi-os-raspbian)
   - [Enable SSH server](#enable-ssh-server)
+  - [Prevent Auto-Login](#prevent-auto-login)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -2021,7 +2022,9 @@ sudo update-rc.d ssh enable
 sudo /etc/init.d/ssh status
 ```
 
+## Prevent Auto-Login
 
+Use `sudo raspi-config` (from `pi` account), go to `System > Boot / Auto Login`.
 
 
 

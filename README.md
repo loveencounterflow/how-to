@@ -92,6 +92,9 @@
   - [Run GUI (Desktop) Programs on Remote Host (How to Work Remotely without VNC)](#run-gui-desktop-programs-on-remote-host-how-to-work-remotely-without-vnc)
     - [Show GUI Applications on Remote Machine](#show-gui-applications-on-remote-machine)
     - [Show GUI Applications on Local Machine](#show-gui-applications-on-local-machine)
+- [Raspberry Pi OS (raspbian)](#raspberry-pi-os-raspbian)
+  - [Enable SSH server](#enable-ssh-server)
+  - [Prevent Auto-Login](#prevent-auto-login)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -2007,5 +2010,20 @@ ssh -Y user@example.com
 firefox
 ```
 
+
+
+# Raspberry Pi OS (raspbian)
+
+## Enable SSH server
+
+```sh
+sudo apt install openssh-server openssh-client
+sudo update-rc.d ssh enable
+sudo /etc/init.d/ssh status
+```
+
+## Prevent Auto-Login
+
+Use `sudo raspi-config` (from `pi` account), go to `System > Boot / Auto Login`.
 
 

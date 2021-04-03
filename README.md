@@ -95,10 +95,13 @@
 - [Raspberry Pi OS (raspbian)](#raspberry-pi-os-raspbian)
   - [Enable SSH server](#enable-ssh-server)
   - [Prevent Auto-Login](#prevent-auto-login)
-- [System.d Timers](#systemd-timers)
+- [Systemd Timers](#systemd-timers)
   - [Links](#links)
   - [Locations](#locations)
-  - [Status Report](#status-report)
+  - [Status Reports](#status-reports)
+  - [Control](#control)
+    - [Starting and Stopping](#starting-and-stopping)
+    - [View Output (Including Errors)](#view-output-including-errors)
   - [Man Pages](#man-pages)
   - [Timer Expression Testing](#timer-expression-testing)
 
@@ -2033,9 +2036,12 @@ sudo /etc/init.d/ssh status
 Use `sudo raspi-config` (from `pi` account), go to `System > Boot / Auto Login`.
 
 
-# System.d Timers
+# Systemd Timers
 
 ## Links
+
+* [*Use systemd timers instead of cronjobs: Timers provide finer-grained control of events than
+  cronjobs.*—07 Jul 2020, by David Both ](https://opensource.com/article/20/7/systemd-timers)
 
 * https://www.splendid-internet.de/blog/besser-als-cronjobs-timer-units-mit-systemd/
 * https://medium.com/horrible-hacks/using-systemd-as-a-better-cron-a4023eea996d
@@ -2047,11 +2053,36 @@ Use `sudo raspi-config` (from `pi` account), go to `System > Boot / Auto Login`.
 * network: `/etc/systemd/network`
 
 
-## Status Report
+## Status Reports
 
 ```sh
 systemctl list-timers --all
+systemctl status '*timer'
+systemctl status 'flowMyMonitor.service'
+# `-S` is `--since`
+journalctl -S today -u 'flowMyMonitor.service'
+# `-f` is `--follow` for tail-like behavior
+journalctl -S today -f -u 'flowMyMonitor.service'
+journalctl -u 'flowMyMonitor.service'
+journalctl -u '*.timer'
 ```
+
+## Control
+
+### Starting and Stopping
+
+```sh
+sudo systemctl start 'flowMyMonitor.service'
+sudo systemctl daemon-reload && sudo systemctl restart 'flowMyMonitor.service'
+sudo systemctl stop 'flowMyMonitor.service'
+```
+
+### View Output (Including Errors)
+
+```sh
+journalctl -u 'flowMyMonitor.service'
+```
+
 
 ## Man Pages
 

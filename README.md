@@ -95,6 +95,12 @@
 - [Raspberry Pi OS (raspbian)](#raspberry-pi-os-raspbian)
   - [Enable SSH server](#enable-ssh-server)
   - [Prevent Auto-Login](#prevent-auto-login)
+- [System.d Timers](#systemd-timers)
+  - [Links](#links)
+  - [Locations](#locations)
+  - [Status Report](#status-report)
+  - [Man Pages](#man-pages)
+  - [Timer Expression Testing](#timer-expression-testing)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -2025,5 +2031,48 @@ sudo /etc/init.d/ssh status
 ## Prevent Auto-Login
 
 Use `sudo raspi-config` (from `pi` account), go to `System > Boot / Auto Login`.
+
+
+# System.d Timers
+
+## Links
+
+* https://www.splendid-internet.de/blog/besser-als-cronjobs-timer-units-mit-systemd/
+* https://medium.com/horrible-hacks/using-systemd-as-a-better-cron-a4023eea996d
+
+## Locations
+
+* System Service Units: `/etc/systemd/system`
+* User-specific services: `/etc/systemd/user`
+* network: `/etc/systemd/network`
+
+
+## Status Report
+
+```sh
+systemctl list-timers --all
+```
+
+## Man Pages
+
+* Timer syntax: `man systemd.time`
+
+## Timer Expression Testing
+
+```sh
+systemd-analyze calendar '*:*:0/30'
+```
+
+Output:
+
+```
+  Original form: *:*:0/30
+Normalized form: *-*-* *:*:00/30
+    Next elapse: Sat 2021-04-03 09:55:30 CEST
+       (in UTC): Sat 2021-04-03 07:55:30 UTC
+       From now: 10s left
+```
+
+
 
 

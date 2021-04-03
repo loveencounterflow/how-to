@@ -67,31 +67,31 @@
   - [Install All the Versions](#install-all-the-versions)
 - [Install Riot Client](#install-riot-client)
 - [Install R](#install-r)
-- [Scripting VMs Upstart Times](#scripting-vms-upstart-times)
-  - [Booting Linux from USB Drive](#booting-linux-from-usb-drive)
-  - [Install Sublime Text 3 with APT](#install-sublime-text-3-with-apt)
-  - [Install Sublime Merge (Git Client)](#install-sublime-merge-git-client)
-  - [Install Suckless Terminal](#install-suckless-terminal)
-  - [Remapping Keys with XKB](#remapping-keys-with-xkb)
+- [Benchmark: Scripting VMs Upstart Times](#benchmark-scripting-vms-upstart-times)
+- [Booting Linux from USB Drive](#booting-linux-from-usb-drive)
+- [Install Sublime Text 3 with APT](#install-sublime-text-3-with-apt)
+- [Install Sublime Merge (Git Client)](#install-sublime-merge-git-client)
+- [Install Suckless Terminal](#install-suckless-terminal)
+- [Remapping Keys with XKB](#remapping-keys-with-xkb)
     - [Install kbdgen](#install-kbdgen)
-  - [Activate Composing Keys Behavior](#activate-composing-keys-behavior)
-  - [Install Python 3, PIP 3](#install-python-3-pip-3)
-  - [Remap Keys With Xmodmap](#remap-keys-with-xmodmap)
-  - [Fixing Those Crazy Caret Keys in the Console](#fixing-those-crazy-caret-keys-in-the-console)
-  - [Local Logins Without Password](#local-logins-without-password)
-  - [Install ZSH](#install-zsh)
-    - [ZSH: Immediately Share History Across Command Lines](#zsh-immediately-share-history-across-command-lines)
-    - [ZSH: Fix Exponentially Slow Paste](#zsh-fix-exponentially-slow-paste)
-  - [Install Wine on Linux Mint 19.x](#install-wine-on-linux-mint-19x)
-    - [Add i386 Architecture](#add-i386-architecture)
-    - [Install FAudio](#install-faudio)
-    - [Install Wine from WinHQ](#install-wine-from-winhq)
-    - [Install Albert Launcher](#install-albert-launcher)
-    - [Fork Kitty](#fork-kitty)
-    - [Install `ripgrep`, One of the Best, Fastest Command Line Search Engines](#install-ripgrep-one-of-the-best-fastest-command-line-search-engines)
-    - [Run GUI (Desktop) Programs on Remote Host (How to Work Remotely without VNC)](#run-gui-desktop-programs-on-remote-host-how-to-work-remotely-without-vnc)
-      - [Show GUI Applications on Remote Machine](#show-gui-applications-on-remote-machine)
-      - [Show GUI Applications on Local Machine](#show-gui-applications-on-local-machine)
+- [Activate Composing Keys Behavior](#activate-composing-keys-behavior)
+- [Install Python 3, PIP 3](#install-python-3-pip-3)
+- [Remap Keys With Xmodmap](#remap-keys-with-xmodmap)
+- [Fixing Those Crazy Caret Keys in the Console](#fixing-those-crazy-caret-keys-in-the-console)
+- [Local Logins Without Password](#local-logins-without-password)
+- [Install ZSH](#install-zsh)
+  - [ZSH: Immediately Share History Across Command Lines](#zsh-immediately-share-history-across-command-lines)
+  - [ZSH: Fix Exponentially Slow Paste](#zsh-fix-exponentially-slow-paste)
+- [Install Wine on Linux Mint 19.x](#install-wine-on-linux-mint-19x)
+  - [Add i386 Architecture](#add-i386-architecture)
+  - [Install FAudio](#install-faudio)
+  - [Install Wine from WinHQ](#install-wine-from-winhq)
+  - [Install Albert Launcher](#install-albert-launcher)
+  - [Fork Kitty](#fork-kitty)
+  - [Install `ripgrep`, One of the Best, Fastest Command Line Search Engines](#install-ripgrep-one-of-the-best-fastest-command-line-search-engines)
+  - [Run GUI (Desktop) Programs on Remote Host (How to Work Remotely without VNC)](#run-gui-desktop-programs-on-remote-host-how-to-work-remotely-without-vnc)
+    - [Show GUI Applications on Remote Machine](#show-gui-applications-on-remote-machine)
+    - [Show GUI Applications on Local Machine](#show-gui-applications-on-local-machine)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1548,7 +1548,7 @@ sudo apt install rkward
 ```
 
 
-# Scripting VMs Upstart Times
+# Benchmark: Scripting VMs Upstart Times
 
 ```sh
 #!/bin/bash
@@ -1576,7 +1576,7 @@ echo 'ruby';      time for ((i=0;i<k;i++)); do ruby       -e 'x = 1234 * 1234'; 
 # node          19.289    1.47 %  68.16 x
 ```
 
-## Booting Linux from USB Drive
+# Booting Linux from USB Drive
 
 * https://help.ubuntu.com/community/mkusb
 
@@ -1593,7 +1593,7 @@ echo 'ruby';      time for ((i=0;i<k;i++)); do ruby       -e 'x = 1234 * 1234'; 
 * [MultiSystem, YUMI](https://askubuntu.com/a/519007)
 
 
-## Install Sublime Text 3 with APT
+# Install Sublime Text 3 with APT
 
 
 ```bash
@@ -1605,7 +1605,7 @@ sudo apt update
 sudo apt install sublime-text
 ```
 
-## Install Sublime Merge (Git Client)
+# Install Sublime Merge (Git Client)
 
 ```bash
 # Ensure apt is set up to work with https sources:
@@ -1618,7 +1618,7 @@ sudo apt update
 sudo apt install sublime-merge
 ```
 
-## Install Suckless Terminal
+# Install Suckless Terminal
 
 ```bash
 # prerequisites (thx to http://www.adercon.com/ac/node/115)
@@ -1632,7 +1632,7 @@ cd st
 make
 ```
 
-## Remapping Keys with XKB
+# Remapping Keys with XKB
 
 * https://unix.stackexchange.com/a/65600/280204
 * https://www.x.org/releases/X11R7.7/doc/man/man1/xkbcomp.1.xhtml
@@ -1676,18 +1676,18 @@ less /usr/share/X11/xkb/symbols/de
 10196  xev
 ```
 
-## Activate Composing Keys Behavior
+# Activate Composing Keys Behavior
 
 * https://cyberborean.wordpress.com/2008/01/06/compose-key-magic/
 
-## Install Python 3, PIP 3
+# Install Python 3, PIP 3
 
 ```
 sudo apt install python3-pip
 sudo pip3 install setuptools
 ```
 
-## Remap Keys With Xmodmap
+# Remap Keys With Xmodmap
 
 `~/Xmodmap`:
 
@@ -1711,7 +1711,7 @@ keycode 105 = Menu NoSymbol Menu NoSymbol Menu
 xmodmap ~/.Xmodmap
 ```
 
-## Fixing Those Crazy Caret Keys in the Console
+# Fixing Those Crazy Caret Keys in the Console
 
 Crazy Caret Keys Syndrome (CCKS)
 
@@ -1761,7 +1761,7 @@ stty sane
 The way this works is it first emits an [ANSII VT100 Escape Sequence to show the
 cursor](https://stackoverflow.com/a/15011692); then it calls upon `stty` to rectify things.
 
-## Local Logins Without Password
+# Local Logins Without Password
 
 ```sh
 sudo apt install keychain
@@ -1769,7 +1769,7 @@ ssh-keygen
 ssh-copy-id user@192.168.000.000
 ```
 
-## Install ZSH
+# Install ZSH
 
 
 thx to https://gist.github.com/tsabat/1498393
@@ -1809,7 +1809,7 @@ zplug load
 
 See [unixorn/awesome-zsh-plugins](https://github.com/unixorn/awesome-zsh-plugins) for ZSH plugins.
 
-### ZSH: Immediately Share History Across Command Lines
+## ZSH: Immediately Share History Across Command Lines
 
 In order to live-share history across terminals add these lines to `~/.zshrc`:
 
@@ -1822,7 +1822,7 @@ setopt inc_append_history
 setopt share_history
 ```
 
-### ZSH: Fix Exponentially Slow Paste
+## ZSH: Fix Exponentially Slow Paste
 
 The `zsh-syntax-highlighting` plugin has a bug that causes `shift-ctrl-c` to grind to a hold whenever the
 pasted text is longer than a few characters; with multi-line pastes, that can take up to a minute or so.
@@ -1843,19 +1843,19 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 source "/home/$USER/.zplug/repos/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 ```
 
-## Install Wine on Linux Mint 19.x
+# Install Wine on Linux Mint 19.x
 
 In Linux Mint 19.3 Tricia (which is based on Ubuntu 18.04 bionic):
 
 https://wiki.winehq.org/Ubuntu
 
-### Add i386 Architecture
+## Add i386 Architecture
 
 ```bash
 sudo dpkg --add-architecture i386
 ```
 
-### Install FAudio
+## Install FAudio
 
 [Satisfy FAudio dependency (only needed for Ubuntu before 19.04)](https://forum.winehq.org/viewtopic.php?f=8&t=32192):
 
@@ -1914,7 +1914,7 @@ Errors were encountered while processing:
 ```
 </strike>
 
-### Install Wine from WinHQ
+## Install Wine from WinHQ
 
 ```bash
 wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add -
@@ -1929,7 +1929,7 @@ sudo apt install --install-recommends winehq-stable
 > tips on troubleshooting dependency issues.
 
 
-### Install Albert Launcher
+## Install Albert Launcher
 
 For Linux Mint 19.3 Tricia (Ubuntu 18.04 Bionic)
 
@@ -1944,7 +1944,7 @@ sudo apt-get update && sudo apt-get install albert
 ```
 
 
-### Fork Kitty
+## Fork Kitty
 
 * https://github.com/kovidgoyal/kitty
 * https://sw.kovidgoyal.net/kitty/build.html
@@ -1957,7 +1957,7 @@ sudo apt install libpython3.6-dev
 ```
 
 
-### Install `ripgrep`, One of the Best, Fastest Command Line Search Engines
+## Install `ripgrep`, One of the Best, Fastest Command Line Search Engines
 
 * https://beyondgrep.com/feature-comparison/
 * https://github.com/BurntSushi/ripgrep
@@ -1974,9 +1974,9 @@ wget https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1
 sudo dpkg -i ripgrep_12.1.1_amd64.deb
 ```
 
-### Run GUI (Desktop) Programs on Remote Host (How to Work Remotely without VNC)
+## Run GUI (Desktop) Programs on Remote Host (How to Work Remotely without VNC)
 
-#### Show GUI Applications on Remote Machine
+### Show GUI Applications on Remote Machine
 
 ```sh
 # thx to https://askubuntu.com/a/47658
@@ -1996,7 +1996,7 @@ communicated via acoustically coupled handsets) will prevent the application win
 the SSH session ends (not needed in all cases).
 
 
-#### Show GUI Applications on Local Machine
+### Show GUI Applications on Local Machine
 
 More interesting is the possibility to run a GUI application on the remote machine but get the app window displayed locally.
 This is possible with the `-Y` ('Enables trusted X11 forwarding') flag to the `ss` command:

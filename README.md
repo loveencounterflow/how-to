@@ -2043,6 +2043,9 @@ Use `sudo raspi-config` (from `pi` account), go to `System > Boot / Auto Login`.
 * [*Use systemd timers instead of cronjobs: Timers provide finer-grained control of events than
   cronjobs.*—07 Jul 2020, by David Both ](https://opensource.com/article/20/7/systemd-timers)
 
+* [*Using systemd Timer Units to Schedule Jobs* by Steven Vona, April 7,
+  2019](https://www.putorius.net/using-systemd-timers.html#create-a-script-to-run-the-rsync-command)
+
 * https://www.splendid-internet.de/blog/besser-als-cronjobs-timer-units-mit-systemd/
 * https://medium.com/horrible-hacks/using-systemd-as-a-better-cron-a4023eea996d
 
@@ -2059,7 +2062,7 @@ Use `sudo raspi-config` (from `pi` account), go to `System > Boot / Auto Login`.
 systemctl list-timers --all
 systemctl status '*timer'
 systemctl status 'flowMyMonitor.service'
-# `-S` is `--since`
+# `-S` is `--since`, `u` is `--unit`
 journalctl -S today -u 'flowMyMonitor.service'
 # `-f` is `--follow` for tail-like behavior
 journalctl -S today -f -u 'flowMyMonitor.service'
@@ -2075,6 +2078,13 @@ journalctl -u '*.timer'
 sudo systemctl start 'flowMyMonitor.service'
 sudo systemctl daemon-reload && sudo systemctl restart 'flowMyMonitor.service'
 sudo systemctl stop 'flowMyMonitor.service'
+```
+
+Enable (disable) timer to ensure it is added to the systemd schedule; start it to make it run immediately
+(and not wait for e.g. the next system startup):
+
+```sh
+sudo systemctl daemon-reload && sudo systemctl enable 'flowMyMonitor.timer' && sudo systemctl start 'flowMyMonitor.timer'
 ```
 
 ### View Output (Including Errors)

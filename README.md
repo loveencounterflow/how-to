@@ -2093,6 +2093,11 @@ sudo systemctl daemon-reload && sudo systemctl enable 'flowMyMonitor.timer' && s
 journalctl -u 'flowMyMonitor.service'
 ```
 
+Create shortcut to be able to treat this like a GUI app:
+
+```sh
+gnome-terminal -- journalctl -S today -f -u 'flowMyMonitor.service'
+```
 
 ## Man Pages
 

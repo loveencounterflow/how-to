@@ -61,6 +61,7 @@
   - [PostGreSQL AutoDoc](#postgresql-autodoc)
   - [pgModeler](#pgmodeler)
   - [pgLoader](#pgloader)
+  - [plv8](#plv8)
   - [ImageMagick](#imagemagick)
 - [Getting Started with PostgreSQL](#getting-started-with-postgresql)
   - [Remove Everything](#remove-everything)
@@ -1451,6 +1452,35 @@ If it worked, you should see
 pgloader version "3.4.cf6182f"
 compiled with SBCL 1.3.1.debian
 ```
+
+## plv8
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+#!/usr/bin/env bash
+set -euo pipefail
+
+sudo apt install libc++-dev libc++abi-dev
+
+# wget https://github.com/plv8/plv8/archive/v2.0.3.tar.gz
+wget https://github.com/plv8/plv8/archive/refs/tags/v2.3.15.tar.gz
+tar -xvzf v2.3.15.tar.gz
+cd plv8-2.3.15/
+make static
+# # allow for several hours of compilation time
+sudo make install
+sudo /etc/init.d/postgresql restart
+
+echo ''
+echo '----------------------------------------------------------------'
+echo 'You should now be able to install the plv8 extension in SQL:'
+echo 'psql -U mojikura -c "set role dba;" -c "create extension plv8;"'
+echo '----------------------------------------------------------------'
+echo ''
+```
+
 
 
 ## ImageMagick

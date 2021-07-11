@@ -105,6 +105,7 @@
     - [View Output (Including Errors)](#view-output-including-errors)
   - [Man Pages](#man-pages)
   - [Timer Expression Testing](#timer-expression-testing)
+- [SQLite](#sqlite)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -2150,5 +2151,13 @@ Normalized form: *-*-* *:*:00/30
 ```
 
 
+# SQLite
 
+ER Diagrams for SQLite: https://github.com/paulavery/visualize-sqlite
 
+```bash
+cargo install visualize-sqlite
+visualize-sqlite my.db | dot -Tpng -Gfontname='Fira Mono' -Gfontcolor='#586e75' -Gbgcolor='#fdf6e3' -Nfontname='Fira Mono' -Nfontcolor='#586e75' -Efontname='Fira Mono' > output.png
+```
+
+![Chinook ER Diagram](https://github.com/loveencounterflow/how-to/raw/master/chinook.png)

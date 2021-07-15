@@ -1460,10 +1460,7 @@ compiled with SBCL 1.3.1.debian
 #!/usr/bin/env bash
 set -euo pipefail
 
-#!/usr/bin/env bash
-set -euo pipefail
-
-sudo apt install libc++-dev libc++abi-dev
+sudo apt install libc++-dev libc++abi-dev postgresql-server-dev-12
 
 # wget https://github.com/plv8/plv8/archive/v2.0.3.tar.gz
 wget https://github.com/plv8/plv8/archive/refs/tags/v2.3.15.tar.gz

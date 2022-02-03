@@ -81,6 +81,7 @@
 - [Fixing Those Crazy Caret Keys in the Console](#fixing-those-crazy-caret-keys-in-the-console)
 - [Local Logins Without Password](#local-logins-without-password)
 - [Install ZSH](#install-zsh)
+  - [Add the Most Useful ZSH Plugins](#add-the-most-useful-zsh-plugins)
   - [ZSH: Immediately Share History Across Command Lines](#zsh-immediately-share-history-across-command-lines)
   - [ZSH: Fix Exponentially Slow Paste](#zsh-fix-exponentially-slow-paste)
 - [Install Wine on Linux Mint 19.x](#install-wine-on-linux-mint-19x)
@@ -1823,6 +1824,11 @@ chsh -s `which zsh`
 echo "should restart computer now"
 ```
 
+
+**NOTE** There's a [copy-and-pasteable `.zshrc`](./templates/.zshrc) for your convenience
+that implments the below settings.
+
+## Add the Most Useful ZSH Plugins
 
 Add the following lines to `~/.zshrc`:
 

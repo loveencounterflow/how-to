@@ -1826,7 +1826,7 @@ echo "should restart computer now"
 
 
 **NOTE** There's a [copy-and-pasteable `.zshrc`](./templates/.zshrc) for your convenience
-that implments the below settings.
+that implements the below settings.
 
 ## Add the Most Useful ZSH Plugins
 

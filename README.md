@@ -107,6 +107,7 @@
   - [Man Pages](#man-pages)
   - [Timer Expression Testing](#timer-expression-testing)
 - [SQLite](#sqlite)
+- [Store Personal Access Token (PAT) for Github via Git](#store-personal-access-token-pat-for-github-via-git)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -2164,3 +2165,47 @@ visualize-sqlite my.db | dot -Tpng -Gfontname='Fira Mono' -Gfontcolor='#586e75' 
 ```
 
 ![Chinook ER Diagram](https://github.com/loveencounterflow/how-to/raw/master/chinook.png)
+
+
+
+# Store Personal Access Token (PAT) for Github via Git
+
+As detailed on [askubuntu](https://askubuntu.com/questions/773455/what-is-the-correct-way-to-use-git-with-gnome-keyring-and-https-repos/959662#959662):
+
+
+> `gnome-credential-helper` is now deprecated.
+>
+> Instead, use [libsecret](https://wiki.gnome.org/Projects/Libsecret). If it's not already pre-installed on your machine, use the following procedure:
+>
+> 1. Make sure `libsecret` and its development libraries are installed:
+>
+>       ```shell
+>       sudo apt install libsecret-1-0 libsecret-1-dev
+>       ```
+>
+> 2. Then build the credential helper from the sources shipped with libsecret's development libraries:
+>
+>       ```shell
+>       sudo make --directory=/usr/share/doc/git/contrib/credential/libsecret
+>       ```
+>
+> 3. Finally, register the freshly compiled binary as a [Git credential helper](https://git-scm.com/docs/gitcredentials):
+>
+>      ```shell
+>      git config --global credential.helper \
+>         /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+>      ```
+>
+> More details on https://stackoverflow.com/a/40312117/2017781
+
+
+The same, in an easier-to-copy format:
+
+```bash
+sudo apt install -y libsecret-1-0 libsecret-1-dev
+sudo make --directory=/usr/share/doc/git/contrib/credential/libsecret
+git config --global credential.helper /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+```
+
+
+

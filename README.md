@@ -2207,5 +2207,22 @@ sudo make --directory=/usr/share/doc/git/contrib/credential/libsecret
 git config --global credential.helper /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 ```
 
+* Generate a Personal Access Token on (GitHub)[https://github.com]
+* when pushing next time, enter account name, and
+* when asked for your password, paste the PAT code and hit return
+
+The access token is now stored and won't be required the next time you interact with GitHub.
+
+
+<!-- # Define Custom Keyboard Mappings with `kmonad` -->
+
+
+
+
+
+
+
+
+
 
 

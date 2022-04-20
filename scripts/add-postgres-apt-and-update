@@ -16,26 +16,19 @@ function urge () { set +u;  printf "$grey""INTERSHOP ""$orange%s$reset\n" "$1 $2
 function warn () { set +u;  printf "$grey""INTERSHOP ""$red%s$reset\n" "$1 $2 $3 $4 $5 $6"; set -u; }
 
 
-sudo apt install wget ca-certificates psmisc
+# sudo apt install wget ca-certificates psmisc
+sudo apt install curl ca-certificates gnupg
 
 export codename=$(lsb_release -cs)
 urge 'Linux Mint codename is' "$codename"
 source /etc/os-release && export codename="$UBUNTU_CODENAME"
 info 'Ubuntu     codename is' "$codename"
 
-cmd='echo "deb http://apt.postgresql.org/pub/repos/apt/ '$codename'-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-
-set -x
-sudo sh -c "$cmd"
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/apt.postgresql.org.gpg >/dev/null
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt '"$codename"'-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 sudo apt update
-set +x
-
-
-
 
 # sudo apt install wget ca-certificates psmisc
-# sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $codename\-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 # wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 # sudo apt update
 

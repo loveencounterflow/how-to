@@ -1511,22 +1511,15 @@ https://wiki.postgresql.org/wiki/Apt
 On Ubuntu and Linux Mint, retrieve the Ubuntu codename (not the Mint codename):
 
 ```bash
-# yields e.g. 'bionic' on Ubuntu, but e.g. 'tricia' on Mint:
-# On **Ubuntu**, do:
-codename=$(lsb_release -cs)
+sudo apt install curl ca-certificates gnupg
 
-# On **Linux Mint**, do:
-codename=$(lsb_release -cs)
-source /etc/os-release && codename="$UBUNTU_CODENAME"
-```
+export codename=$(lsb_release -cs)
+urge 'Linux Mint codename is' "$codename"
+source /etc/os-release && export codename="$UBUNTU_CODENAME"
+info 'Ubuntu     codename is' "$codename"
 
-Then:
-
-```bash
-sudo apt install wget ca-certificates psmisc
-cmd='echo "deb http://apt.postgresql.org/pub/repos/apt/ '$codename'-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-sudo sh -c "$cmd"
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/apt.postgresql.org.gpg >/dev/null
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt '"$codename"'-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 sudo apt update
 ```
 

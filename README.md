@@ -2159,7 +2159,6 @@ visualize-sqlite my.db | dot -Tpng -Gfontname='Fira Mono' -Gfontcolor='#586e75' 
 ![Chinook ER Diagram](https://github.com/loveencounterflow/how-to/raw/master/chinook.png)
 
 
-<<<<<<< HEAD
 # GRUB
 
 My `/etc/default/grub` file; these settings will cause grub to pause for 10
@@ -2207,7 +2206,7 @@ GRUB_CMDLINE_LINUX=""
 # Uncomment to get a beep at grub start
 #GRUB_INIT_TUNE="480 440 1"
 ```
-=======
+
 
 # Store Personal Access Token (PAT) for Github via Git
 

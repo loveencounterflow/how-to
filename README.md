@@ -107,6 +107,7 @@
   - [Man Pages](#man-pages)
   - [Timer Expression Testing](#timer-expression-testing)
 - [SQLite](#sqlite)
+- [GRUB](#grub)
 - [Store Personal Access Token (PAT) for Github via Git](#store-personal-access-token-pat-for-github-via-git)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->

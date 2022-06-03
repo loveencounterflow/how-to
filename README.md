@@ -1328,7 +1328,7 @@ Once you have that, keep in mind the following points:
 
 * *Both options need exactly one glob as argument** and will act on all matching folder- or filenames. You
   crucially **cannot** have a path part in the glob. **This means you may inadvertently remove the histories
-  of several like-named files when you were only thinking to remove the history of a single file.
+  of several like-named files when you were only thinking to remove the history of a single file.*
 
 * By default, The BFG will not touch your most recent commit; that is, you must do `git rm ... && git add ..
   && git commit -m'remove file ...'` *before* you run `bfg`.
@@ -1379,8 +1379,7 @@ git filter-branch -f --index-filter "git rm --cached --ignore-unmatch $x" HEAD
 
 ```
 
-> call `git-purge-file` with filenames double-quoted and bracket-escaped, as in `git-purge-file "foo
-> \(bar\)"`.
+> call `git-purge-file` with filenames double-quoted and bracket-escaped, as in `git-purge-file "foo \(bar\)"`.
 
 
 # Change Default Shell (in Ubuntu)

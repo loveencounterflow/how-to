@@ -108,6 +108,7 @@
   - [Timer Expression Testing](#timer-expression-testing)
 - [SQLite](#sqlite)
 - [Store Personal Access Token (PAT) for Github via Git](#store-personal-access-token-pat-for-github-via-git)
+- [Color Adjustment on Linux](#color-adjustment-on-linux)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -2219,8 +2220,20 @@ The access token is now stored and won't be required the next time you interact 
 
 
 
+# Color Adjustment on Linux
+
+* https://www.omgubuntu.co.uk/2017/05/adjust-external-monitor-brightness-ubuntu
+* https://github.com/LordAmit/Brightness
+
+* [Vibrant Linux](https://github.com/libvibrant/vibrantLinux): A tool to automate managing your screen's
+  saturation depending on what programs are running
+
+See also:
 
 
+* https://github.com/Ablinne/kolorcontrol
+  * three sliders per channel
+  * install with pip3, ensure `sudo apt install -y python3-pip xcalib`
 
 
 

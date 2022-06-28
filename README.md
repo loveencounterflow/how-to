@@ -2268,6 +2268,7 @@ The access token is now stored and won't be required the next time you interact 
 
 * [Vibrant Linux](https://github.com/libvibrant/vibrantLinux): A tool to automate managing your screen's
   saturation depending on what programs are running
+  * install with Flatpack
 
 See also:
 
@@ -2275,7 +2276,6 @@ See also:
 * https://github.com/Ablinne/kolorcontrol
   * three sliders per channel
   * install with pip3, ensure `sudo apt install -y python3-pip xcalib`
-
 
 
 

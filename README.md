@@ -107,6 +107,7 @@
   - [Man Pages](#man-pages)
   - [Timer Expression Testing](#timer-expression-testing)
 - [SQLite](#sqlite)
+- [GRUB](#grub)
 - [Store Personal Access Token (PAT) for Github via Git](#store-personal-access-token-pat-for-github-via-git)
 - [Color Adjustment on Linux](#color-adjustment-on-linux)
 
@@ -1329,7 +1330,7 @@ Once you have that, keep in mind the following points:
 
 * *Both options need exactly one glob as argument** and will act on all matching folder- or filenames. You
   crucially **cannot** have a path part in the glob. **This means you may inadvertently remove the histories
-  of several like-named files when you were only thinking to remove the history of a single file.
+  of several like-named files when you were only thinking to remove the history of a single file.*
 
 * By default, The BFG will not touch your most recent commit; that is, you must do `git rm ... && git add ..
   && git commit -m'remove file ...'` *before* you run `bfg`.
@@ -1380,8 +1381,7 @@ git filter-branch -f --index-filter "git rm --cached --ignore-unmatch $x" HEAD
 
 ```
 
-> call `git-purge-file` with filenames double-quoted and bracket-escaped, as in `git-purge-file "foo
-> \(bar\)"`.
+> call `git-purge-file` with filenames double-quoted and bracket-escaped, as in `git-purge-file "foo \(bar\)"`.
 
 
 # Change Default Shell (in Ubuntu)
@@ -1512,22 +1512,15 @@ https://wiki.postgresql.org/wiki/Apt
 On Ubuntu and Linux Mint, retrieve the Ubuntu codename (not the Mint codename):
 
 ```bash
-# yields e.g. 'bionic' on Ubuntu, but e.g. 'tricia' on Mint:
-# On **Ubuntu**, do:
-codename=$(lsb_release -cs)
+sudo apt install curl ca-certificates gnupg
 
-# On **Linux Mint**, do:
-codename=$(lsb_release -cs)
-source /etc/os-release && codename="$UBUNTU_CODENAME"
-```
+export codename=$(lsb_release -cs)
+urge 'Linux Mint codename is' "$codename"
+source /etc/os-release && export codename="$UBUNTU_CODENAME"
+info 'Ubuntu     codename is' "$codename"
 
-Then:
-
-```bash
-sudo apt install wget ca-certificates psmisc
-cmd='echo "deb http://apt.postgresql.org/pub/repos/apt/ '$codename'-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-sudo sh -c "$cmd"
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/apt.postgresql.org.gpg >/dev/null
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt '"$codename"'-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 sudo apt update
 ```
 
@@ -2167,6 +2160,54 @@ visualize-sqlite my.db | dot -Tpng -Gfontname='Fira Mono' -Gfontcolor='#586e75' 
 
 ![Chinook ER Diagram](https://github.com/loveencounterflow/how-to/raw/master/chinook.png)
 
+
+# GRUB
+
+My `/etc/default/grub` file; these settings will cause grub to pause for 10
+seconds when booting and show the boot menu.
+
+**Observe that after editing this file, you must run `sudo update-grub` to re-generate
+`/boot/grub/grub.cfg` (which should not be edited).**
+
+
+
+```bash
+# If you change this file, run 'update-grub' afterwards to update
+# /boot/grub/grub.cfg.
+# For full documentation of the options in this file, see:
+#   info -f grub -n 'Simple configuration'
+
+GRUB_DEFAULT=0
+GRUB_TIMEOUT_STYLE=menu                                             # !!! edit !!!
+GRUB_TIMEOUT=10                                                     # !!! edit !!!
+GRUB_HIDDEN_TIMEOUT_QUIET=false                                     # !!! edit !!!
+GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
+GRUB_CMDLINE_LINUX_DEFAULT=""                                       # !!! edit !!!
+#GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"                          # !!! edit !!!
+GRUB_CMDLINE_LINUX=""
+
+# Uncomment to enable BadRAM filtering, modify to suit your needs
+# This works with Linux (no patch required) and with any kernel that obtains
+# the memory map information from GRUB (GNU Mach, kernel of FreeBSD ...)
+#GRUB_BADRAM="0x01234567,0xfefefefe,0x89abcdef,0xefefefef"
+
+# Uncomment to disable graphical terminal (grub-pc only)
+#GRUB_TERMINAL=console
+
+# The resolution used on graphical terminal
+# note that you can use only modes which your graphic card supports via VBE
+# you can see them in real GRUB with the command `vbeinfo'
+#GRUB_GFXMODE=640x480
+
+# Uncomment if you don't want GRUB to pass "root=UUID=xxx" parameter to Linux
+#GRUB_DISABLE_LINUX_UUID=true
+
+# Uncomment to disable generation of recovery mode menu entries
+#GRUB_DISABLE_RECOVERY="true"
+
+# Uncomment to get a beep at grub start
+#GRUB_INIT_TUNE="480 440 1"
+```
 
 
 # Store Personal Access Token (PAT) for Github via Git

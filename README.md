@@ -116,6 +116,7 @@
   - [Vibrant Linux and LibVibrant](#vibrant-linux-and-libvibrant)
     - [Vibrant Linux (GUI for Color Saturation)](#vibrant-linux-gui-for-color-saturation)
     - [LibVibrant (CLI for Color Saturation)](#libvibrant-cli-for-color-saturation)
+  - [Brillo](#brillo)
   - [See Also](#see-also)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -2272,11 +2273,20 @@ The access token is now stored and won't be required the next time you interact 
 
 ## Brightness
 
-```bash
-xrandr --output eDP --gamma 1:0.75:0.75
-```
 
 * https://github.com/LordAmit/Brightness
+* install as `sudo apt install --yes brightness-controller`
+
+Brightness Controller is a Python3/QtPy GUI that presents four sliders per display (primary and secondary)
+to adjust brightness and RGB gamma. It also has a dropdown with descriptive entries to select gamma values
+in terms of color temperature. Further it provides the capability to save and to load settings from
+WinINI-style settings file. As such, it is well suited to experiment and record meaningful settings for your
+monitor, output purpose (such as video or text editor) and lighting situation (such as day or night).
+
+```bash
+xrandr --current --verbose
+xrandr --output eDP --gamma 1:0.75:0.75 --brightness 1
+```
 
 ## Redshift
 
@@ -2334,10 +2344,10 @@ LibVibrant works with GPUs from NVidia and AMD that support
   * [How to change color saturation in Linux with open drivers(AMD, Intel, nouveau) with
     vibrant-cli](https://www.youtube.com/watch?time_continue=169&v=wp2JT7CPLxY&feature=emb_logo)
 
-  * dependencies:
-    * `libx11-dev` (X11 client-side library (development headers))
-    * `libxrandr-dev` (X11 RandR extension library (development headers))
-    * `libxnvctrl-dev` (NV-CONTROL X extension (development files))
+* dependencies:
+  * `libx11-dev` (X11 client-side library (development headers))
+  * `libxrandr-dev` (X11 RandR extension library (development headers))
+  * `libxnvctrl-dev` (NV-CONTROL X extension (development files))
 
 
 ```bash
@@ -2362,6 +2372,47 @@ the saturation (or color vibrancy) between `0.0` (0%) and 4.0 (400%) (both inclu
 * 4 (400%) is the first day with your first color TV and the remote control
 * if empty the saturation will not be changed
 
+## Brillo
+
+* repo: https://gitlab.com/cameronnemo/brillo
+* man page: https://gitlab.com/cameronnemo/brillo/-/blob/master/doc/man/brillo.1.md
+
+> `brillo` controls the brightness of backlight and LED devices on Linux.
+> Notable features include:
+>
+> * Automatic best controller detection
+> * Smooth transitions and natural brightness adjustments
+> * Ability to save and restore brightness across boots
+> * Directly using sysfs to set brightness without relying on X
+> * Unprivileged access with no new setuid binaries
+> * Containment with AppArmor
+
+> * `-G`: Get brightness value (default)
+> * `-S` VALUE: Set brightness to value
+> * `-A` VALUE: Increment brightness by given value
+> * `-U` VALUE: Decrement brightness by given value
+> * `-O`: Store the current brightness
+> * `-I`: Restore cached brightness
+> * `-L`: List available devices
+> * `-H`: Show a short help output
+> * `-V`: Report the version
+
+```bash
+sudo apt install --yes go-md2man
+make
+sudo build/brillo -S 75 && sudo build/brillo -G
+sudo build/brillo -A 10 && sudo build/brillo -G
+sudo build/brillo -U 10 && sudo build/brillo -G
+sudo build/brillo -m
+sudo build/brillo -c
+groups
+usermod -a -G video "$USER"
+sudo usermod -a -G video "$USER"
+sudo make install.setgid GROUP=video
+brillo -G
+brillo -A 10
+```
+
 
 ## See Also
 
@@ -2370,4 +2421,4 @@ the saturation (or color vibrancy) between `0.0` (0%) and 4.0 (400%) (both inclu
   * install with pip3, ensure `sudo apt install -y python3-pip xcalib`
 * https://www.omgubuntu.co.uk/2017/05/adjust-external-monitor-brightness-ubuntu
 * https://github.com/WinEunuuchs2Unix/eyesome
-
+* `xbacklight` but couldn't get it to work on my machine

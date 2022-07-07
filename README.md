@@ -110,6 +110,13 @@
 - [GRUB](#grub)
 - [Store Personal Access Token (PAT) for Github via Git](#store-personal-access-token-pat-for-github-via-git)
 - [Color Adjustment on Linux](#color-adjustment-on-linux)
+  - [Brightness](#brightness)
+  - [Redshift](#redshift)
+  - [Relationship Between Color Temparature and RGB Gamma](#relationship-between-color-temparature-and-rgb-gamma)
+  - [Vibrant Linux and LibVibrant](#vibrant-linux-and-libvibrant)
+    - [Vibrant Linux (GUI for Color Saturation)](#vibrant-linux-gui-for-color-saturation)
+    - [LibVibrant (CLI for Color Saturation)](#libvibrant-cli-for-color-saturation)
+  - [See Also](#see-also)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -2263,20 +2270,104 @@ The access token is now stored and won't be required the next time you interact 
 
 # Color Adjustment on Linux
 
-* https://www.omgubuntu.co.uk/2017/05/adjust-external-monitor-brightness-ubuntu
+## Brightness
+
+```bash
+xrandr --output eDP --gamma 1:0.75:0.75
+```
+
 * https://github.com/LordAmit/Brightness
+
+## Redshift
+
+* https://github.com/jonls/redshift
+
+## Relationship Between Color Temparature and RGB Gamma
+
+
+> I found source code for program sct which allows user to set color temperature. It has "cribbed the code"
+> from redshift and provides mapping for red, green and blue values:
+>
+>      /* cribbed from redshift, but truncated with 500K steps */
+>      static const struct { float r; float g; float b; } whitepoints[] = {
+>          { 1.00000000,  0.18172716,  0.00000000, }, /* 1000K */
+>          { 1.00000000,  0.42322816,  0.00000000, },
+>          { 1.00000000,  0.54360078,  0.08679949, },
+>          { 1.00000000,  0.64373109,  0.28819679, },
+>          { 1.00000000,  0.71976951,  0.42860152, },
+>          { 1.00000000,  0.77987699,  0.54642268, },
+>          { 1.00000000,  0.82854786,  0.64816570, },
+>          { 1.00000000,  0.86860704,  0.73688797, },
+>          { 1.00000000,  0.90198230,  0.81465502, },
+>          { 1.00000000,  0.93853986,  0.88130458, },
+>          { 1.00000000,  0.97107439,  0.94305985, },
+>          { 1.00000000,  1.00000000,  1.00000000, }, /* 6500K */
+>          { 0.95160805,  0.96983355,  1.00000000, },
+>          { 0.91194747,  0.94470005,  1.00000000, },
+>          { 0.87906581,  0.92357340,  1.00000000, },
+>          { 0.85139976,  0.90559011,  1.00000000, },
+>          { 0.82782969,  0.89011714,  1.00000000, },
+>          { 0.80753191,  0.87667891,  1.00000000, },
+>          { 0.78988728,  0.86491137,  1.00000000, }, /* 10000K */
+>          { 0.77442176,  0.85453121,  1.00000000, },
+>      };
+>
+> The three columns above are values for Red, Green and Blue.—[*How to use "xrandr --gamma" for Gnome "Night
+> Light"-like
+  usage?*](https://askubuntu.com/questions/1003101/how-to-use-xrandr-gamma-for-gnome-night-light-like-usage)
+
+
+## Vibrant Linux and LibVibrant
+
+### Vibrant Linux (GUI for Color Saturation)
 
 * [Vibrant Linux](https://github.com/libvibrant/vibrantLinux): A tool to automate managing your screen's
   saturation depending on what programs are running
   * install with Flatpack
 
-See also:
+### LibVibrant (CLI for Color Saturation)
 
+LibVibrant works with GPUs from NVidia and AMD that support
+
+* [`libvibrant` with `libvibrant-cli`](https://gitlab.com/libvibrant/libvibrant)
+  * https://forum.garudalinux.org/t/vibrant-cli-doesnt-work/11879
+  * [How to change color saturation in Linux with open drivers(AMD, Intel, nouveau) with
+    vibrant-cli](https://www.youtube.com/watch?time_continue=169&v=wp2JT7CPLxY&feature=emb_logo)
+
+  * dependencies:
+    * `libx11-dev` (X11 client-side library (development headers))
+    * `libxrandr-dev` (X11 RandR extension library (development headers))
+    * `libxnvctrl-dev` (NV-CONTROL X extension (development files))
+
+
+```bash
+sudo apt install libx11-dev libxrandr-dev libxnvctrl-dev
+git clone https://gitlab.com/libvibrant/libvibrant $PATH_TO_LIBVIBRANT
+cd $PATH_TO_LIBVIBRANT
+( mkdir -p build && cd build && cmake .. && make )
+```
+
+If the build completes successfully, the interesting exectuable can be found under
+`build/vibrant-cli/vibrant-cli`. You can now say e.g.
+
+```bash
+build/vibrant-cli/vibrant-cli eDP 1.77
+```
+
+where `eDP` is the name of the output device as indicated by `xrandr` (or `xrandr --props`) and `1.77` is
+the saturation (or color vibrancy) between `0.0` (0%) and 4.0 (400%) (both inclusively):
+
+* 0 (0%) means monochrome
+* 1 (100%) is normal color saturation
+* 4 (400%) is the first day with your first color TV and the remote control
+* if empty the saturation will not be changed
+
+
+## See Also
 
 * https://github.com/Ablinne/kolorcontrol
   * three sliders per channel
   * install with pip3, ensure `sudo apt install -y python3-pip xcalib`
-
-
-
+* https://www.omgubuntu.co.uk/2017/05/adjust-external-monitor-brightness-ubuntu
+* https://github.com/WinEunuuchs2Unix/eyesome
 

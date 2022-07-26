@@ -695,6 +695,8 @@ while read -r pid comm; do
 done < <(ps -e -o pid= -o comm=)
 ```
 
+* [NodeJS script to continuously monitor RAM usage, alert on threshold](src/memory-usage-alerter.coffee)
+
 <!-- ################################################################################################### -->
 # APPLICATION PROGRAMMING
 

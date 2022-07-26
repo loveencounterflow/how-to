@@ -24,6 +24,7 @@
   - [Notes on the Frequently Spinning-Up Disk Problem](#notes-on-the-frequently-spinning-up-disk-problem)
   - [Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu](#remarks-on-installing-nodejs-libreoffice-and-tex-live-on-ubuntu)
       - [TexLive installation (Ubuntu)](#texlive-installation-ubuntu)
+  - [MEMORY MANAGEMENT](#memory-management)
 - [APPLICATION PROGRAMMING](#application-programming)
   - [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
     - [The Problem](#the-problem)
@@ -636,7 +637,61 @@ I recommend using https://github.com/scottkosty/install-tl-ubuntu instead; you c
 the repo to some `tmp` location and run the install script with `sudo ./install-tl-ubuntu`,
 very simple.
 
+## MEMORY MANAGEMENT
 
+**DRAFT**
+
+/etc/sysctl.conf:
+
+```
+###################################################################
+# Magic system request Key
+# 0=disable, 1=enable all, >1 bitmask of sysrq functions
+# See https://www.kernel.org/doc/html/latest/admin-guide/sysrq.html
+# for what other values do
+
+# thx to https://www.reddit.com/r/linux/comments/aqd9mh/comment/egfrjtq/
+# thx to https://www.reddit.com/r/linux/comments/aqd9mh/memory_management_more_effective_on_windows_than/
+# thx to https://askubuntu.com/questions/234292/warning-when-available-ram-approaches-zero
+# also see https://github.com/rfjakob/earlyoom
+
+#  debug '2    ', 438 & 2    #  2     2
+#  debug '4    ', 438 & 4    #  4     4
+#  debug '8    ', 438 & 8    #  8     0
+#  debug '16   ', 438 & 16   #  16    16
+#  debug '32   ', 438 & 32   #  32    32
+#  debug '64   ', 438 & 64   #  64    0
+#  debug '128  ', 438 & 128  #  128   128
+#  debug '256  ', 438 & 256  #  256   256
+#  debug()                   #
+#  help n = 438 | 64         #  502
+#  debug '2    ', n & 2      #  2     2
+#  debug '4    ', n & 4      #  4     4
+#  debug '8    ', n & 8      #  8     0
+#  debug '16   ', n & 16     #  16    16
+#  debug '32   ', n & 32     #  32    32
+#  debug '64   ', n & 64     #  64    64
+#  debug '128  ', n & 128    #  128   128
+#  debug '256  ', n & 256    #  256   256
+
+kernel.sysrq=502
+
+fs.inotify.max_user_watches=524288
+```
+
+show-oom-scores (thx to [*Ask Ubuntu: OOM score for every process*](https://askubuntu.com/a/995278/1597241))
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+while read -r pid comm; do
+  oom_score="$(cat /proc/"$pid"/oom_score)"
+  # printf '%d\t%d\t%s\n' "$pid" "$(cat /proc/"$pid"/oom_score)" "$comm"
+  # printf '%d\t%d\t%s\n' "$pid" "$(cat /proc/"$pid"/oom_score)" "$comm"
+  echo -e "$oom_score""\t""$comm"
+done < <(ps -e -o pid= -o comm=)
+```
 
 <!-- ################################################################################################### -->
 # APPLICATION PROGRAMMING

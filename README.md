@@ -641,6 +641,8 @@ very simple.
 
 **DRAFT**
 
+* Activate `Alt-SysRq-F` shortcut to terminate the memory-hungriest application with `oom`
+
 /etc/sysctl.conf:
 
 ```

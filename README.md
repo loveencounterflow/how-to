@@ -25,6 +25,7 @@
   - [Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu](#remarks-on-installing-nodejs-libreoffice-and-tex-live-on-ubuntu)
       - [TexLive installation (Ubuntu)](#texlive-installation-ubuntu)
   - [Activate `Alt-SysRq-F` Key](#activate-alt-sysrq-f-key)
+  - [Color Adjustment](#color-adjustment)
 - [APPLICATION PROGRAMMING](#application-programming)
   - [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
     - [The Problem](#the-problem)
@@ -696,6 +697,14 @@ done < <(ps -e -o pid= -o comm=)
 ```
 
 * [NodeJS script to continuously monitor RAM usage, alert on threshold](src/memory-usage-alerter.coffee)
+
+## Color Adjustment
+
+* https://gitlab.com/cameronnemo/brillo
+* https://gitlab.com/libvibrant/libvibrant `libvibrant/build/vibrant-cli/vibrant-cli eDP 1.5`
+* redshift `redshift -O 5500`
+
+
 
 <!-- ################################################################################################### -->
 # APPLICATION PROGRAMMING

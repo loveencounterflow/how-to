@@ -24,7 +24,7 @@
   - [Notes on the Frequently Spinning-Up Disk Problem](#notes-on-the-frequently-spinning-up-disk-problem)
   - [Remarks on Installing NodeJS, LibreOffice, and TeX Live on Ubuntu](#remarks-on-installing-nodejs-libreoffice-and-tex-live-on-ubuntu)
       - [TexLive installation (Ubuntu)](#texlive-installation-ubuntu)
-  - [MEMORY MANAGEMENT](#memory-management)
+  - [Activate `Alt-SysRq-F` Key](#activate-alt-sysrq-f-key)
 - [APPLICATION PROGRAMMING](#application-programming)
   - [How to Keep Order in an Asynchronous World](#how-to-keep-order-in-an-asynchronous-world)
     - [The Problem](#the-problem)
@@ -637,7 +637,7 @@ I recommend using https://github.com/scottkosty/install-tl-ubuntu instead; you c
 the repo to some `tmp` location and run the install script with `sudo ./install-tl-ubuntu`,
 very simple.
 
-## MEMORY MANAGEMENT
+## Activate `Alt-SysRq-F` Key
 
 **DRAFT**
 

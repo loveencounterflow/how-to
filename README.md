@@ -1802,7 +1802,7 @@ All I wanted was to install [Datasette](https://datasette.io) and
 in errors complaining that Django (the web framework) is too old. Sure. So I looked for ways to do a purely
 local, NPM-style installation. This, in the end, was not too difficult:
 
-* Fortunately, there's a Python3.9 available (while the system is still running on Python3.8). So
+Fortunately, there's a Python3.9 available (while the system is still running on Python3.8). So
 
 ```bash
 sudo apt install -y python3.9

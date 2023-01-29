@@ -78,6 +78,7 @@
 - [Remapping Keys with XKB](#remapping-keys-with-xkb)
     - [Install kbdgen](#install-kbdgen)
 - [Activate Composing Keys Behavior](#activate-composing-keys-behavior)
+- [Use a More Up-To-Date Python with Local Dependencies](#use-a-more-up-to-date-python-with-local-dependencies)
 - [Install Python 3, PIP 3](#install-python-3-pip-3)
 - [Remap Keys With Xmodmap](#remap-keys-with-xmodmap)
 - [Fixing Those Crazy Caret Keys in the Console](#fixing-those-crazy-caret-keys-in-the-console)
@@ -1791,6 +1792,103 @@ less /usr/share/X11/xkb/symbols/de
 # Activate Composing Keys Behavior
 
 * https://cyberborean.wordpress.com/2008/01/06/compose-key-magic/
+
+# Use a More Up-To-Date Python with Local Dependencies
+
+[Python's package management is a big ball of mud.](https://xkcd.com/1987/) This is an undisputed sad fact.
+All I wanted was to install [Datasette](https://datasette.io) and
+[`datasette-scraper`](https://github.com/cldellow/datasette-scraper) on my Linux Mint 20.3 (i.e. Ubuntu
+20.04) machine. Trying to just use `pip3 install --user datasette` or `sudo pip3 install datasette` resulted
+in errors complaining that Django (the web framework) is too old. Sure. So I looked for ways to do a purely
+local, NPM-style installation. This, in the end, was not too difficult:
+
+* Fortunately, there's a Python3.9 available (while the system is still running on Python3.8). So
+
+```bash
+sudo apt install -y python3.9
+```
+
+will give you that. `python --version` and `python3 --version` will still show `Python 3.8.10` (which is
+good because—this being a standard pre-install—presumably some software will depend on this being the case),
+so from now on use `python3.9` explicitly.
+
+Next I realized that one should most of the time probably not use `pip` (or `pip3`) as an executable but as
+a module via the `python` executable's `-m` ('module') switch like so:
+
+```bash
+python3.9 -m pip ...
+```
+
+This spares you from tracking down the proper `pip` executable for your specific Python installation.
+
+The next important piece of the puzzle was finding out that `pip` has an option to specify the installation
+directory, meaning I could say
+
+```bash
+python3.9 -m pip install --target vendor datasette
+```
+
+to have `datasette` and its dependencies installed in the newly-created `vendor` subdirectory. So far, so
+good. In order to start it, I prepend that same directory to Python's search path and, again, use the `-m`
+switch. This command makes datasette install the `datasette-scraper` plugin:
+
+```bash
+PYTHONPATH=./vendor python3.9 -m datasette install datasette-scraper
+```
+
+Trying to run it cause some errors because of missing packages; this can easily be solved by more
+invocations of `python3.9 -m pip install --target vendor ...`. But, unfortunately, then the scraper plugin
+*still* fails:
+
+```bash
+$ PYTHONPATH=./vendor python3.9 -m datasette --metadata metadata.json scraper.db                                                                             ✔  at 15:16:31
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/runpy.py", line 197, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+
+  [...]
+
+  File "/home/flow/.local/lib/python3.9/site-packages/datasette_scraper/__init__.py", line 11, in <module>
+    from .plugin import pm
+  File "/home/flow/.local/lib/python3.9/site-packages/datasette_scraper/plugin.py", line 35, in <module>
+    mod = importlib.import_module(plugin)
+  File "/usr/lib/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/home/flow/.local/lib/python3.9/site-packages/datasette_scraper/plugins/discover_html_links.py", line 2, in <module>
+    from ..utils import get_html_parser
+  File "/home/flow/.local/lib/python3.9/site-packages/datasette_scraper/utils.py", line 5, in <module>
+    from more_itertools import batched
+ImportError: cannot import name 'batched' from 'more_itertools' (/usr/lib/python3/dist-packages/more_itertools/__init__.py)
+```
+
+We notice two things: First, datasette did *not* install the plugin in the location where it was installed
+itself, but in the user-local `site-packages` directory of Python3.9. Second, the `more_itertools` package
+was installed from the *global* `site-packages` directory (ostensibly) valid for all Python3 versions.
+
+This is insane. Someone worked very hard to make truly local installations very, very difficult. A little
+prodding shows that the running Python instance's `sys.path` looks like this:
+
+```python
+['/home/flow/temp/datasette', '/home/flow/temp/datasette/vendor', '/usr/lib/python39.zip',
+'/usr/lib/python3.9', '/usr/lib/python3.9/lib-dynload', '/home/flow/.local/lib/python3.9/site-packages',
+'/usr/local/lib/python3.9/dist-packages', '/usr/lib/python3/dist-packages']
+```
+
+The directory in question comes last, which means that its packages should be overridden by any other that
+come earlier, so it *should* suffice to just install `more_itertools` locally. It is still irksome, though,
+that the global `site-packages` still is there, just waiting to inject some outdated modules into your app.
+The way to make that work is to put a file named `sitecustomize.py` inside the `vendor` directory:
+
+```python
+import sys
+sys.path.pop()
+```
+
+With the global directory out of the way, we can now `python3.9 -m pip install --target vendor
+more-itertools` (yes, it's written with a hyphen; you basically never know how a module is *really* named in
+the Python ecosystem) and bingo!—it works.
+
+
 
 # Install Python 3, PIP 3
 

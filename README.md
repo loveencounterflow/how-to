@@ -1836,7 +1836,7 @@ switch. This command makes datasette install the `datasette-scraper` plugin:
 PYTHONPATH=./vendor python3.9 -m datasette install datasette-scraper
 ```
 
-Trying to run it cause some errors because of missing packages; this can easily be solved by more
+Trying to run it causes some errors because of missing packages; this can easily be solved by more
 invocations of `python3.9 -m pip install --target vendor ...`. But, unfortunately, then the scraper plugin
 *still* fails:
 
